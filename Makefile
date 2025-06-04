@@ -1,0 +1,155 @@
+# **************************************************************************** #
+# 1. BUILD VARIABLES                                                           #
+# **************************************************************************** #
+
+NAME		:=	cub3D
+NAME_B		:=	cub3D_bonus
+HEADER_DIR	:=	include/
+SOURCE_DIR	:=	src/
+
+# **************************************************************************** #
+# 2. SOURCE CODE                                                               #
+# **************************************************************************** #
+
+override HEADER_FILES	:=	cub3d
+override SOURCE_FILES	:=	main
+
+# **************************************************************************** #
+# 3. OTHER COMPILATION VARIABLES                                               #
+# **************************************************************************** #
+
+override BUILD_DIR	:=	.dist/
+override SOURCE		:=	$(addprefix $(SOURCE_DIR), $(addsuffix .c, $(SOURCE_FILES)))
+override HEADER		:=	$(addprefix $(HEADER_DIR), $(addsuffix .h, $(HEADER_FILES)))
+override OBJ		:=	$(patsubst $(SOURCE_DIR)%.c, $(BUILD_DIR)%.o, $(SOURCE))
+override DEPS		:=	$(patsubst %.o, %.d, $(OBJ))
+override DIRS		:=	$(sort $(dir $(OBJ) $(DEPS)))
+
+override LIB	:=	lib/
+override MLX	:=	mlx/
+
+# **************************************************************************** #
+# 4. SOURCE CODE FOR BONUS                                                     #
+# **************************************************************************** #
+
+override HEADER_FILES_B	:=	cub3d
+override SOURCE_FILES_B	:=	main
+
+# **************************************************************************** #
+# 5. OTHER COMPILATION VARIABLES FOR BONUS                                     #
+# **************************************************************************** #
+
+override BUILD_DIR_B	:=	.dist_bonus/
+override SOURCE_B		:=	$(addprefix $(SOURCE_DIR), $(addsuffix .c, $(SOURCE_FILES_B)))
+override HEADER_B		:=	$(addprefix $(HEADER_DIR), $(addsuffix .h, $(HEADER_FILES_B)))
+override OBJ_B			:=	$(patsubst $(SOURCE_DIR)%.c, $(BUILD_DIR_B)%.o, $(SOURCE_B))
+override DEPS_B			:=	$(patsubst %.o, %.d, $(OBJ_B))
+override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
+
+# **************************************************************************** #
+# 6. FLAGS AND VARIABLES                                                       #
+# **************************************************************************** #
+
+DEBUG_FLAGS		:=	-O3 -g3 -Ofast
+CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS)
+MAKEFLAGS		:=	--no-print-directory
+RMFLAGS			:=	-rf
+override GCC	:=	cc
+override RM		:=	rm
+
+# **************************************************************************** #
+# 7. COMPILATION RULES                                                         #
+# **************************************************************************** #
+
+.PHONY: all
+all: display $(NAME)
+
+$(NAME): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lX11 -lm -o $(NAME)
+	@printf "\n\e[48;2;0;0;180m==============================================\e[0m\n\n"
+
+$(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
+	$(CC) $(CFLAGS) -Iinclude/ -I$(LIB)include -I$(MLX) -c $< -o $@
+
+# **************************************************************************** #
+# 7. COMPILATION RULES FOR BONUS                                               #
+# **************************************************************************** #
+
+.PHONY: bonus
+bonus: display_b $(NAME_B)
+
+$(NAME_B): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ_B)
+	$(CC) $(CFLAGS) $(OBJ_B) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lX11 -lm -o $(NAME_B)
+	@printf "\n\e[48;2;0;180;180m==============================================\e[0m\n\n"
+
+$(BUILD_DIR_B)%.o: $(SOURCE_DIR)%.c $(HEADER_B) Makefile | $(DIRS_B)
+	$(CC) $(CFLAGS) -Iinclude/ -I$(LIB)include -I$(MLX) -c $< -o $@
+
+# **************************************************************************** #
+# 7. GENERAL RULES                                                             #
+# **************************************************************************** #
+
+$(LIB)libft.a: lib
+
+$(MLX)libmlx.a: mlx
+
+.PHONY: mlx
+mlx: force
+	@printf "\n\e[48;2;180;0;0m========== [ MINILIBX COMPILATION ] ==========\e[0m\n\n"
+	@$(MAKE) $(MAKEFLAGS) -C $(MLX) all
+	@printf "\n\e[48;2;180;0;0m==============================================\e[0m\n\n"
+
+.PHONY: lib
+lib: force
+	@printf "\n\e[48;2;0;180;0m=========== [ LIBFT COMPILATION ] ============\e[0m\n\n"
+	@$(MAKE) $(MAKEFLAGS) -C $(LIB) all
+	@printf "\n\e[48;2;0;180;0m==============================================\e[0m\n\n"
+
+.PHONY: display
+display:
+	@printf "\n\e[48;2;0;0;180m=========== [ CUB3D COMPILATION ] ============\e[0m\n\n"
+
+.PHONY: display_b
+display_b:
+	@printf "\n\e[48;2;0;180;180m======== [ CUB3D BONUS COMPILATION ] =========\e[0m\n\n"
+
+.PHONY: force
+force:
+	@true
+
+.PHONY: clean
+clean:
+	$(MAKE) -C $(LIB) clean
+	$(MAKE) -C $(MLX) clean
+	$(RM) $(RMFLAGS) $(BUILD_DIR)
+	$(RM) $(RMFLAGS) $(BUILD_DIR_B)
+
+
+.PHONY: fclean
+fclean: clean
+	$(MAKE) -C $(LIB) fclean
+	$(RM) $(RMFLAGS) $(NAME)
+	$(RM) $(RMFLAGS) $(NAME_B)
+
+.PHONY: re
+re: fclean
+	$(MAKE)
+
+.PHONY: norm
+norm:
+	@norminette $(SOURCE_DIR) $(HEADER_DIR) $(LIBFT_DIR) | grep "Error"
+
+.PHONY: run
+run:
+	clear
+	$(MAKE) bonus
+	clear
+
+$(DIRS):
+	@mkdir -p $@
+
+$(DIRS_B):
+	@mkdir -p $@
+
+-include $(DEPS)
+-include $(DEPS_B)
