@@ -3,6 +3,7 @@ echo -e "\e[38;2;10;240;10;mCleaning repository for develop...\e[0m\n"
 echo -e "\e[48;2;10;240;10;m//////////////////////////////////\e[0m\n"
 
 ls -la
+cat Makefile
 make fclean
 ls -la
 
