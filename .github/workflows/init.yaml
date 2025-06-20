@@ -1,4 +1,5 @@
 name: Init cub3D
+run-name: Init cub3D
 
 on:
   push:
@@ -23,6 +24,22 @@ jobs:
 
       - name: Script run
         run: ./scripts/clear_repo.sh
+  
+  norminette:
+    name: Running norm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Binding env
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install python3-setuptools pipx
+      
+      - name: Install norminette
+        run: pipx install norminette && pipx ensurepath
+      
+      - name: Running norminette
+        run: norminette src/ include/ lib/
 
 # concurrency 
 # regles pour dev / main
