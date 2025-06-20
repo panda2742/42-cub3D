@@ -1,0 +1,28 @@
+name: Init cub3D
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+
+on:
+  push:
+    [branches, pull_request]:
+      - develop
+    paths:
+      - 'src/**'
+      - 'include/**
+      - 'mlx/**'
+      - 'lib/**'
+
+defaults:
+  run:
+    shell: bash --posix
+    working-directory: ./scripts
+
+jobs:
+  clean_repo:
+    name: Clean objects
+    runs-on: ubuntu-latest
+    steps:
+      - name: Script run
+        run: ./clear_repo.sh
+
+# concurrency 
+# regles pour dev / main
