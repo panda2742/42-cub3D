@@ -1,5 +1,5 @@
 name: Testing cub3D
-run-name: Source code
+run-name: Source code compilation check
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Installing dependencies
-        run: sudo apt-get install -y make libx11-dev libxext-dev
+        run: sudo apt-get install -y make libx11-dev libxext-dev libbsd-dev
       
       - name: Compiling project
         run: make

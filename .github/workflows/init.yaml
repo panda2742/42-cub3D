@@ -1,5 +1,5 @@
 name: Init cub3D
-run-name: Source code 
+run-name: Source code clean check
 
 on:
   push:
