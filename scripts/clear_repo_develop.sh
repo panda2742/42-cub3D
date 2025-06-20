@@ -20,6 +20,7 @@ if [[ -n "$(git status --porcelain)" ]]; then
   git push
 else
   echo -e "\e[38;2;240;10;10;mNothing has to be committed.\e[0m\n"
+fi
 
 echo -e "\e[48;2;10;240;240;m//////////////////////////////////\e[0m\n"
 echo -e "\e[38;2;10;240;240;mEverything has been pushed!\e[0m\n"
