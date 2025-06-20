@@ -13,11 +13,17 @@ defaults:
 
 jobs:
   clean_repo:
-    name: Clean objects
+    name: Clean repo
     runs-on: ubuntu-latest
     steps:
+      - name: Clean objects
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y make
+
       - name: Script run
-        run: ls -lR
+        run: ./scripts/clear_repo.sh
 
 # concurrency 
 # regles pour dev / main
