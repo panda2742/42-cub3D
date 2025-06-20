@@ -2,13 +2,10 @@ name: Testing cub3D
 run-name: Source code compilation check
 
 on:
-  push:
-    branches:
-      - develop
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Init cub3D"]
+    types:
+      - completed
 
 defaults:
   run:
