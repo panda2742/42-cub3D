@@ -1,0 +1,49 @@
+name: Init cub3D
+run-name: Source code clean check
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+jobs:
+  clean_repo:
+    name: Cleaning repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: actions/checkout@v4
+
+      - name: Installing dependencies
+        run: sudo apt-get install -y make
+
+      - name: Running script
+        run: ./scripts/clear_repo_develop.sh
+  
+  norminette:
+    name: Running norminette
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: actions/checkout@v4
+      
+      - name: Installing dependencies
+        run: sudo apt update && sudo apt install python3-setuptools pipx
+      
+      - name: Installing norminette
+        run: pipx install norminette && pipx ensurepath
+      
+      - name: Running norminette
+        run: norminette src/ include/ lib/
+
+# concurrency 
+# regles pour dev / main

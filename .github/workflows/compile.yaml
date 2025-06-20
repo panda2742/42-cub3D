@@ -1,0 +1,32 @@
+name: Testing cub3D
+run-name: Source code compilation check
+
+on:
+  workflow_run:
+    workflows: ["Source code clean check"]
+    types:
+      - completed
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+jobs:
+  compile:
+    name: Compiling project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: actions/checkout@v4
+
+      - name: Installing dependencies
+        run: sudo apt-get install -y make libx11-dev libxext-dev libbsd-dev clang build-essential libclang-dev
+      
+      - name: Compiling project
+        run: make
+  
+  # check-leaks:
+  #   name: Running with leak checks
+  #   runs-on: ubuntu-latest
+  #   steps:
