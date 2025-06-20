@@ -2,7 +2,7 @@ name: Init cub3D
 run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
 
 on:
-  [push, pull_request]:
+  push:
     branches:
       - develop
     paths:
