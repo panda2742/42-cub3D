@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Script run
-        run: scripts/clear_repo.sh
+        run: ls -lR
 
 # concurrency 
 # regles pour dev / main
