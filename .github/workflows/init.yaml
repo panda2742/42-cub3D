@@ -9,7 +9,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: ./scripts
+    working-directory: .
 
 jobs:
   clean_repo:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Script run
-        run: ./clear_repo.sh
+        run: ./scripts/clear_repo.sh
 
 # concurrency 
 # regles pour dev / main
