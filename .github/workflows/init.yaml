@@ -1,5 +1,5 @@
 name: Init cub3D
-run-name: Init cub3D
+run-name: Code checking
 
 on:
   push:
@@ -17,29 +17,29 @@ defaults:
 
 jobs:
   clean_repo:
-    name: Clean repo
+    name: Cleaning repository
     runs-on: ubuntu-latest
     steps:
-      - name: Clean objects
+      - name: Setup
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Installing dependencies
         run: sudo apt-get install -y make
 
-      - name: Script run
+      - name: Running script
         run: ./scripts/clear_repo.sh
   
   norminette:
-    name: Running norm
+    name: Running norminette
     runs-on: ubuntu-latest
     steps:
-      - name: Binding env
+      - name: Setup
         uses: actions/checkout@v4
       
-      - name: Install dependencies
+      - name: Installing dependencies
         run: sudo apt update && sudo apt install python3-setuptools pipx
       
-      - name: Install norminette
+      - name: Installing norminette
         run: pipx install norminette && pipx ensurepath
       
       - name: Running norminette

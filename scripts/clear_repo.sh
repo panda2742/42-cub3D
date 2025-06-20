@@ -1,5 +1,9 @@
-echo -e "\e[38;2;10;240;10;mCleaning repo..."
+echo -e "\e[48;2;10;240;10;m//////////////////////////////////\e[0m\n"
+echo -e "\e[38;2;10;240;10;mCleaning repository for develop...\e[0m\n"
+echo -e "\e[48;2;10;240;10;m//////////////////////////////////\e[0m\n"
 
-make fclean
+make fclean 1> /dev/null
 
-echo -e "\e[38;2;10;240;10mRepo cleaned!"
+echo -e "\e[48;2;10;240;10;m//////////////////////////////////\e[0m\n"
+echo -e "\e[38;2;10;240;10;mRepo cleaned!\e[0m\n"
+echo -e "\e[48;2;10;240;10;m//////////////////////////////////\e[0m\n"
