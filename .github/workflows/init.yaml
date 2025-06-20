@@ -1,5 +1,5 @@
 name: Init cub3D
-run-name: Code checking
+run-name: Source code 
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
         run: sudo apt-get install -y make
 
       - name: Running script
-        run: ./scripts/clear_repo.sh
+        run: ./scripts/clear_repo_develop.sh
   
   norminette:
     name: Running norminette
