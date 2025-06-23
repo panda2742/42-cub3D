@@ -3,9 +3,8 @@ run-name: Source code compilation check
 
 on:
   workflow_run:
-    workflows: ["Source code clean check"]
-    types:
-      - completed
+    workflows: ["Init cub3D"]
+    types: [completed]
 
 defaults:
   run:
@@ -25,8 +24,3 @@ jobs:
       
       - name: Compiling project
         run: make
-  
-  # check-leaks:
-  #   name: Running with leak checks
-  #   runs-on: ubuntu-latest
-  #   steps:
