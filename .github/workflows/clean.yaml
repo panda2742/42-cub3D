@@ -1,0 +1,26 @@
+name: Clean Vogsphere Preparation
+run-name: Source code cleaning
+
+on:
+  push:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+    working-directory: .
+
+jobs:
+  clean_repo_vog:
+    name: Cleaning repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: actions/checkout@v4
+      
+      - name: Installing dependencies
+        run: sudo apt-get install -y make
+      
+      - name: Running script
+        run: ./scripts/clear_repo_main.sh

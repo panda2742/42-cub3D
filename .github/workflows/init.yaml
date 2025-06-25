@@ -44,6 +44,3 @@ jobs:
       
       - name: Running norminette
         run: norminette src/ include/ lib/
-
-# concurrency 
-# regles pour dev / main
