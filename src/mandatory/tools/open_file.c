@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   open_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:11:03 by ehosta            #+#    #+#             */
-/*   Updated: 2025/06/04 11:11:32 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/03 12:02:15 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/03 12:11:16 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "cub3d.h"
 
-# include <stdio.h>
+int	open_file(const char* filename, t_errors_container* errc)
+{
+	int	fd;
 
-#endif
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+	{
+		errc->cannot_open = 1;
+		return (-1);
+	}
+	errc->cannot_open = 0;
+	return (fd);
+}

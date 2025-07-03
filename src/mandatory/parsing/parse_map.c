@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 11:15:19 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/03 11:47:23 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/03 12:43:02 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	main(int argc, char **argv)
+t_parsing_result	parse_map(const char* map_filename)
 {
-	int	i;
+	t_parsing_result 	res;
+	int					fd;
+	char*				test_line;
 
-	printf("argc: %d - argv: ", argc);
-	i = -1;
-	while (++i < argc)
+	res.val = 0;
+	fd = open_file(map_filename, &res.flags);
+	while (1)
 	{
-		printf("%s", argv[i]);
-		if (i + 1 < argc)
-			printf(", ");
+		test_line = clean_getline(fd, " \t\r\v", &res.flags);
+		printf("Cleaned line: %s", test_line);
+		if (test_line == NULL)
+			break ;
+		free(test_line);
 	}
-	printf("\n\nHello World! BONUS\n");
-	return (0);
+	return (res);
 }

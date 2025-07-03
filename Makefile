@@ -14,7 +14,7 @@ SOURCE_DIR_B	:=	src/bonus/
 # **************************************************************************** #
 
 override HEADER_FILES	:=	cub3d
-override SOURCE_FILES	:=	main
+override SOURCE_FILES	:=	parsing/parse_map tools/clean_getline tools/open_file main
 
 # **************************************************************************** #
 # 3. OTHER COMPILATION VARIABLES                                               #
@@ -56,7 +56,9 @@ DEBUG_FLAGS		:=	-O3 -g3 -Ofast
 CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS)
 MAKEFLAGS		:=	--no-print-directory
 RMFLAGS			:=	-rf
-override GCC	:=	cc
+VG			:=	valgrind
+VGFLAGS		:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
+override CC	:=	cc
 override RM		:=	rm
 
 # **************************************************************************** #
@@ -71,7 +73,7 @@ $(NAME): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ)
 	@printf "\n\e[48;2;0;0;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
-	$(CC) $(CFLAGS) -I$(HEADER_DIR)/ -I$(LIB)include -I$(MLX) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(HEADER_DIR) -I$(LIB)include -I$(MLX) -c $< -o $@
 
 # **************************************************************************** #
 # 7. COMPILATION RULES FOR BONUS                                               #
@@ -85,7 +87,7 @@ $(NAME_B): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ_B)
 	@printf "\n\e[48;2;0;180;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR_B)%.o: $(SOURCE_DIR_B)%.c $(HEADER_B) Makefile | $(DIRS_B)
-	$(CC) $(CFLAGS) -I$(HEADER_DIR_B)/ -I$(LIB)include -I$(MLX) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(HEADER_DIR_B) -I$(LIB)include -I$(MLX) -c $< -o $@
 
 # **************************************************************************** #
 # 7. GENERAL RULES                                                             #
@@ -139,13 +141,21 @@ re: fclean
 
 .PHONY: norm
 norm:
-	@norminette $(SOURCE_DIR) $(HEADER_DIR) $(LIBFT_DIR) | grep "Error"
+	@norminette ./src ./include $(LIBFT_DIR) | grep "Error"
 
 .PHONY: run
 run:
 	clear
-	$(MAKE) bonus
+	$(MAKE)
 	clear
+	./$(NAME)
+
+.PHONY: vg
+vg:
+	clear
+	$(MAKE)
+	clear
+	$(VG) $(VGFLAGS) ./$(NAME)
 
 $(DIRS):
 	@mkdir -p $@
