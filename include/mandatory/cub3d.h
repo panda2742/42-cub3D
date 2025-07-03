@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/06/20 17:55:56 by ehosta           ###   ########.fr       */
+/*   Created: 2025/06/04 11:11:03 by ehosta            #+#    #+#             */
+/*   Updated: 2025/06/04 11:11:32 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#ifndef CUB3D_H
+# define CUB3D_H
 
-int	main(int argc, char **argv)
-{
-	int	i;
+# include <stdio.h>
 
-	printf("argc: %d - argv: ", argc);
-	i = -1;
-	while (++i < argc)
-	{
-		printf("%s", argv[i]);
-		if (i + 1 < argc)
-			printf(", ");
-	}
-	printf("\n\nHello World!\n");
-	return (0);
-}
+#endif
