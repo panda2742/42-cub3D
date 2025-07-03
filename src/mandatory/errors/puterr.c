@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   puterr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 15:54:53 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/03 15:05:23 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/03 15:54:38 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	main(int argc, char **argv)
+void	puterr(char* errstr, uint8_t require_puterr, uint8_t heaped_str)
 {
-	t_map_config*		map_config;
+	char	*str;
 
-	(void)argc;
-	(void)argv;
-	map_config = parse_map("assets/maps/test1.cub");
-	free(map_config);
-	return (0);
+	write(2, C_CRIMSON, 18);
+	write(2, "cub3D: ", 7);
+	if (errstr)
+		str = errstr;
+	else
+		str = "an error occured";
+	if (require_puterr)
+		perror(str);
+	else
+	{
+		write(2, str, ft_strlen(str));
+		write(2, "\n", 1);
+	}
+	if (heaped_str && errstr)
+		free(errstr);
+	write(2, C_RESET, 5);
 }

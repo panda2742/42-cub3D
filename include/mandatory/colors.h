@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   colors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 15:54:53 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/03 15:13:06 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/03 15:24:29 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#ifndef COLORS_H
+# define COLORS_H
 
-int	main(int argc, char **argv)
-{
-	t_map_config*		map_config;
+# define C_CRIMSON "\e[38;2;220;20;60m"
+# define C_RESET "\e[0m"
 
-	(void)argc;
-	(void)argv;
-	map_config = parse_map("assets/maps/test1.cub");
-	free(map_config);
-	return (0);
-}
+#endif

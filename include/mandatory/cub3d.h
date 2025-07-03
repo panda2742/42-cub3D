@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:11:03 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 12:37:31 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/03 17:42:08 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,27 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "colors.h"
 # include "libft.h"
 
-typedef struct	s_errors_container
+typedef struct	s_map_config
 {
-	uint64_t	cannot_open : 1;
-	uint64_t	cannot_read : 1;
-	uint64_t	malloc_err : 1;
-}	t_errors_container;
+	char*	no_texture_name;
+	char*	so_texture_name;
+	char*	we_texture_name;
+	char*	ea_texture_name;
+	char*	floor_color;
+	char*	ceiling_color;
+	char**	lines;
+}	t_map_config;
 
-typedef union u_parsing_result
-{
-	uint64_t			val;
-	t_errors_container	flags;
-}	t_parsing_result;
-
-t_parsing_result	parse_map(const char* map_filename);
-int					open_file(const char* filename, t_errors_container* errc);
-char*				clean_getline(
-						int fd, const char* ign_set, t_errors_container* errc);
+t_map_config*	parse_map(const char* map_filename);
+t_map_config*	create_map_config(void);
+void			puterr(
+					char* errstr,
+					uint8_t require_puterr,
+					uint8_t heaped_str);
+char			*ft_sprintf(const char *format, ...);
+size_t			int_size(int n);
 
 #endif

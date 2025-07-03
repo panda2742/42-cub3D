@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_file.c                                        :+:      :+:    :+:   */
+/*   ft_sprintf_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 12:02:15 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 12:11:16 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/03 15:51:15 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/03 15:51:48 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	open_file(const char* filename, t_errors_container* errc)
+size_t	int_size(int n)
 {
-	int	fd;
+	size_t	i;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	i = 0;
+	if (n == 0)
+		return (1);
+	if (n < 0)
 	{
-		errc->cannot_open = 1;
-		return (-1);
+		n = -n;
+		i++;
 	}
-	errc->cannot_open = 0;
-	return (fd);
+	while (n)
+	{
+		n /= 10;
+		i++;
+	}
+	return (i);
 }

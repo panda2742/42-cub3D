@@ -6,27 +6,47 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 11:47:23 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 12:43:02 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/03 17:49:50 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_parsing_result	parse_map(const char* map_filename)
-{
-	t_parsing_result 	res;
-	int					fd;
-	char*				test_line;
 
-	res.val = 0;
-	fd = open_file(map_filename, &res.flags);
+static void					_read_each_line(int fd, t_map_config* map_config);
+
+t_map_config*	parse_map(const char* map_filename)
+{
+	int				fd;
+	t_map_config*	map_config;
+
+	fd = open(map_filename, O_RDONLY);
+	if (fd == -1)
+	{
+		puterr((char *)map_filename, 1, 0);
+		return (NULL);
+	}
+	map_config = create_map_config();
+	if (map_config == NULL)
+	{
+		if (close(fd) == -1)
+			puterr((char *)map_filename, 1, 0);
+		puterr("map memory allocation error", 0, 0);
+		return (NULL);
+	}
+	_read_each_line(fd, map_config);
+	return (map_config);
+}
+
+static void	_read_each_line(int fd, t_map_config* map_config)
+{
+	char*				line;
+
 	while (1)
 	{
-		test_line = clean_getline(fd, " \t\r\v", &res.flags);
-		printf("Cleaned line: %s", test_line);
-		if (test_line == NULL)
-			break ;
-		free(test_line);
+		line = get_next_line(fd);
+		if (line == NULL)
+			return ;
+		free(line);
 	}
-	return (res);
 }

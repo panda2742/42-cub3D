@@ -14,7 +14,10 @@ SOURCE_DIR_B	:=	src/bonus/
 # **************************************************************************** #
 
 override HEADER_FILES	:=	cub3d
-override SOURCE_FILES	:=	parsing/parse_map tools/clean_getline tools/open_file main
+override SOURCE_FILES	:=	$(addprefix errors/, puterr) \
+							$(addprefix parsing/, parse_map parsing_utils) \
+							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
+							main
 
 # **************************************************************************** #
 # 3. OTHER COMPILATION VARIABLES                                               #

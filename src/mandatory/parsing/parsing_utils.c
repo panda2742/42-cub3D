@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 15:54:53 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/03 14:43:40 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/03 17:36:39 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	main(int argc, char **argv)
+t_map_config*	create_map_config(void)
 {
-	t_map_config*		map_config;
+	t_map_config*	res;
 
-	(void)argc;
-	(void)argv;
-	map_config = parse_map("assets/maps/test1.cub");
-	free(map_config);
-	return (0);
+	res = malloc(sizeof(t_map_config));
+	if (res == NULL)
+		return (NULL);
+	res->no_texture_name = NULL;
+	res->so_texture_name = NULL;
+	res->we_texture_name = NULL;
+	res->ea_texture_name = NULL;
+	res->floor_color = NULL;
+	res->ceiling_color = NULL;
+	return (res);
 }
