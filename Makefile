@@ -2,17 +2,21 @@
 # 1. BUILD VARIABLES                                                           #
 # **************************************************************************** #
 
-NAME		:=	cub3D
-NAME_B		:=	cub3D_bonus
-HEADER_DIR	:=	include/
-SOURCE_DIR	:=	src/
+NAME			:=	cub3D
+NAME_B			:=	cub3D_bonus
+HEADER_DIR		:=	include/mandatory/
+SOURCE_DIR		:=	src/mandatory/
+HEADER_DIR_B	:=	include/bonus/
+SOURCE_DIR_B	:=	src/bonus/
 
 # **************************************************************************** #
 # 2. SOURCE CODE                                                               #
 # **************************************************************************** #
 
-override HEADER_FILES	:=	cub3d
-override SOURCE_FILES	:=	main
+override HEADER_FILES	:=	cub3D
+override SOURCE_FILES	:=	$(addprefix errors/, puterr) \
+							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
+							main
 
 # **************************************************************************** #
 # 3. OTHER COMPILATION VARIABLES                                               #
@@ -32,17 +36,17 @@ override MLX	:=	mlx/
 # 4. SOURCE CODE FOR BONUS                                                     #
 # **************************************************************************** #
 
-override HEADER_FILES_B	:=	cub3d
-override SOURCE_FILES_B	:=	main
+override HEADER_FILES_B	:=	
+override SOURCE_FILES_B	:=	
 
 # **************************************************************************** #
 # 5. OTHER COMPILATION VARIABLES FOR BONUS                                     #
 # **************************************************************************** #
 
 override BUILD_DIR_B	:=	.dist_bonus/
-override SOURCE_B		:=	$(addprefix $(SOURCE_DIR), $(addsuffix .c, $(SOURCE_FILES_B)))
-override HEADER_B		:=	$(addprefix $(HEADER_DIR), $(addsuffix .h, $(HEADER_FILES_B)))
-override OBJ_B			:=	$(patsubst $(SOURCE_DIR)%.c, $(BUILD_DIR_B)%.o, $(SOURCE_B))
+override SOURCE_B		:=	$(addprefix $(SOURCE_DIR_B), $(addsuffix .c, $(SOURCE_FILES_B)))
+override HEADER_B		:=	$(addprefix $(HEADER_DIR_B), $(addsuffix .h, $(HEADER_FILES_B)))
+override OBJ_B			:=	$(patsubst $(SOURCE_DIR_B)%.c, $(BUILD_DIR_B)%.o, $(SOURCE_B))
 override DEPS_B			:=	$(patsubst %.o, %.d, $(OBJ_B))
 override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
 
@@ -54,7 +58,9 @@ DEBUG_FLAGS		:=	-O3 -g3 -Ofast
 CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS)
 MAKEFLAGS		:=	--no-print-directory
 RMFLAGS			:=	-rf
-override GCC	:=	cc
+VG			:=	valgrind
+VGFLAGS		:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
+override CC	:=	cc
 override RM		:=	rm
 
 # **************************************************************************** #
@@ -69,7 +75,7 @@ $(NAME): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ)
 	@printf "\n\e[48;2;0;0;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
-	$(CC) $(CFLAGS) -Iinclude/ -I$(LIB)include -I$(MLX) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(HEADER_DIR) -I$(LIB)include -I$(MLX) -c $< -o $@
 
 # **************************************************************************** #
 # 7. COMPILATION RULES FOR BONUS                                               #
@@ -82,8 +88,8 @@ $(NAME_B): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ_B)
 	$(CC) $(CFLAGS) $(OBJ_B) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lX11 -lm -o $(NAME_B)
 	@printf "\n\e[48;2;0;180;180m==============================================\e[0m\n\n"
 
-$(BUILD_DIR_B)%.o: $(SOURCE_DIR)%.c $(HEADER_B) Makefile | $(DIRS_B)
-	$(CC) $(CFLAGS) -Iinclude/ -I$(LIB)include -I$(MLX) -c $< -o $@
+$(BUILD_DIR_B)%.o: $(SOURCE_DIR_B)%.c $(HEADER_B) Makefile | $(DIRS_B)
+	$(CC) $(CFLAGS) -I$(HEADER_DIR_B) -I$(LIB)include -I$(MLX) -c $< -o $@
 
 # **************************************************************************** #
 # 7. GENERAL RULES                                                             #
@@ -137,13 +143,21 @@ re: fclean
 
 .PHONY: norm
 norm:
-	@norminette $(SOURCE_DIR) $(HEADER_DIR) $(LIBFT_DIR) | grep "Error"
+	@norminette ./src ./include $(LIBFT_DIR) | grep "Error"
 
 .PHONY: run
 run:
 	clear
-	$(MAKE) bonus
+	$(MAKE)
 	clear
+	./$(NAME)
+
+.PHONY: vg
+vg:
+	clear
+	$(MAKE)
+	clear
+	$(VG) $(VGFLAGS) ./$(NAME)
 
 $(DIRS):
 	@mkdir -p $@

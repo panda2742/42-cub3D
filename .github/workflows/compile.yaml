@@ -25,3 +25,16 @@ jobs:
       
       - name: Compiling project
         run: make
+
+  compile-bonus:
+    name: Compiling project bonus part
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: actions/checkout@v4
+
+      - name: Installing dependencies
+        run: sudo apt-get install -y make libx11-dev libxext-dev libbsd-dev clang build-essential libclang-dev
+      
+      - name: Compiling project
+        run: make bonus
