@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 11:15:19 by ehosta           ###   ########.fr       */
+/*   Created: 2025/06/04 11:11:03 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/04 18:58:03 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#ifndef CUB3D_H
+# define CUB3D_H
 
-int	main(int argc, char **argv)
-{
-	int	i;
+# include <ctype.h>
+# include <fcntl.h>
+# include <inttypes.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include "colors.h"
+# include "libft.h"
 
-	printf("argc: %d - argv: ", argc);
-	i = -1;
-	while (++i < argc)
-	{
-		printf("%s", argv[i]);
-		if (i + 1 < argc)
-			printf(", ");
-	}
-	printf("\n\nHello World! BONUS\n");
-	return (0);
-}
+void			puterr(
+					char* errstr,
+					uint8_t require_puterr,
+					uint8_t heaped_str);
+char			*ft_sprintf(const char *format, ...);
+size_t			int_size(int n);
+
+#endif
