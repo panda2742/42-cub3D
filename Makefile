@@ -13,9 +13,8 @@ SOURCE_DIR_B	:=	src/bonus/
 # 2. SOURCE CODE                                                               #
 # **************************************************************************** #
 
-override HEADER_FILES	:=	cub3d
+override HEADER_FILES	:=	cub3D
 override SOURCE_FILES	:=	$(addprefix errors/, puterr) \
-							$(addprefix parsing/, parse_map parsing_utils) \
 							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 							main
 
@@ -37,8 +36,8 @@ override MLX	:=	mlx/
 # 4. SOURCE CODE FOR BONUS                                                     #
 # **************************************************************************** #
 
-override HEADER_FILES_B	:=	cub3d
-override SOURCE_FILES_B	:=	main
+override HEADER_FILES_B	:=	
+override SOURCE_FILES_B	:=	
 
 # **************************************************************************** #
 # 5. OTHER COMPILATION VARIABLES FOR BONUS                                     #

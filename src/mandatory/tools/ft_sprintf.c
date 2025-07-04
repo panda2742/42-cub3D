@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:37:46 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 15:51:58 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/04 18:59:33 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 static size_t	_total_len(const char *format, va_list args);
 static char		*_write_res(const char *format, va_list args, char *buffer);

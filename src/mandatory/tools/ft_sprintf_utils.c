@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:51:15 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/03 15:51:48 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/04 18:59:28 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 size_t	int_size(int n)
 {
