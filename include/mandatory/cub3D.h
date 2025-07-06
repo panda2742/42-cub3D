@@ -22,6 +22,15 @@
 # include "colors.h"
 # include "libft.h"
 
+typedef struct s_data
+{
+	char **textures;
+	int *ceil_color;
+	int *floor_color;
+	char **map;
+} t_data;
+
+
 void			puterr(
 					char* errstr,
 					uint8_t require_puterr,

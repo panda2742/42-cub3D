@@ -16,6 +16,15 @@ int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
+	t_data data;
+	if (ac != 2)
+	{
+		printf("Usage : ./cub3D <*.cub>");
+		return (1);
+	}
+	if (parse_cub_file(argv[1], &data))
+		return (2);
+	print_cub_data(&data);
 	printf("This is what cub3D is all about.\n");
 	return (0);
 }
