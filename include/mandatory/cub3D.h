@@ -30,11 +30,16 @@ typedef struct s_textures
 	char *east;
 } t_textures
 
+typedef struct s_color
+{
+	int *ceil;
+	int *floor;
+} t_color;
+
 typedef struct s_data
 {
 	struct s_textures
-	int *ceil_color;
-	int *floor_color;
+	struct s_color
 	char **map;
 } t_data;
 
