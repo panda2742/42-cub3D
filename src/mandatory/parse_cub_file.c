@@ -6,16 +6,13 @@
 /*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 02:18:59 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/06 03:03:17 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/06 05:23:55 by oelleaum         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse_cub_file.h"
 
-int get_map_textures(t_data *data, char ***file_content)
-{
-  return (0);
-}
+
 
 int parse_cub_file(char *map, t_data *data)
 {

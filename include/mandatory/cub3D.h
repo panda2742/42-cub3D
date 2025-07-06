@@ -22,9 +22,17 @@
 # include "colors.h"
 # include "libft.h"
 
+typedef struct s_textures
+{
+	char *north;
+	char *south;
+	char *west;
+	char *east;
+} t_textures
+
 typedef struct s_data
 {
-	char **textures;
+	struct s_textures
 	int *ceil_color;
 	int *floor_color;
 	char **map;
