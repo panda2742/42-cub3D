@@ -32,8 +32,8 @@ typedef struct s_textures
 
 typedef struct s_color
 {
-	int *ceil;
-	int *floor;
+	int ceil[3];
+	int floor[3];
 } t_color;
 
 typedef struct s_data
