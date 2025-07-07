@@ -12,12 +12,7 @@
 
 #include "cub3D.h"
 
-int parsing_error_handler(char *map, t_data *data)
-{
-  printf("Error\n");
-  //free ici
-  return (1);
-}
+
 
 int get_file_content(char *map, char ***file_content, int fd, int size)
 {

@@ -186,11 +186,45 @@ int is_map_declaration(t_data *data, char **file_content, int i, bool player)
     return (1);
 }
 
+int check_player(char **map)
+{
+  int i;
+  int j;
+  bool player;
+
+  player = false;
+  while (map[i])
+  {
+    while (map[i][j])
+    {
+      if (map[i][j] == 'N')
+      {
+        if (player == true)
+          return (INVALID_CONFIG);
+        else
+          player = true;
+      }
+      j++;
+    }
+    i++;
+  }
+  if (player)
+    return (true);
+  return (false);
+}
+
+int check_closed_map(char **map)
+{
+  //murs ?
+  //comment on interprete les espaces ?
+}
+
 int is_valid_map(char **map)
 {
-  //un seul player
-  //entouree par un mur
-  //comment on interprete les espaces ?
+  if (!check_player(map) || !check_closed_map(map))
+    return (INVALID_CONFIG);
+  else
+    return (1);
 }
 
 int get_map(t_data *data, char **file_content, int i)
@@ -265,10 +299,17 @@ int init_data(t_data *data, char **file_content)
     if (i < 0)
     {
       free_data(data);
-      return (exit_code);
+      return (i);
     }
   }
   return (0);
+}
+
+int parsing_error_handler(char *map, t_data *data, int exit_code)
+{
+  printf("Error\n");
+  //free ici
+  return (exit_code);
 }
 
 int parse_cub_file(char *map, t_data *data)
@@ -276,16 +317,11 @@ int parse_cub_file(char *map, t_data *data)
   char **file_content;
   int exit_code;
 
-  if (is_valid_map_path(map, &file_content))
-    return (parsing_error_handler(data, &file_content));
+  exit_code = is_valid_map_path(map, &file_content);
+  if (exit_code != 0)
+    return (parsing_error_handler(data, &file_content, exit_code));
   exit_code = init_data(data, file_content);
   if (exit_code != 0)
-    return (exit_code);
-  /* if (get_map_textures(data)) */
-  /*   return (parsing_error_handler(data)); */
-  /* if (get_colors_(data)) */
-  /*   return (parsing_error_handler(data)); */
-  /* if (get_map(data)) */
-  /*   return (parsing_error_handler(data)); */
+    retrun (parsing_error_handler(data, &file_content, exit_code));
   return (0);
 }
