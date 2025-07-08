@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.h                                       :+:      :+:    :+:   */
+/*   graphic_engine.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/08 16:43:22 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/08 14:36:42 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/08 19:13:50 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAYCASTING_H
-# define RAYCASTING_H
+#ifndef GRAPHIC_ENGINE_H
+# define GRAPHIC_ENGINE_H
 
-# include "cub3D.h"
-# include "graphic_engine.h"
-# include <math.h>
+typedef struct	s_vec2
+{
+	double	x;
+	double	y;
+}	t_vec2;
 
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
-#define MAP_WIDTH 24
-#define MAP_HEIGHT 24
+typedef struct	s_ivec2
+{
+	long int	x;
+	long int	y;
+}	t_ivec2;
 
-int		(*test_world_map(void))[MAP_WIDTH];
-void	render_map(int (*map)[MAP_WIDTH]);
+t_vec2	vec2(double x, double y);
+t_ivec2	ivec2(long int x, long int y);
 
 #endif

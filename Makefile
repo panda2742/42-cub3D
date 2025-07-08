@@ -13,8 +13,8 @@ SOURCE_DIR_B	:=	src/bonus/
 # 2. SOURCE CODE                                                               #
 # **************************************************************************** #
 
-override HEADER_FILES	:=	colors cub3D raycasting
-override SOURCE_FILES	:=	$(addprefix raycasting/, render_map test_world_map) \
+override HEADER_FILES	:=	colors cub3D graphic_engine raycasting
+override SOURCE_FILES	:=	$(addprefix raycasting/, graphic_engine render_map test_world_map) \
 							$(addprefix errors/, puterr) \
 							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 							main
