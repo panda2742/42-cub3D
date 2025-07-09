@@ -14,7 +14,7 @@ SOURCE_DIR_B	:=	src/bonus/
 # **************************************************************************** #
 
 override HEADER_FILES	:=	colors cub3D graphic_engine raycasting
-override SOURCE_FILES	:=	$(addprefix raycasting/, graphic_engine render_map test_world_map) \
+override SOURCE_FILES	:=	$(addprefix raycasting/, graphic_engine render_map) \
 							$(addprefix errors/, puterr) \
 							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 							main
@@ -55,7 +55,7 @@ override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
 # 6. FLAGS AND VARIABLES                                                       #
 # **************************************************************************** #
 
-DEBUG_FLAGS		:=	-O3 -g3 -Ofast
+DEBUG_FLAGS		:=	-O3 -g3
 CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS)
 MAKEFLAGS		:=	--no-print-directory
 RMFLAGS			:=	-rf
@@ -72,7 +72,7 @@ override RM		:=	rm
 all: display $(NAME)
 
 $(NAME): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lX11 -lm -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -L/opt/X11/lib -lXext -lX11 -lm -o $(NAME)
 	@printf "\n\e[48;2;0;0;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
