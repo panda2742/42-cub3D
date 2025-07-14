@@ -30,10 +30,13 @@ int init_textures(t_data *data, char **file_content, int i)
 {
   int exit_code;
 
-  while (file_content[i] && is_texture_declaration(file_content[i]))
+  while (file_content[i] && is_texture_declaration(file_content[i]) &&
+  (!data->textures->north || !data->textures->south || !data->textures->west || !data->textures->east))
   {
     exit_code = interpet_texture(file_content[i]);
     i++;
+    while (!ft_strncmp(file_content[i], "\n", 2))
+      i++;
   }
   if (data->textures->north && data->textures->south && data->textures->west && data->textures->east)
     return (i);
@@ -49,6 +52,8 @@ int get_color_code(char *line, int color_code[3])
   while (line[i] && line[i] == ' ')
     i++;
   splitted = ft_split(line + i, ',');
+  if (!splitted)
+    return (MALLOC_ERROR);
   if (splitted[0] && splitted[1] && splitted[2] && !splitted[3] &&
       is_only_digits(splitted[0] && is_only_digits(splitted[1] && is_only_digits(splitted[2])))
   {
@@ -69,12 +74,19 @@ int get_color_code(char *line, int color_code[3])
 
 int init_colors(t_data *data, char **file_content, int i)
 {
-  if (!ft_strncmp(file_content[i], 'C', 1) && file_content[i][1] == ' ' && !data->color->ceil) 
-    return(get_color_code(file_content[i], data->color->ceil));
-  if (!ft_strncmp(file_content[i], 'F', 1) && file_content[i][1] == ' ' && !data->color->floor) 
-    return(get_color_code(file_content[i], data->color->floor));
-  else
-    return (INVALID_CONFIG);
+  while (file_content[i] && is_color_declaration(file_content[i]) && 
+    (!data->color->ceil || !data->color->floor))
+  {
+    if (!ft_strncmp(file_content[i], 'C', 1) && file_content[i][1] == ' ' && !data->color->ceil) 
+      return(get_color_code(file_content[i], data->color->ceil));
+    if (!ft_strncmp(file_content[i], 'F', 1) && file_content[i][1] == ' ' && !data->color->floor) 
+      return(get_color_code(file_content[i], data->color->floor));
+    else
+      return (INVALID_CONFIG);
+    i++;
+    while (!ft_strncmp(file_content[i], "\n", 2))
+      i++;
+  }
   return (0);
 }
 
@@ -215,6 +227,7 @@ int check_player(char **map)
 
 int check_closed_map(char **map)
 {
+  //checker murs continus
   //murs ?
   //comment on interprete les espaces ?
 }
