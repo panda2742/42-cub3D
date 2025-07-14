@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphic_engine.h                                   :+:      :+:    :+:   */
+/*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/08 14:36:42 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/08 19:13:50 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/14 09:45:41 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/14 17:46:27 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GRAPHIC_ENGINE_H
-# define GRAPHIC_ENGINE_H
+#include "raycasting.h"
 
-typedef struct	s_vec2
+unsigned int	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
-	double	x;
-	double	y;
-}	t_vec2;
+	return ((1 - a) << 24 | r << 16 | g << 8 | b);
+}
 
-typedef struct	s_ivec2
+void	put_pixel_on_frame(t_frame *img, int x, int y, int rgba)
 {
-	long int	x;
-	long int	y;
-}	t_ivec2;
+	char	*dst;
 
-t_vec2	vec2(double x, double y);
-t_ivec2	ivec2(long int x, long int y);
-
-#endif
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int *)dst = rgba;
+}

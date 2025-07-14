@@ -13,11 +13,13 @@ SOURCE_DIR_B	:=	src/bonus/
 # 2. SOURCE CODE                                                               #
 # **************************************************************************** #
 
-override HEADER_FILES	:=	colors cub3D graphic_engine raycasting
-override SOURCE_FILES	:=	$(addprefix raycasting/, graphic_engine render_map) \
-							$(addprefix errors/, puterr) \
-							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
-							main
+override SOURCE_HOOKS		:=	$(addprefix hooks/, destroy_hook key_hook move_utils)
+override SOURCE_RENDERING	:=	$(addprefix rendering/, draw_frame render_map render_utils)
+override HEADER_FILES		:=	colors cub3D raycasting
+override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit vec2) \
+								$(addprefix errors/, puterr) \
+								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
+								main
 
 # **************************************************************************** #
 # 3. OTHER COMPILATION VARIABLES                                               #

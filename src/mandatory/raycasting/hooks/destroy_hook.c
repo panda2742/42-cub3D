@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphic_engine.c                                   :+:      :+:    :+:   */
+/*   destroy_hook.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/08 14:40:43 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/08 19:14:38 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/14 11:43:37 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/14 11:46:17 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphic_engine.h"
+#include "raycasting.h"
 
-t_vec2	vec2(double x, double y)
+int	destroy_hook(t_render *render)
 {
-	return ((t_vec2){.x=x, .y=y});
-}
-
-t_ivec2	ivec2(long int x, long int y)
-{
-	return ((t_ivec2){.x=x, .y=y});
+	quit(render);
+	return (0);
 }
