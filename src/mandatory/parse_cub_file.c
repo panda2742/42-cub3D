@@ -49,7 +49,6 @@ int load_texture(char *slot, char **key_value)
   return (0);
 }
 
-
 int is_only_digits(char *str)
 {
   int i;
@@ -118,12 +117,14 @@ int interpret_line(t_data *data, char *line)
   char **key_value;
   char **color_code;
 
+  printf("line = %s\n", line);
   key_value = ft_split(line, ' ');
   if (!key_value)
     return (MALLOC_ERROR);
   if (key_value[0] && key_value[1] && !key_value[2])
   {
-    if (ft_strlen(key_value[0]) == 2 && !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xmp", 5))
+    if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) >= 5 &&
+      !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 5, ".xmp\n", 6))
       return (interpret_texture(data, key_value));
     else if (ft_strlen(key_value[1]) == 1)
     {
@@ -131,6 +132,7 @@ int interpret_line(t_data *data, char *line)
       return (interpret_color(data, key_value, color_code));
     }
   }
+  printf("%ld %s %d\n", ft_strlen(key_value[0]), key_value[1] + (ft_strlen(key_value[1]) - 5), (ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xmp", 4)));
   return (INVALID_CONFIG);
   /* if (is_texture_declaration(file_content[i])) */
   /* { */
@@ -167,20 +169,24 @@ int init_data(t_data *data, char **file_content)
   int exit_code;
 
   i = 0;
-  ft_bzero(data, sizeof(data));
+  ft_bzero(data, sizeof(t_data));
+  /* ft_bzero(data->colors, sizeof(datacolors)); */
+  /* ft_bzero(t_textures, sizeof(data->textures)); */
   while (file_content[i])
   {
     while (!ft_strncmp(file_content[i], "\n", 2))
       i++;
-    i = interpret_line(data, file_content[i]);
-    if (i < 0)
+    exit_code = interpret_line(data, file_content[i]);
+    if (exit_code < 0)
     {
       /* free_data(data); */
 
-      return (i);
+      return (exit_code);
     }
-    if (data->colors.ceil[0] && data->colors.ceil[1] && data->colors.ceil[2] &&
-        data->colors.floor[0] && data->colors.floor[1] && data->colors.floor[2] &&
+    i++;
+    sleep (1);
+    if (data->colors.ceil &&
+        data->colors.floor &&
         data->textures.north &&
         data->textures.south &&
         data->textures.east &&
