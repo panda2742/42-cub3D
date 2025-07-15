@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_utils.c                                     :+:      :+:    :+:   */
+/*   loop_hook.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 09:45:41 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 17:54:50 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/15 15:25:48 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/15 16:26:39 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
-unsigned int	rgba(
-	unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+int	loop_hook(t_render *render)
 {
-	return ((1 - a) << 24 | r << 16 | g << 8 | b);
-}
-
-void	put_pixel_on_frame(t_frame *img, int x, int y, int rgba)
-{
-    ((int *)img->addr + x + (SCREEN_WIDTH * y))[0] = rgba;
+	t_time	t1;
+	t_time	t2;
+	double	fps;
+	int		res;
+	
+	res = gettimeofday(&t1, NULL);
+	draw_frame(render);
+	res += gettimeofday(&t2, NULL);
+	if (res < 0)
+		fps = INFINITY;
+	fps = 1000000 / ((t2.tv_sec - t1.tv_sec) * 1000000L + (t2.tv_usec - t1.tv_usec));
+	fprintf(stderr, "\033[2J\033[H%s~%f fps%s\n", C_CRIMSON, fps, RESET);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 10:02:22 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:50:18 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # define SCREEN_HEIGHT 540
 
 # define VELOCITY 0.1
-# define SENSITIVITY 0.2
+# define SENSITIVITY 0.05
 # define PI 3.14159265359f
-# define FOV_FACTOR 0.66f
+# define BORDER_MARGIN 0.4
+# define FOV_FACTOR PI / 3
 
 # define KEY_FORWARD 'w'
 # define KEY_LEFT 'a'
@@ -97,13 +98,13 @@ typedef struct s_vec2
 }	t_vec2;
 
 /**
- * Represent a pair of long int values, used for integer pairs (integer
+ * Represent a pair of int values, used for integer pairs (integer
  * coordinates for example).
  */
 typedef struct s_ivec2
 {
-	long int	x;
-	long int	y;
+	int	x;
+	int	y;
 }	t_ivec2;
 
 /**
@@ -170,14 +171,18 @@ typedef struct s_render
 	 */
 	t_gdata	game;
 	/**
-	 * The last frame generation timestamp.
-	 */
-	t_time	t;
-	/**
 	 * The textures of each wall face.
 	 */
 	t_img	textures[4];
 }	t_render;
+
+typedef enum e_direction
+{
+	FORWARD,
+	BACKWARD,
+	RIGHT,
+	LEFT
+}	t_direction;
 
 /**
  * Generate a new 2D vector (can be used as a pair of doubles).
@@ -197,14 +202,6 @@ t_vec2			vec2(double x, double y);
  */
 t_ivec2			ivec2(long int x, long int y);
 
-typedef enum e_direction
-{
-	FORWARD,
-	BACKWARD,
-	RIGHT,
-	LEFT
-}	t_direction;
-
 unsigned int	rgba(
 					unsigned char r, unsigned char g,
 					unsigned char b, unsigned char a);
@@ -215,8 +212,6 @@ void			draw_frame(t_render *render);
 int				key_hook(int keycode, t_render *render);
 int				destroy_hook(t_render *render);
 void			quit(t_render *render);
-t_vec2			move_player(t_gdata *game, t_direction dir);
-void			pos_update(t_gdata *game, t_vec2 new);
-char			pos_tile(t_gdata *game);
+int				loop_hook(t_render *render);
 
 #endif

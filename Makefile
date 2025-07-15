@@ -13,7 +13,7 @@ SOURCE_DIR_B	:=	src/bonus/
 # 2. SOURCE CODE                                                               #
 # **************************************************************************** #
 
-override SOURCE_HOOKS		:=	$(addprefix hooks/, destroy_hook key_hook move_utils)
+override SOURCE_HOOKS		:=	$(addprefix hooks/, destroy_hook key_hook loop_hook)
 override SOURCE_RENDERING	:=	$(addprefix rendering/, draw_frame render_map render_utils)
 override HEADER_FILES		:=	colors cub3D raycasting
 override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit vec2) \
@@ -61,10 +61,15 @@ DEBUG_FLAGS		:=	-O3 -g3
 CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS)
 MAKEFLAGS		:=	--no-print-directory
 RMFLAGS			:=	-rf
-VG			:=	valgrind
-VGFLAGS		:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
-override CC	:=	cc
+VG				:=	valgrind
+VGFLAGS			:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
+override CC		:=	cc
 override RM		:=	rm
+override CLEAR	:=	clear
+CALLGRIND_PRFL	:=	exec-profile.cub3D
+override VGCALL	:=	--tool=callgrind --callgrind-out-file=$(CALLGRIND_PRFL)
+override KCACHE	:=	kcachegrind
+
 
 # **************************************************************************** #
 # 7. COMPILATION RULES                                                         #
@@ -132,6 +137,7 @@ clean:
 	$(MAKE) -C $(MLX) clean
 	$(RM) $(RMFLAGS) $(BUILD_DIR)
 	$(RM) $(RMFLAGS) $(BUILD_DIR_B)
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
 
 
 .PHONY: fclean
@@ -150,17 +156,25 @@ norm:
 
 .PHONY: run
 run:
-	clear
+	$(CLEAR)
 	$(MAKE)
-	clear
+	$(CLEAR)
 	./$(NAME)
 
 .PHONY: vg
 vg:
-	clear
+	$(CLEAR)
 	$(MAKE)
-	clear
+	$(CLEAR)
 	$(VG) $(VGFLAGS) ./$(NAME)
+
+.PHONY: cg
+cg:
+	$(CLEAR)
+	$(MAKE)
+	$(CLEAR)
+	$(VG) $(VGCALL) ./$(NAME) 
+	$(KCACHE) $(CALLGRIND_PRFL)
 
 $(DIRS):
 	@mkdir -p $@

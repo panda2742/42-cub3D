@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 09:59:15 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:16:18 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	render_map(void)
 	}
 	mlx_hook(render.mlx_win, 2, 1L << 0, key_hook, &render);
 	mlx_hook(render.mlx_win, 17, 1L << 0, destroy_hook, &render);
+	mlx_loop_hook(render.mlx, loop_hook, &render);
+	mlx_do_key_autorepeatoff(render.mlx);
 	mlx_loop(render.mlx);
 }
 
@@ -57,23 +59,37 @@ static int	_init_render_ctx(t_render *render)
 		puterr("MiniLibX window initialization failed.", false, false);
 		quit(render);
 	}
-	render->frame.img = NULL;
-	render->frame.addr = NULL;
-	gettimeofday(&render->t, NULL);
+	render->frame.img = mlx_new_image(render->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (render->frame.img == NULL)
+	{
+		puterr("Frame failed to generate (MLX error).", false, false);
+		quit(render);
+	}
+	render->frame.addr = mlx_get_data_addr(
+			render->frame.img,
+			&render->frame.bits_per_pixel,
+			&render->frame.line_length,
+			&render->frame.endian
+			);
+	if (render->frame.addr == NULL)
+	{
+		puterr("Frame address data failed to get (MLX error).", false, false);
+		quit(render);
+	}
 	_init_player(render);
 	// !DEBUG
 	render->game.map.width = 10;
 	render->game.map.height = 10;
 	render->game.map.data = ft_split(
 			"1111111111\n"
+			"1000100001\n"
+			"1000100001\n"
+			"1000100001\n"
+			"1000100001\n"
+			"1000000001\n"
+			"1110000111\n"
 			"1000000001\n"
 			"1000000001\n"
-			"1000000001\n"
-			"1000000001\n"
-			"1000000001\n"
-			"1000000001\n"
-			"1000000001\n"
-			"1N00000001\n"
 			"1111111111", '\n');
 	render->textures[0].filename = ft_strdup("assets/textures/wall1.xpm");
 	render->textures[1].filename = ft_strdup("assets/textures/wall2.xpm");
@@ -85,8 +101,8 @@ static int	_init_render_ctx(t_render *render)
 
 static void	_init_player(t_render *render)
 {
-	render->game.pos = vec2(1.5, 1.5);
-	render->game.orientation = 'N';
+	render->game.pos = vec2(1.5, 3.5);
+	render->game.orientation = 'S';
 	if (render->game.orientation == 'N')
 		render->game.dir = PI / 2;
 	else if (render->game.orientation == 'S')
