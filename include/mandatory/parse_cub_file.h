@@ -48,6 +48,7 @@ int free_array(char **array);
 
 //parse_cub_file.c
 int parse_cub_file(char *map, t_data *data);
+int free_data(t_data *data);
 
 //is_valid_map_path.c
 int parsing_error_handler(t_data *data, int exit_code);

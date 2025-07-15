@@ -50,5 +50,6 @@ int	main(int ac, char **av)
 		return (2);
 	print_cub_data(&data);
 	printf("This is what cub3D is all about.\n");
+	free_data(&data);
 	return (0);
 }

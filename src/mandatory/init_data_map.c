@@ -17,23 +17,26 @@ int is_valid_map_format(char **map)
   while (map[i])
   {
     j = 0;
+    /* printf("line = %s\n", map[i]); */
     while (map[i][j])
     {
+      if (map[i][j] == '\n')
+        break ;
       if (map[i][j] != ' ' && map[i][j] != '0' && map[i][j] != '1' &&
         map[i][j] != 'N' &&
         map[i][j] != 'E' &&
         map[i][j] != 'W' &&
         map[i][j] != 'S')
-        return (INVALID_CONFIG);
-      //add parenthesis ?
-      if ((map[i][j] == 'N' || 
+        return  (INVALID_CONFIG);
+      if (map[i][j] == 'N' || 
         map[i][j] == 'S' ||
         map[i][j] == 'E' ||
-        map[i][j] == 'W') && 
-        player == true)
-        return (INVALID_CONFIG);
-      else
+        map[i][j] == 'W')
+      {
+        if (player == true)
+          return ( INVALID_CONFIG);
         player = true;
+      }
       j++;
     }
     i++;
@@ -64,12 +67,13 @@ int get_map(t_data *data, char **file_content, int i)
   int j;
 
   j = 0;
-  data->map = malloc(sizeof(char *) * get_map_size(file_content, i) + 1);
+  data->map = malloc(sizeof(char *) * (get_map_size(file_content, i) + 1));
   if (!data->map)
     return (MALLOC_ERROR);
   while (file_content[i])
   {
     data->map[j] = ft_strdup(file_content[i]);
+    /* printf("map loaded : %s", data->map[j]); */
     if (!data->map[j])
     {
       while (j - 1 >= 0)
@@ -134,11 +138,14 @@ int check_wall(char **map, int i)
   j = 0;
   while (map[i][j])
   {
-    while (map[i][j] == ' ' || map[i][j] == '0' || map[i][j] == '2' || 
-      map[i][j] == 'N' || map[i][j] == 'E' || map[i][j] == 'W' || map[i][j] == 'S')
-      j++;
-    if (map[i][j] == '1' && !is_wall_closed(map, i, j))
-      return (INVALID_CONFIG);
+    if (map[i][j] == '0')
+    {
+      if ((map[i][j - 1] && map[i][j - 1] == ' ') ||
+          (map[i][j + 1] && map[i][j + 1] == ' ') ||
+          (map[i - 1][j] && map[i - 1][j] == ' ') ||
+          (map[i + 1][j] && map[i + 1][j] == ' '))
+        return (INVALID_CONFIG);
+    }
     j++;
   }
   return (0);
@@ -161,10 +168,12 @@ int are_wall_closed(char **map)
 /*
  * We check first is all chars in map are valid (0 1 ' ' or P)
  *    in same time : if there is only one P in the map
- * then if all walls are correctly closed 
+ * then if walls are correctly closed 
  * */
 int is_valid_map(char **map)
 {
+  //avirer
+  /* return (0); */
   if (is_valid_map_format(map))
     return (INVALID_CONFIG);
   return (are_wall_closed(map));
