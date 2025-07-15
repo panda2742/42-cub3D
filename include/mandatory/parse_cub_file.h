@@ -31,8 +31,8 @@ typedef struct s_textures
 
 typedef struct s_colors
 {
-	int ceil[3];
-	int floor[3];
+	int *ceil;
+	int *floor;
 } t_colors;
 
 typedef struct s_data
@@ -67,7 +67,7 @@ int get_texture_path(char *line);
 bool is_a_texture_declaration(char *line);
 
 //init_data_textures.c
-int interpet_texture(t_data *data, char *line);
+// int interpet_texture(t_data *data, char *line);
 int init_textures(t_data *data, char **file_content, int i);
 int is_texture_declaration(char *line);
 

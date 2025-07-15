@@ -1,47 +1,47 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-int is_only_digits(char *str)
-{
-  int i;
+/* int is_only_digits(char *str) */
+/* { */
+/*   int i; */
+/**/
+/*   i = 0; */
+/*   while (str[i]) */
+/*   { */
+/*     if (str[i] < '0' || str[i] > '9') */
+/*       return (0); */
+/*     i++; */
+/*   } */
+/*   return (1); */
+/* } */
 
-  i = 0;
-  while (str[i])
-  {
-    if (str[i] < '0' || str[i] > '9')
-      return (0);
-    i++;
-  }
-  return (1);
-}
-
-int get_color_code(char *line, int color_code[3])
-{
-  int i;
-  char **splitted;
-
-  i = 1;
-  while (line[i] && line[i] == ' ')
-    i++;
-  splitted = ft_split(line + i, ',');
-  if (!splitted)
-    return (MALLOC_ERROR);
-  if (splitted[0] && splitted[1] && splitted[2] && !splitted[3] &&
-      is_only_digits(splitted[0]) && is_only_digits(splitted[1]) && is_only_digits(splitted[2]))
-  {
-    color_code[0] = ft_atoi(splitted[0]);
-    color_code[1] = ft_atoi(splitted[1]);
-    color_code[2] = ft_atoi(splitted[2]);
-    free_array(splitted);
-    if (color_code[0] < 0 || color_code[0] > 255 || 
-        color_code[1] < 0 || color_code[1] > 255 ||
-        color_code[2] < 0 || color_code[2] > 255)
-      return (INVALID_CONFIG);
-    return (0);
-  }
-  free_array(splitted);
-  return (INVALID_CONFIG);
-}
+/* int get_color_code(char *line, int color_code[3]) */
+/* { */
+/*   int i; */
+/*   char **splitted; */
+/**/
+/*   i = 1; */
+/*   while (line[i] && line[i] == ' ') */
+/*     i++; */
+/*   splitted = ft_split(line + i, ','); */
+/*   if (!splitted) */
+/*     return (MALLOC_ERROR); */
+/*   if (splitted[0] && splitted[1] && splitted[2] && !splitted[3] && */
+/*       is_only_digits(splitted[0]) && is_only_digits(splitted[1]) && is_only_digits(splitted[2])) */
+/*   { */
+/*     color_code[0] = ft_atoi(splitted[0]); */
+/*     color_code[1] = ft_atoi(splitted[1]); */
+/*     color_code[2] = ft_atoi(splitted[2]); */
+/*     free_array(splitted); */
+/*     if (color_code[0] < 0 || color_code[0] > 255 ||  */
+/*         color_code[1] < 0 || color_code[1] > 255 || */
+/*         color_code[2] < 0 || color_code[2] > 255) */
+/*       return (INVALID_CONFIG); */
+/*     return (0); */
+/*   } */
+/*   free_array(splitted); */
+/*   return (INVALID_CONFIG); */
+/* } */
 
 bool check_color_values(char **colors)
 {
@@ -86,23 +86,23 @@ int is_color_declaration(char *line)
   return (exit_code);
 }
 
-int init_colors(t_data *data, char **file_content, int i)
-{
-  while (file_content[i] && is_color_declaration(file_content[i]) && 
-    (!data->colors.ceil[0] || !data->colors.floor[0]))
-  {
-    if (!ft_strncmp(file_content[i], "C", 1) && file_content[i][1] == ' ' && !data->colors.ceil[0]) 
-      return(get_color_code(file_content[i], data->colors.ceil));
-    if (!ft_strncmp(file_content[i], "F", 1) && file_content[i][1] == ' ' && !data->colors.floor[0]) 
-      return(get_color_code(file_content[i], data->colors.floor));
-    else
-      return (INVALID_CONFIG);
-    i++;
-    while (!ft_strncmp(file_content[i], "\n", 2))
-      i++;
-  }
-  return (0);
-}
+/* int init_colors(t_data *data, char **file_content, int i) */
+/* { */
+/*   while (file_content[i] && is_color_declaration(file_content[i]) &&  */
+/*     (!data->colors.ceil[0] || !data->colors.floor[0])) */
+/*   { */
+/*     if (!ft_strncmp(file_content[i], "C", 1) && file_content[i][1] == ' ' && !data->colors.ceil[0])  */
+/*       return(get_color_code(file_content[i], data->colors.ceil)); */
+/*     if (!ft_strncmp(file_content[i], "F", 1) && file_content[i][1] == ' ' && !data->colors.floor[0])  */
+/*       return(get_color_code(file_content[i], data->colors.floor)); */
+/*     else */
+/*       return (INVALID_CONFIG); */
+/*     i++; */
+/*     while (!ft_strncmp(file_content[i], "\n", 2)) */
+/*       i++; */
+/*   } */
+/*   return (0); */
+/* } */
 /* int is_map_declaration(t_data *data, char **file_content, int i, bool player) */
 /* { */
 /*   int j; */

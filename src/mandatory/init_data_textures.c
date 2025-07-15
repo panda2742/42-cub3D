@@ -68,7 +68,6 @@ int is_texture_declaration(char *line)
       !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xmp", 5) &&
       access(key_value[1], F_OK | R_OK) == 0)
       exit_code = 1;
-    printf("ici\n");
   }
   free_array(key_value);
   return (exit_code);

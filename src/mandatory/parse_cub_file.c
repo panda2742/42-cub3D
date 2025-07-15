@@ -37,24 +37,117 @@ int parsing_error_handler(t_data *data, int exit_code)
   return (exit_code);
 }
 
-int interpret_line(t_data *data, char **file_content, int i)
+int load_texture(char *slot, char **key_value)
 {
-  if (is_texture_declaration(file_content[i]))
+  slot = ft_strdup(key_value[1]);
+  if (!slot)
   {
-    if (data->textures.north || data->textures.south || data->textures.west || data->textures.east)
-      return (INVALID_CONFIG);
-    return (init_textures(data, file_content, i));
+    free_array(key_value);
+    return (MALLOC_ERROR);
   }
-  else if (is_color_declaration(file_content[i]))
+  free_array(key_value);
+  return (0);
+}
+
+
+int is_only_digits(char *str)
+{
+  int i;
+
+  i = 0;
+  while (str[i])
   {
-    if (data->colors.ceil[0] || data->colors.ceil[1] || data->colors.ceil[2] ||
-      data->colors.floor[0] || data->colors.floor[1] || data->colors.floor[2]) 
-      return (INVALID_CONFIG); 
-    return (init_colors(data, file_content, i));
+    if (str[i] < '0' || str[i] > '9')
+      return (0);
+    i++;
   }
-  else 
+  return (1);
+}
+
+int interpret_texture(t_data *data, char **key_value)
+{
+  if (!ft_strncmp(key_value[0], "NO", 3) && !data->textures.north)
+    return (load_texture(data->textures.north, key_value));
+  if (!ft_strncmp(key_value[0], "SO", 3) && !data->textures.south)
+    return (load_texture(data->textures.south, key_value));
+  if (!ft_strncmp(key_value[0], "WE", 3) && !data->textures.west)
+    return (load_texture(data->textures.west, key_value));
+  if (!ft_strncmp(key_value[0], "EA", 3) && !data->textures.east)
+    return (load_texture(data->textures.east, key_value));
+  return (INVALID_CONFIG);
+}
+
+int load_color(int *slot, char **color_code, char **key_value)
+{
+  slot = malloc(sizeof(int) * 3);
+  if (!slot)
+  {
+    free_array(color_code);
+    free_array(key_value);
+    return (MALLOC_ERROR);
+  }
+  slot[0] = ft_atoi(color_code[0]);
+  slot[1] = ft_atoi(color_code[1]);
+  slot[2] = ft_atoi(color_code[2]);
+  free_array(color_code);
+  free_array(key_value);
+  if (slot[0] < 0 || slot[0] > 255 || 
+      slot[1] < 0 || slot[1] > 255 ||
+      slot[2] < 0 || slot[2] > 255)
     return (INVALID_CONFIG);
   return (0);
+}
+
+int interpret_color(t_data *data, char **key_value, char **color_code)
+{
+  if (color_code[0] && color_code[1] && color_code[2] && !color_code[3] &&
+  is_only_digits(color_code[0]) &&
+  is_only_digits(color_code[1]) && 
+  is_only_digits(color_code[2])) 
+  {
+    if (!ft_strncmp(key_value[0], "C", 2) && !data->colors.ceil)
+      return (load_color(data->colors.ceil, color_code, key_value));
+    if (!ft_strncmp(key_value[0], "F", 2) && !data->colors.floor)
+      return (load_color(data->colors.floor, color_code, key_value));
+  }
+  return (INVALID_CONFIG);
+}
+
+int interpret_line(t_data *data, char *line)
+{
+  char **key_value;
+  char **color_code;
+
+  key_value = ft_split(line, ' ');
+  if (!key_value)
+    return (MALLOC_ERROR);
+  if (key_value[0] && key_value[1] && !key_value[2])
+  {
+    if (ft_strlen(key_value[0]) == 2 && !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xmp", 5))
+      return (interpret_texture(data, key_value));
+    else if (ft_strlen(key_value[1]) == 1)
+    {
+      color_code = ft_split(key_value[1], ',');
+      return (interpret_color(data, key_value, color_code));
+    }
+  }
+  return (INVALID_CONFIG);
+  /* if (is_texture_declaration(file_content[i])) */
+  /* { */
+  /*   if (data->textures.north || data->textures.south || data->textures.west || data->textures.east) */
+  /*     return (INVALID_CONFIG); */
+  /*   return (init_textures(data, file_content, i)); */
+  /* } */
+  /* else if (is_color_declaration(file_content[i])) */
+  /* { */
+  /*   if (data->colors.ceil[0] || data->colors.ceil[1] || data->colors.ceil[2] || */
+  /*     data->colors.floor[0] || data->colors.floor[1] || data->colors.floor[2])  */
+  /*     return (INVALID_CONFIG);  */
+  /*   return (init_colors(data, file_content, i)); */
+  /* } */
+  /* else  */
+  /*   return (INVALID_CONFIG); */
+  /* return (0); */
 }
 
 /* for each line of the config file : 
@@ -79,7 +172,7 @@ int init_data(t_data *data, char **file_content)
   {
     while (!ft_strncmp(file_content[i], "\n", 2))
       i++;
-    i = interpret_line(data, file_content, i);
+    i = interpret_line(data, file_content[i]);
     if (i < 0)
     {
       /* free_data(data); */
