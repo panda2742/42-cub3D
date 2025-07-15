@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:11:03 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/07 17:38:47 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/15 10:00:22 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "mlx.h"
 
 void			puterr(
-					char* errstr,
+					char *errstr,
 					uint8_t require_puterr,
 					uint8_t heaped_str);
 char			*ft_sprintf(const char *format, ...);

@@ -6,13 +6,13 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:05:23 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/04 18:59:26 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/15 09:57:23 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	puterr(char* errstr, uint8_t require_puterr, uint8_t heaped_str)
+void	puterr(char *errstr, uint8_t require_puterr, uint8_t heaped_str)
 {
 	char	*str;
 

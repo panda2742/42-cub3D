@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/14 17:48:05 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/15 10:02:22 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@
 # define KEY_CAMERA_RIGHT 65363
 # define KEY_ESCAPE 65307
 
-typedef struct timeval t_time;
+typedef struct timeval	t_time;
 
 /**
  * Represent an image rendered onto the MLX window.
  */
-typedef struct	s_frame
+typedef struct s_frame
 {
 	/**
 	 * The pointer of the image.
@@ -67,8 +67,12 @@ typedef struct	s_frame
 /**
  * Represent a texture or an image in general from an XPM file.
  */
-typedef struct	s_img
+typedef struct s_img
 {
+	/**
+	 * The name of the file including the texture.
+	 */
+	char	*filename;
 	/**
 	 * The pointer of the data of the image (from MLX).
 	 */
@@ -86,7 +90,7 @@ typedef struct	s_img
 /**
  * Represent a pair of double values, used for dots or vectors.
  */
-typedef struct	s_vec2
+typedef struct s_vec2
 {
 	double	x;
 	double	y;
@@ -96,7 +100,7 @@ typedef struct	s_vec2
  * Represent a pair of long int values, used for integer pairs (integer
  * coordinates for example).
  */
-typedef struct	s_ivec2
+typedef struct s_ivec2
 {
 	long int	x;
 	long int	y;
@@ -105,7 +109,7 @@ typedef struct	s_ivec2
 /**
  * Represent the data of the rendered map (basically its content).
  */
-typedef struct	s_map
+typedef struct s_map
 {
 	/**
 	 * Each line of the map, without any modification from the parsing.
@@ -124,7 +128,7 @@ typedef struct	s_map
 /**
  * The data of the game.
  */
-typedef struct	s_gdata
+typedef struct s_gdata
 {
 	/**
 	 * The current player position. A dot or a 0->pos vector.
@@ -135,15 +139,19 @@ typedef struct	s_gdata
 	 */
 	double	dir;
 	/**
+	 * The orientation of the player at the beginning of the game.
+	 */
+	char	orientation;
+	/**
 	 * The map of the game.
 	 */
 	t_map	map;
-}	t_gdata;
+}			t_gdata;
 
 /**
  * The used data for the whole rendering process.
  */
-typedef struct	s_render
+typedef struct s_render
 {
 	/**
 	 * Pointer to MLX instance.
@@ -178,7 +186,7 @@ typedef struct	s_render
  * @param y The y value.
  * @returns A 2D vector instance.
  */
-t_vec2	vec2(double x, double y);
+t_vec2			vec2(double x, double y);
 
 /**
  * Generate a new 2D integer vector (can be used as a pair of long integers).
@@ -187,7 +195,7 @@ t_vec2	vec2(double x, double y);
  * @param y The y value.
  * @returns A 2D integer vector instance.
  */
-t_ivec2	ivec2(long int x, long int y);
+t_ivec2			ivec2(long int x, long int y);
 
 typedef enum e_direction
 {
@@ -197,7 +205,9 @@ typedef enum e_direction
 	LEFT
 }	t_direction;
 
-unsigned int	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+unsigned int	rgba(
+					unsigned char r, unsigned char g,
+					unsigned char b, unsigned char a);
 void			put_pixel_on_frame(t_frame *img, int x, int y, int rgba);
 void			render_map(void);
 void			draw_frame(t_render *render);

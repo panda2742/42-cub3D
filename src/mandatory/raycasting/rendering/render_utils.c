@@ -6,13 +6,14 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 09:45:41 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/14 17:46:27 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/15 09:59:24 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
-unsigned int	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+unsigned int	rgba(
+	unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
 	return ((1 - a) << 24 | r << 16 | g << 8 | b);
 }

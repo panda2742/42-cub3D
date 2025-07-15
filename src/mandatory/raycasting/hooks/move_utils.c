@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:29:54 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/14 16:39:27 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/15 09:57:55 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ char	pos_tile(t_gdata *game)
 	const size_t	y = game->map.height - 1 - (int)game->pos.y;
 	const size_t	x = (int)game->pos.x;
 
-	return game->map.data[y][x];
+	return (game->map.data[y][x]);
 }
