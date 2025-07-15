@@ -80,22 +80,3 @@ int get_file_size(char *map, int fd)
   return (i);
 }
 
-int is_valid_map_path(char *map, char ***file_content)
-{
-  int fd;
-  int size;
-  int exit_code;
-
-  fd = is_valid_file(map);
-  if (fd < 0)
-    return (fd);
-  size = get_file_size(map);
-  if (size == 0)
-  {
-    //file empty
-    return (FILE_EMPTY);
-  }
-  exit_code = get_file_content(map, file_content, fd, size);
-  if (exit_code)
-    return (exit_code);
-}

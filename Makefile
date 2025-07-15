@@ -16,6 +16,11 @@ SOURCE_DIR_B	:=	src/bonus/
 override HEADER_FILES	:=	cub3D
 override SOURCE_FILES	:=	$(addprefix errors/, puterr) \
 							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
+							parse_cub_file.c \
+							is_valid_map_path.c \
+							init_data_textures.c \
+							init_data_colors.c \
+							init_data_map.c \
 							main
 
 # **************************************************************************** #

@@ -20,28 +20,28 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "colors.h"
-# include "libft.h"
+# include "../../lib/include/libft.h"
 
-typedef struct s_textures
-{
-	char *north;
-	char *south;
-	char *west;
-	char *east;
-} t_textures
-
-typedef struct s_color
-{
-	int ceil[3];
-	int floor[3];
-} t_color;
-
-typedef struct s_data
-{
-	struct s_textures
-	struct s_color
-	char **map;
-} t_data;
+// typedef struct s_textures
+// {
+// 	char *north;
+// 	char *south;
+// 	char *west;
+// 	char *east;
+// } t_textures
+//
+// typedef struct s_color
+// {
+// 	int ceil[3];
+// 	int floor[3];
+// } t_color;
+//
+// typedef struct s_data
+// {
+// 	struct s_textures
+// 	struct s_color
+// 	char **map;
+// } t_data;
 
 
 void			puterr(
