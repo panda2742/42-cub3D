@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/16 15:05:44 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/16 17:43:58 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	render_map(void)
 	mlx_hook(render.mlx_win, 2, 1L << 0, key_hook, &render);
 	mlx_hook(render.mlx_win, 17, 1L << 0, destroy_hook, &render);
 	mlx_loop_hook(render.mlx, loop_hook, &render);
-	mlx_do_key_autorepeatoff(render.mlx);
+	mlx_do_key_autorepeaton(render.mlx);
 	mlx_loop(render.mlx);
 }
 
@@ -66,23 +66,9 @@ static int	_init_render_ctx(t_render *render)
 		puterr("Frame address data failed to get (MLX error).", false, false);
 		quit(render);
 	}
+	_debug_data(render);
 	_init_player(render);
 	return (0);
-}
-
-static void	_init_player(t_render *render)
-{
-	render->game.pos.x = 1.5;
-	render->game.pos.y = 3.5;
-	render->game.orientation = 'S';
-	if (render->game.orientation == 'N')
-		render->game.dir = PI / 2;
-	else if (render->game.orientation == 'S')
-		render->game.dir = 3 * PI / 2;
-	else if (render->game.orientation == 'E')
-		render->game.dir = PI;
-	else if (render->game.orientation == 'W')
-		render->game.dir = 2 * PI;
 }
 
 static void	_init_mlx(t_render *render)
@@ -102,25 +88,41 @@ static void	_init_mlx(t_render *render)
 	}
 }
 
+static void	_init_player(t_render *render)
+{
+	if (render->game.orientation == 'N')
+		render->game.dir = 3 * PI / 2;
+	else if (render->game.orientation == 'S')
+		render->game.dir = PI / 2;
+	else if (render->game.orientation == 'E')
+		render->game.dir = PI;
+	else if (render->game.orientation == 'W')
+		render->game.dir = 0;
+}
+
 static void	_debug_data(t_render *render)
 {
-	render->game.map.width = 10;
-	render->game.map.height = 10;
+	render->game.map.width = 21;
+	render->game.map.height = 11;
 	render->game.map.data = ft_split(
-			"1111111111\n"
-			"1000100001\n"
-			"1000100001\n"
-			"1000100001\n"
-			"1000100001\n"
-			"1000000001\n"
-			"1110000111\n"
-			"1000000001\n"
-			"1000000001\n"
-			"1111111111", '\n');
-	render->textures[0].filename = ft_strdup("assets/textures/wall1.xpm");
-	render->textures[1].filename = ft_strdup("assets/textures/wall2.xpm");
-	render->textures[2].filename = ft_strdup("assets/textures/wall3.xpm");
-	render->textures[3].filename = ft_strdup("assets/textures/wall4.xpm");
-	render->game.map.c_color = rgba(83, 166, 249, 1);
-	render->game.map.f_color = rgba(249, 166, 83, 1);
+			"111111111111111111111\n"
+			"100000000000100000001\n"
+			"100000000000100000001\n"
+			"100000000000100111111\n"
+			"100000000000000000001\n"
+			"100000010000000000001\n"
+			"100000010000000000001\n"
+			"100000011111100000001\n"
+			"100000010000000000001\n"
+			"100000010000000000001\n"
+			"111111111111111111111", '\n');
+	render->textures[0].filename = ft_strdup("assets/textures/wall_N.xpm");
+	render->textures[1].filename = ft_strdup("assets/textures/wall_S.xpm");
+	render->textures[2].filename = ft_strdup("assets/textures/wall_E.xpm");
+	render->textures[3].filename = ft_strdup("assets/textures/wall_W.xpm");
+	render->game.map.c_color = 5482233;
+	render->game.map.f_color = 16361043;
+	render->game.pos.x = 1.5;
+	render->game.pos.y = 1.5;
+	render->game.orientation = 'N';
 }

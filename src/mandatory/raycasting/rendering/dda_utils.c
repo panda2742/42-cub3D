@@ -6,11 +6,20 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:32:36 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/16 15:01:27 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/16 17:32:52 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
+
+static inline void	_dda_calc_step(t_rayctx *ctx)
+					__attribute__((always_inline));
+static inline void	_dda_progress(t_render *render, t_rayctx *ctx)
+					__attribute__((always_inline));
+static inline void	_dda_calc_line_length(t_rayctx *ctx)
+					__attribute__((always_inline));
+static inline void	_dda_get_wall_x(t_rayctx *ctx)
+					__attribute__((always_inline));
 
 char	dda_algorithm(t_render *render, t_rayctx *ctx, int x)
 {
@@ -28,6 +37,7 @@ char	dda_algorithm(t_render *render, t_rayctx *ctx, int x)
 	_dda_calc_step(ctx);
 	_dda_progress(render, ctx);
 	_dda_calc_line_length(ctx);
+	_dda_get_wall_x(ctx);
 	return (1);
 }
 
@@ -98,4 +108,26 @@ inline void	_dda_calc_line_length(t_rayctx *ctx)
 	ctx->draw_end = (ctx->line_height >> 1) + (SCREEN_HEIGHT >> 1);
 	if (ctx->draw_end > SCREEN_HEIGHT)
 		ctx->draw_end = SCREEN_HEIGHT;
+}
+
+static __attribute__((always_inline))
+inline void	_dda_get_wall_x(t_rayctx *ctx)
+{
+	if (ctx->face == 0)
+	{
+		ctx->wall_x = ctx->pos.y + ctx->perp_dist * ctx->ray_dir.y;
+		if (ctx->ray_dir.x > 0)
+			ctx->texture_index = 3;
+		else
+			ctx->texture_index = 2;
+	}
+	else
+	{
+		ctx->wall_x = ctx->pos.x + ctx->perp_dist * ctx->ray_dir.x;
+		if (ctx->ray_dir.y > 0)
+			ctx->texture_index = 0;
+		else
+			ctx->texture_index = 1;
+	}
+	ctx->wall_x -= floor(ctx->wall_x);
 }

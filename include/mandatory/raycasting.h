@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/16 15:02:15 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/16 17:17:45 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 # define SENSITIVITY 0.05
 # define PI 3.14159265359f
 # define BORDER_MARGIN 0.4
-# define FOV_FACTOR 1.0471975512f
+# define FOV_FACTOR 1
+// # define FOV_FACTOR 1.0471975512f
 
 # define KEY_FORWARD 'w'
 # define KEY_LEFT 'a'
@@ -209,6 +210,10 @@ typedef struct s_rayctx
 	t_vec2	pos;
 	int		c_color;
 	int		f_color;
+	double	wall_x;
+	char	texture_index;
+	int		texture_x;
+	int		texture_y;
 }			t_rayctx;
 
 typedef enum e_direction
