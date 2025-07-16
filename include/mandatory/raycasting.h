@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 17:50:18 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/16 15:02:15 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 # include <math.h>
 # include <sys/time.h>
 
-# define SCREEN_WIDTH 960
-# define SCREEN_HEIGHT 540
+# define SCREEN_WIDTH 1280
+# define SCREEN_HEIGHT 800
 
 # define VELOCITY 0.1
 # define SENSITIVITY 0.05
 # define PI 3.14159265359f
 # define BORDER_MARGIN 0.4
-# define FOV_FACTOR PI / 3
+# define FOV_FACTOR 1.0471975512f
 
 # define KEY_FORWARD 'w'
 # define KEY_LEFT 'a'
@@ -119,11 +119,19 @@ typedef struct s_map
 	/**
 	 * The width of the table.
 	 */
-	size_t	width;
+	int		width;
 	/**
 	 * The height of the table.
 	 */
-	size_t	height;
+	int		height;
+	/**
+	 * The color of the ceiling.
+	 */
+	int		c_color;
+	/**
+	 * The color of the floor.
+	 */
+	int		f_color;
 }			t_map;
 
 /**
@@ -176,6 +184,33 @@ typedef struct s_render
 	t_img	textures[4];
 }	t_render;
 
+/**
+ * Represent all the datas of an emitted ray.
+ */
+typedef struct s_rayctx
+{
+	double	w;
+	double	h;
+	int		*frame_addr;
+	t_vec2	dir;
+	t_vec2	plane;
+	double	cam_x;
+	t_vec2	ray_dir;
+	t_ivec2	map_def;
+	t_ivec2	map;
+	t_vec2	side_dist;
+	t_vec2	delta_dist;
+	double	perp_dist;
+	t_ivec2	step;
+	int		face;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	t_vec2	pos;
+	int		c_color;
+	int		f_color;
+}			t_rayctx;
+
 typedef enum e_direction
 {
 	FORWARD,
@@ -184,28 +219,6 @@ typedef enum e_direction
 	LEFT
 }	t_direction;
 
-/**
- * Generate a new 2D vector (can be used as a pair of doubles).
- * 
- * @param x The x value.
- * @param y The y value.
- * @returns A 2D vector instance.
- */
-t_vec2			vec2(double x, double y);
-
-/**
- * Generate a new 2D integer vector (can be used as a pair of long integers).
- * 
- * @param x The x value.
- * @param y The y value.
- * @returns A 2D integer vector instance.
- */
-t_ivec2			ivec2(long int x, long int y);
-
-unsigned int	rgba(
-					unsigned char r, unsigned char g,
-					unsigned char b, unsigned char a);
-void			put_pixel_on_frame(t_frame *img, int x, int y, int rgba);
 void			render_map(void);
 void			draw_frame(t_render *render);
 
@@ -213,5 +226,6 @@ int				key_hook(int keycode, t_render *render);
 int				destroy_hook(t_render *render);
 void			quit(t_render *render);
 int				loop_hook(t_render *render);
+char			dda_algorithm(t_render *render, t_rayctx *ctx, int x);
 
 #endif

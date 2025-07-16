@@ -14,9 +14,9 @@ SOURCE_DIR_B	:=	src/bonus/
 # **************************************************************************** #
 
 override SOURCE_HOOKS		:=	$(addprefix hooks/, destroy_hook key_hook loop_hook)
-override SOURCE_RENDERING	:=	$(addprefix rendering/, draw_frame render_map render_utils)
+override SOURCE_RENDERING	:=	$(addprefix rendering/, dda_utils draw_frame render_utils)
 override HEADER_FILES		:=	colors cub3D raycasting
-override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit vec2) \
+override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit) \
 								$(addprefix errors/, puterr) \
 								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 								main
@@ -57,13 +57,14 @@ override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
 # 6. FLAGS AND VARIABLES                                                       #
 # **************************************************************************** #
 
-DEBUG_FLAGS		:=	-O3 -g3
-CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS)
+TURBO_FLAGS		:=	-O3 -flto -march=native -mtune=native -funroll-loops -ffast-math -falign-functions=32 -falign-loops=16
+DEBUG_FLAGS		:=	-g3
+CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) # $(TURBO_FLAGS)
 MAKEFLAGS		:=	--no-print-directory
 RMFLAGS			:=	-rf
 VG				:=	valgrind
 VGFLAGS			:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
-override CC		:=	cc
+override CC		:=	gcc
 override RM		:=	rm
 override CLEAR	:=	clear
 CALLGRIND_PRFL	:=	exec-profile.cub3D
@@ -172,6 +173,7 @@ vg:
 cg:
 	$(CLEAR)
 	$(MAKE)
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
 	$(CLEAR)
 	$(VG) $(VGCALL) ./$(NAME) 
 	$(KCACHE) $(CALLGRIND_PRFL)

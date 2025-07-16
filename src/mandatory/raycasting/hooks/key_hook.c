@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:19:40 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 16:31:58 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/16 13:09:55 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static void	_move_player(t_gdata *game, t_direction dir)
 {
 	t_vec2	new;
 
-	new = vec2(game->pos.x, game->pos.y);
+	new.x = game->pos.x;
+	new.y = game->pos.y;
 	if (dir == FORWARD)
 	{
 		new.x += cos(game->dir) * VELOCITY;
@@ -112,4 +113,3 @@ static void	_do_front_move(t_gdata *game, t_vec2 new, t_direction dir,
 	if (move_is_possible)
 		game->pos.y = new.y;
 }
-

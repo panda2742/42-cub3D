@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 17:16:18 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/16 15:05:44 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	_init_render_ctx(t_render *render);
 static void	_init_player(t_render *render);
+static void	_init_mlx(t_render *render);
+static void	_debug_data(t_render *render);
 
 void	render_map(void)
 {
@@ -46,19 +48,7 @@ void	render_map(void)
 
 static int	_init_render_ctx(t_render *render)
 {
-	render->mlx = mlx_init();
-	if (render->mlx == NULL)
-	{
-		puterr("MiniLibX initialization failed.", false, false);
-		quit(render);
-	}
-	render->mlx_win = mlx_new_window(
-			render->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D");
-	if (render->mlx_win == NULL)
-	{
-		puterr("MiniLibX window initialization failed.", false, false);
-		quit(render);
-	}
+	_init_mlx(render);
 	render->frame.img = mlx_new_image(render->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (render->frame.img == NULL)
 	{
@@ -77,7 +67,43 @@ static int	_init_render_ctx(t_render *render)
 		quit(render);
 	}
 	_init_player(render);
-	// !DEBUG
+	return (0);
+}
+
+static void	_init_player(t_render *render)
+{
+	render->game.pos.x = 1.5;
+	render->game.pos.y = 3.5;
+	render->game.orientation = 'S';
+	if (render->game.orientation == 'N')
+		render->game.dir = PI / 2;
+	else if (render->game.orientation == 'S')
+		render->game.dir = 3 * PI / 2;
+	else if (render->game.orientation == 'E')
+		render->game.dir = PI;
+	else if (render->game.orientation == 'W')
+		render->game.dir = 2 * PI;
+}
+
+static void	_init_mlx(t_render *render)
+{
+	render->mlx = mlx_init();
+	if (render->mlx == NULL)
+	{
+		puterr("MiniLibX initialization failed.", false, false);
+		quit(render);
+	}
+	render->mlx_win = mlx_new_window(
+			render->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D");
+	if (render->mlx_win == NULL)
+	{
+		puterr("MiniLibX window initialization failed.", false, false);
+		quit(render);
+	}
+}
+
+static void	_debug_data(t_render *render)
+{
 	render->game.map.width = 10;
 	render->game.map.height = 10;
 	render->game.map.data = ft_split(
@@ -95,20 +121,6 @@ static int	_init_render_ctx(t_render *render)
 	render->textures[1].filename = ft_strdup("assets/textures/wall2.xpm");
 	render->textures[2].filename = ft_strdup("assets/textures/wall3.xpm");
 	render->textures[3].filename = ft_strdup("assets/textures/wall4.xpm");
-	// DEBUG!
-	return (0);
-}
-
-static void	_init_player(t_render *render)
-{
-	render->game.pos = vec2(1.5, 3.5);
-	render->game.orientation = 'S';
-	if (render->game.orientation == 'N')
-		render->game.dir = PI / 2;
-	else if (render->game.orientation == 'S')
-		render->game.dir = 3 * PI / 2;
-	else if (render->game.orientation == 'E')
-		render->game.dir = PI;
-	else if (render->game.orientation == 'W')
-		render->game.dir = 2 * PI;
+	render->game.map.c_color = rgba(83, 166, 249, 1);
+	render->game.map.f_color = rgba(249, 166, 83, 1);
 }
