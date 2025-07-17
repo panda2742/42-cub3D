@@ -3,7 +3,7 @@
 
  /* for each char of each line : 
   * if it's not ' ' 0 1 NSEW : INVALID_CONFIG 
-  * if we find two P : INVALID_CONFIG
+  * if we find two players : INVALID_CONFIG
   * */
 int is_valid_map_format(char **map)
 {
@@ -17,7 +17,6 @@ int is_valid_map_format(char **map)
   while (map[i])
   {
     j = 0;
-    /* printf("line = %s\n", map[i]); */
     while (map[i][j])
     {
       if (map[i][j] == '\n')
@@ -43,14 +42,6 @@ int is_valid_map_format(char **map)
   }
   return (0);
 }
-/**/
-/* int is_valid_map(char **map) */
-/* { */
-/*   if (!check_player(map) || !check_closed_map(map)) */
-/*     return (INVALID_CONFIG); */
-/*   else */
-/*     return (1); */
-/* } */
 
 int get_map_size(char **file_content, int i)
 {
@@ -73,7 +64,6 @@ int get_map(t_data *data, char **file_content, int i)
   while (file_content[i])
   {
     data->map[j] = ft_strdup(file_content[i]);
-    /* printf("map loaded : %s", data->map[j]); */
     if (!data->map[j])
     {
       while (j - 1 >= 0)
@@ -90,56 +80,26 @@ int get_map(t_data *data, char **file_content, int i)
   return (0);
 }
 
-/*
- * 2 is the wall we are testing
- * 3 is a wall already tested as closed
- * 1 is a new wall not tested
- *
- * recursive function : called first time on the first wall found
- * if we found arround the wall we are testing or an already closed wall : we consider the wall as closed
- *  - we mark as 3 each wall on the path of the recursive
- *
- * if we dont find a wall arround : error
- * */
-int is_wall_closed(char **map, int i, int j)
-{
-  int exit_code;
-
-  if ((map[i][j - 1] && map[i][j - 1] <= '2') ||
-      (map[i][j + 1] && map[i][j + 1] <= '2') || 
-      (map[i + 1][j] && map[i + 1][j] <= '2') ||
-      (map[i - 1][j] && map[i - 1][j] <= '2'))
-  {
-    map[i][j] = '3';
-    return (1);
-  }
-  if ((map[i][j - 1] && map[i][j - 1] == '1') ||
-      (map[i][j + 1] && map[i][j + 1] == '1') || 
-      (map[i + 1][j] && map[i + 1][j] == '1') ||
-      (map[i - 1][j] && map[i - 1][j] == '1'))
-  {
-    map[i][j] = '2';
-    exit_code = is_wall_closed(map, i, j);
-    if (exit_code == 1)
-    {
-      map[i][j] = '3';
-      return (1);
-    }
-    else if (exit_code == 2)
-      return (INVALID_CONFIG);
-  }
-  return (2);
-}
-
-int check_wall(char **map, int i)
+/* if a '0' or the player is 
+ *  - adjacent to a space, or
+/*  - on the edge of the ma :
+ * the map can't be surrounded by wall : invalid configuration */
+int check_wall(char **map, int i, int size)
 {
   int j;
 
   j = 0;
   while (map[i][j])
   {
-    if (map[i][j] == '0')
+    if (map[i][j] == '0' || 
+      map[i][j] == 'N' ||
+      map[i][j] == 'S' ||
+      map[i][j] == 'W' ||
+      map[i][j] == 'E')
     {
+      if (i == 0 || i == size ||
+     j == 0 || map[i][j + 1] == '\n')
+        return (INVALID_CONFIG);
       if ((map[i][j - 1] && map[i][j - 1] == ' ') ||
           (map[i][j + 1] && map[i][j + 1] == ' ') ||
           (map[i - 1][j] && map[i - 1][j] == ' ') ||
@@ -151,14 +111,15 @@ int check_wall(char **map, int i)
   return (0);
 }
 
-int are_wall_closed(char **map)
+/* for each line of the map ... */
+int are_wall_closed(char **map, int size)
 {
   int i;
 
   i = 0;
   while (map[i])
   {
-    if (check_wall(map, i))
+    if (check_wall(map, i, size))
       return (INVALID_CONFIG);
     i++;
   }
@@ -166,16 +127,21 @@ int are_wall_closed(char **map)
 }
 
 /*
- * We check first is all chars in map are valid (0 1 ' ' or P)
- *    in same time : if there is only one P in the map
+ * We check first if all chars in map are valid (0 1 ' ' or N/S/E/W)
+ *    in same time : if there is only one player on the map
  * then if walls are correctly closed 
  * */
+//
+//un check en plus pour savoir si le joueur est bien enferme dans des murs ?
+//
 int is_valid_map(char **map)
 {
-  //avirer
-  /* return (0); */
+  int size;
+
+  size = 0;
+  while (map[size])
+    size++;
   if (is_valid_map_format(map))
     return (INVALID_CONFIG);
-  return (are_wall_closed(map));
-  //un check en plus pour savoir si le joueur est bien enferme dans des murs ?
+  return (are_wall_closed(map, size));
 }

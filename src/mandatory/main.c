@@ -26,7 +26,7 @@ int print_cub_data(t_data *data)
 	printf("-- Colors --\n");
 	printf("ceil : %d %d %d\n", data->colors.ceil[0], data->colors.ceil[1], data->colors.ceil[2]);
 	printf("floor : %d %d %d\n", data->colors.floor[0], data->colors.floor[1], data->colors.floor[2]);
-	printf("-- MAP \n");
+	printf("-- MAP --\n");
 	while (data->map[i])
 	{
 		printf("%s", data->map[i]);
@@ -40,14 +40,16 @@ int	main(int ac, char **av)
 	(void)ac;
 	(void)av;
 	t_data data;
+	int exit_code;
 
 	if (ac != 2)
 	{
 		printf("Usage : ./cub3D <*.cub>");
 		return (1);
 	}
-	if (parse_cub_file(av[1], &data))
-		return (2);
+	exit_code = parse_cub_file(av[1], &data);
+	if (exit_code != 0)
+		return (exit_code);
 	print_cub_data(&data);
 	printf("This is what cub3D is all about.\n");
 	free_data(&data);
