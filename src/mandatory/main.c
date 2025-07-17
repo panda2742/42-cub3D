@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 09:57:15 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:22:42 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int	main(void)
 {
-	render_map();
+	t_render	render;
+
+	render_map(&render);
 	return (0);
 }

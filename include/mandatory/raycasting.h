@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 16:03:28 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:22:28 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ typedef enum e_direction
 }	t_direction;
 
 void			move_player(t_gdata *game, char pressed[6]);
-void			render_map(void);
+void			render_map(t_render *render);
 void			draw_frame(t_render *render);
 char			check_collision(t_gdata *game, t_vec2 new);
 int				key_hook(int keycode, t_render *render);

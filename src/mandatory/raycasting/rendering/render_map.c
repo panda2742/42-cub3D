@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 16:20:12 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:23:12 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,32 @@ static void	_init_player(t_render *render);
 static void	_init_mlx(t_render *render);
 static void	_debug_data(t_render *render);
 
-void	render_map(void)
+void	render_map(t_render *render)
 {
-	t_render	render;
 	t_img		*txtr;
 	size_t		i;
 
-	_init_render_ctx(&render);
+	_init_render_ctx(render);
 	i = 0;
 	while (i < 4)
-		render.textures[i++].ptr = NULL;
+		render->textures[i++].ptr = NULL;
 	i = 0;
 	while (i < 4)
 	{
-		txtr = &render.textures[i++];
+		txtr = &render->textures[i++];
 		txtr->ptr = mlx_xpm_file_to_image(
-				render.mlx, txtr->filename, &txtr->width, &txtr->height);
+				render->mlx, txtr->filename, &txtr->width, &txtr->height);
 		if (txtr->ptr == NULL)
 		{
 			puterr("Texture creation failed (MLX error).", false, false);
-			quit(&render);
+			quit(render);
 		}
 	}
-	mlx_hook(render.mlx_win, 2, 1L << 0, keydown_hook, &render);
-	mlx_hook(render.mlx_win, 3, 1L << 1, keyup_hook, &render);
-	mlx_hook(render.mlx_win, 17, 1L << 0, destroy_hook, &render);
-	mlx_loop_hook(render.mlx, loop_hook, &render);
-	mlx_loop(render.mlx);
+	mlx_hook(render->mlx_win, 2, 1L << 0, keydown_hook, render);
+	mlx_hook(render->mlx_win, 3, 1L << 1, keyup_hook, render);
+	mlx_hook(render->mlx_win, 17, 1L << 0, destroy_hook, render);
+	mlx_loop_hook(render->mlx, loop_hook, render);
+	mlx_loop(render->mlx);
 }
 
 static int	_init_render_ctx(t_render *render)
