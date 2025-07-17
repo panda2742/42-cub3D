@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 12:47:31 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:03:28 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 # define SCREEN_HEIGHT 800
 
 # define VELOCITY 0.1
-# define SENSITIVITY 0.05
+# define SENSITIVITY 0.01
 # define PI 3.14159265359f
 # define FOV_FACTOR 1.0471975512f
 # define HITBOX_HALFSIZE 0.2
-# define RENDER_DIST 30
-// # define FOV_FACTOR 1.0471975512f
+# define MOVE_TICK 10000
+# define ROTATE_TICK 100
 
 # define FACE_NORTH 0
 # define FACE_SOUTH 1
@@ -36,11 +36,23 @@
 # define FACE_HORIZONTAL 1
 
 # define KEY_FORWARD 'w'
+# define INDEX_FORWARD 0
+
 # define KEY_LEFT 'a'
+# define INDEX_LEFT 1
+
 # define KEY_BACKWARD 's'
+# define INDEX_BACKWARD 2
+
 # define KEY_RIGHT 'd'
+# define INDEX_RIGHT 3
+
 # define KEY_CAMERA_LEFT 65361
+# define INDEX_CAMERA_LEFT 4
+
 # define KEY_CAMERA_RIGHT 65363
+# define INDEX_CAMERA_RIGHT 5
+
 # define KEY_ESCAPE 65307
 
 typedef struct timeval	t_time;
@@ -167,6 +179,32 @@ typedef struct s_gdata
 }			t_gdata;
 
 /**
+ * Represent the keys pressed or not during the gameplay to make our own
+ * keyrepeat system (avoiding the MLX one).
+ */
+typedef struct s_keys
+{
+	/**
+	 * The last time the player moved.
+	 */
+	t_time	last_move;
+	/**
+	 * The last time the player moved the camera.
+	 */
+	t_time	last_rotate;
+	/**
+	 * The state of each keys.
+	 * 0 - w
+	 * 1 - a
+	 * 2 - s
+	 * 3 - d
+	 * 4 - left_arrow
+	 * 5 - right_arrow
+	 */
+	char	pressed[6];
+}			t_keys;
+
+/**
  * The used data for the whole rendering process.
  */
 typedef struct s_render
@@ -191,10 +229,15 @@ typedef struct s_render
 	 * The textures of each wall face.
 	 */
 	t_img	textures[4];
+	/**
+	 * The keys state for the gameplay.
+	 */
+	t_keys	keys;
 }	t_render;
 
 /**
- * Represent all the datas of an emitted ray.
+ * Represent all the datas of an emitted ray. This structure is just gathering
+ * the most used data for a ray path. Its purpose is optimization only.
  */
 typedef struct s_rayctx
 {
@@ -232,6 +275,7 @@ typedef enum e_direction
 	LEFT
 }	t_direction;
 
+void			move_player(t_gdata *game, char pressed[6]);
 void			render_map(void);
 void			draw_frame(t_render *render);
 char			check_collision(t_gdata *game, t_vec2 new);
@@ -240,5 +284,7 @@ int				destroy_hook(t_render *render);
 void			quit(t_render *render);
 int				loop_hook(t_render *render);
 char			dda_algorithm(t_render *render, t_rayctx *ctx, int x);
+int				keydown_hook(int keycode, t_render *render);
+int				keyup_hook(int keycode, t_render *render);
 
 #endif

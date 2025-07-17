@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 12:36:03 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 15:18:53 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	render_map(void)
 			quit(&render);
 		}
 	}
-	mlx_hook(render.mlx_win, 2, 1L << 0, key_hook, &render);
+	mlx_hook(render.mlx_win, 2, 1L << 0, keydown_hook, &render);
+	mlx_hook(render.mlx_win, 3, 1L << 1, keyup_hook, &render);
 	mlx_hook(render.mlx_win, 17, 1L << 0, destroy_hook, &render);
 	mlx_loop_hook(render.mlx, loop_hook, &render);
-	mlx_do_key_autorepeaton(render.mlx);
 	mlx_loop(render.mlx);
 }
 
@@ -68,11 +68,14 @@ static int	_init_render_ctx(t_render *render)
 	}
 	_debug_data(render);
 	_init_player(render);
+	mlx_do_key_autorepeatoff(render->mlx);
 	return (0);
 }
 
 static void	_init_mlx(t_render *render)
 {
+	size_t	i;
+
 	render->mlx = mlx_init();
 	if (render->mlx == NULL)
 	{
@@ -86,6 +89,15 @@ static void	_init_mlx(t_render *render)
 		puterr("MiniLibX window initialization failed.", false, false);
 		quit(render);
 	}
+	if (gettimeofday(&render->keys.last_move, NULL) == -1
+		|| gettimeofday(&render->keys.last_rotate, NULL) == -1)
+	{
+		puterr("Time of day could not be initialized.", false, false);
+		quit(render);
+	}
+	i = -1;
+	while (++i < 6)
+		render->keys.pressed[i] = 0;
 }
 
 static void	_init_player(t_render *render)

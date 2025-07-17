@@ -13,7 +13,7 @@ SOURCE_DIR_B	:=	src/bonus/
 # 2. SOURCE CODE                                                               #
 # **************************************************************************** #
 
-override SOURCE_HOOKS		:=	$(addprefix hooks/, collision destroy_hook key_hook loop_hook)
+override SOURCE_HOOKS		:=	$(addprefix hooks/, collision destroy_hook key_hook loop_hook move)
 override SOURCE_RENDERING	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
 override HEADER_FILES		:=	colors cub3D raycasting
 override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit) \
