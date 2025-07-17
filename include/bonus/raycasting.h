@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 16:44:38 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 19:12:54 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,41 @@ typedef struct s_keys
 }			t_keys;
 
 /**
+ * Represent a sprite displayed on the screen, with its animation.
+ */
+typedef struct	s_sprite
+{
+	/**
+	 * The amout of frames the sprite has.
+	 */
+	size_t	frames;
+	/**
+	 * The filenames of each frame of the sprite.
+	 */
+	char	*frame_names;
+	/**
+	 * The data image of each frame of the sprite.
+	 */
+	t_img	*data;
+	/**
+	 * The amount of time between each frame.
+	 */
+	double	interval;
+	/**
+	 * The last time the frame was generated.
+	 */
+	t_time	last;
+	/**
+	 * The id of the current frame.
+	 */
+	size_t	current;
+	/**
+	 * The position on the display.
+	 */
+	t_ivec2	pos;
+}			t_sprite;
+
+/**
  * The used data for the whole rendering process.
  */
 typedef struct s_render
@@ -212,27 +247,35 @@ typedef struct s_render
 	/**
 	 * Pointer to MLX instance.
 	 */
-	void	*mlx;
+	void		*mlx;
 	/**
 	 * Pointer to MLX window.
 	 */
-	void	*mlx_win;
+	void		*mlx_win;
 	/**
 	 * The data of the current calculated frame.
 	 */
-	t_frame	frame;
+	t_frame		frame;
 	/**
 	 * The game data (including the map and the player position).
 	 */
-	t_gdata	game;
+	t_gdata		game;
 	/**
 	 * The textures of each wall face.
 	 */
-	t_img	textures[4];
+	t_img		textures[4];
 	/**
 	 * The keys state for the gameplay.
 	 */
-	t_keys	keys;
+	t_keys		keys;
+	/**
+	 * The amount of sprites of the scene.
+	 */
+	size_t		nb_sprites;
+	/**
+	 * The list of sprites of the scene.
+	 */
+	t_sprite	sprites;
 }	t_render;
 
 /**
