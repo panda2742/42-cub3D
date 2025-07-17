@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:32:36 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/16 17:32:52 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:35:52 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ inline void	_dda_progress(t_render *render, t_rayctx *ctx)
 			ctx->map.y += ctx->step.y;
 		}
 		if (ctx->map.x < 0 || ctx->map.y < 0
-			|| ctx->map.x >= render->game.map.width
-			|| ctx->map.y >= render->game.map.height)
+			|| ctx->map.y >= render->game.map.height
+			|| ctx->map.x >= (int)render->game.map.lengths[ctx->map.y])
 			break ;
 		if (render->game.map.data[ctx->map.y][ctx->map.x] == '1')
 			break ;
@@ -94,7 +94,7 @@ inline void	_dda_progress(t_render *render, t_rayctx *ctx)
 static __attribute__((always_inline))
 inline void	_dda_calc_line_length(t_rayctx *ctx)
 {
-	if (ctx->face == 0)
+	if (ctx->face == FACE_VERTICAL)
 		ctx->perp_dist = (ctx->map.x - ctx->pos.x + ((1 - ctx->step.x) / 2))
 			/ ctx->ray_dir.x;
 	else
@@ -113,21 +113,21 @@ inline void	_dda_calc_line_length(t_rayctx *ctx)
 static __attribute__((always_inline))
 inline void	_dda_get_wall_x(t_rayctx *ctx)
 {
-	if (ctx->face == 0)
+	if (ctx->face == FACE_VERTICAL)
 	{
 		ctx->wall_x = ctx->pos.y + ctx->perp_dist * ctx->ray_dir.y;
 		if (ctx->ray_dir.x > 0)
-			ctx->texture_index = 3;
+			ctx->texture_index = FACE_EAST;
 		else
-			ctx->texture_index = 2;
+			ctx->texture_index = FACE_WEST;
 	}
 	else
 	{
 		ctx->wall_x = ctx->pos.x + ctx->perp_dist * ctx->ray_dir.x;
 		if (ctx->ray_dir.y > 0)
-			ctx->texture_index = 0;
+			ctx->texture_index = FACE_NORTH;
 		else
-			ctx->texture_index = 1;
+			ctx->texture_index = FACE_SOUTH;
 	}
 	ctx->wall_x -= floor(ctx->wall_x);
 }

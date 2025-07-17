@@ -6,21 +6,18 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:34:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/15 09:54:19 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:36:23 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
 static void	_free_textures(t_render *render);
+static void	_free_map(t_map *map);
 
 void	quit(t_render *render)
 {
-	if (render->game.map.data)
-	{
-		ft_free_strtab(render->game.map.data);
-		render->game.map.data = NULL;
-	}
+	_free_map(&render->game.map);
 	if (render->mlx == NULL)
 		return ;
 	if (render->frame.img)
@@ -58,5 +55,19 @@ static void	_free_textures(t_render *render)
 			render->textures[i].ptr = NULL;
 		}
 		i++;
+	}
+}
+
+static void	_free_map(t_map *map)
+{
+	if (map->data)
+	{
+		ft_free_strtab(map->data);
+		map->data = NULL;
+	}
+	if (map->lengths)
+	{
+		free(map->lengths);
+		map->lengths = NULL;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/16 17:17:45 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:47:31 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,17 @@
 # define VELOCITY 0.1
 # define SENSITIVITY 0.05
 # define PI 3.14159265359f
-# define BORDER_MARGIN 0.4
-# define FOV_FACTOR 1
+# define FOV_FACTOR 1.0471975512f
+# define HITBOX_HALFSIZE 0.2
+# define RENDER_DIST 30
 // # define FOV_FACTOR 1.0471975512f
+
+# define FACE_NORTH 0
+# define FACE_SOUTH 1
+# define FACE_EAST 2
+# define FACE_WEST 3
+# define FACE_VERTICAL 0
+# define FACE_HORIZONTAL 1
 
 # define KEY_FORWARD 'w'
 # define KEY_LEFT 'a'
@@ -118,17 +126,17 @@ typedef struct s_map
 	 */
 	char	**data;
 	/**
-	 * The width of the table.
-	 */
-	int		width;
-	/**
-	 * The height of the table.
-	 */
-	int		height;
-	/**
 	 * The color of the ceiling.
 	 */
 	int		c_color;
+	/**
+	 * The amount of lines the map has.
+	 */
+	int		height;
+	/**
+	 * The lengths of each line of the map.
+	 */
+	size_t	*lengths;
 	/**
 	 * The color of the floor.
 	 */
@@ -226,7 +234,7 @@ typedef enum e_direction
 
 void			render_map(void);
 void			draw_frame(t_render *render);
-
+char			check_collision(t_gdata *game, t_vec2 new);
 int				key_hook(int keycode, t_render *render);
 int				destroy_hook(t_render *render);
 void			quit(t_render *render);

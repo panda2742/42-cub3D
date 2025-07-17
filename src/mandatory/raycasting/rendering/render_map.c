@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/16 17:43:58 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:36:03 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ static void	_init_mlx(t_render *render)
 
 static void	_init_player(t_render *render)
 {
+	int	i;
+
 	if (render->game.orientation == 'N')
 		render->game.dir = 3 * PI / 2;
 	else if (render->game.orientation == 'S')
@@ -98,11 +100,22 @@ static void	_init_player(t_render *render)
 		render->game.dir = PI;
 	else if (render->game.orientation == 'W')
 		render->game.dir = 0;
+	render->game.map.lengths = malloc(sizeof(size_t) * render->game.map.height);
+	if (render->game.map.lengths == NULL)
+	{
+		puterr("Map generation failed (malloc error).", false, false);
+		quit(render);
+	}
+	i = 0;
+	while (i < render->game.map.height)
+	{
+		render->game.map.lengths[i] = ft_strlen(render->game.map.data[i]);
+		i++;
+	}
 }
 
 static void	_debug_data(t_render *render)
 {
-	render->game.map.width = 21;
 	render->game.map.height = 11;
 	render->game.map.data = ft_split(
 			"111111111111111111111\n"
@@ -116,10 +129,14 @@ static void	_debug_data(t_render *render)
 			"100000010000000000001\n"
 			"100000010000000000001\n"
 			"111111111111111111111", '\n');
-	render->textures[0].filename = ft_strdup("assets/textures/wall_N.xpm");
-	render->textures[1].filename = ft_strdup("assets/textures/wall_S.xpm");
-	render->textures[2].filename = ft_strdup("assets/textures/wall_E.xpm");
-	render->textures[3].filename = ft_strdup("assets/textures/wall_W.xpm");
+	// BROWN
+	render->textures[FACE_NORTH].filename = ft_strdup("assets/textures/wall_N.xpm");
+	// YELLOW
+	render->textures[FACE_SOUTH].filename = ft_strdup("assets/textures/wall_S.xpm");
+	// GREY
+	render->textures[FACE_EAST].filename = ft_strdup("assets/textures/wall_E.xpm");
+	// RED
+	render->textures[FACE_WEST].filename = ft_strdup("assets/textures/wall_W.xpm");
 	render->game.map.c_color = 5482233;
 	render->game.map.f_color = 16361043;
 	render->game.pos.x = 1.5;

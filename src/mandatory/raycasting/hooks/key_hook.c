@@ -6,17 +6,14 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:19:40 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/16 13:09:55 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 13:57:50 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
-static void				_move_player(t_gdata *game, t_direction dir);
-static unsigned char	_do_side_move(t_gdata *game,
-							t_vec2 new, t_direction dir);
-static void				_do_front_move(t_gdata *game, t_vec2 new,
-							t_direction dir, unsigned char move_is_possible);
+static void	_move_player(t_gdata *game, t_direction dir);
+static void	_try_move(t_gdata *game, t_vec2 new);
 
 int	key_hook(int keycode, t_render *render)
 {
@@ -71,45 +68,17 @@ static void	_move_player(t_gdata *game, t_direction dir)
 		new.x += sin(game->dir) * VELOCITY;
 		new.y += -cos(game->dir) * VELOCITY;
 	}
-	_do_front_move(game, new, dir, _do_side_move(game, new, dir));
+	_try_move(game, new);
 }
 
-static unsigned char	_do_side_move(t_gdata *game,
-							t_vec2 new, t_direction dir)
+static void	_try_move(t_gdata *game, t_vec2 new)
 {
-	if (new.x <= (0.0 + BORDER_MARGIN)
-		|| new.x >= (game->map.width - 1 - BORDER_MARGIN))
-		return (0);
-	if (dir == RIGHT)
-	{
-		if (game->map.data[(int)new.y][(int)(new.x + BORDER_MARGIN)] == '1')
-			return (0);
-	}
-	else if (dir == LEFT)
-	{
-		if (game->map.data[(int)new.y][(int)(new.x - BORDER_MARGIN)] == '1')
-			return (0);
-	}
-	game->pos.x = new.x;
-	return (1);
-}
+	char	res;
 
-static void	_do_front_move(t_gdata *game, t_vec2 new, t_direction dir,
-				unsigned char move_is_possible)
-{
-	if (new.y <= (0.0 + BORDER_MARGIN)
-		|| new.y >= (game->map.height - 1 - BORDER_MARGIN))
-		return ;
-	if (dir == FORWARD)
-	{
-		if (game->map.data[(int)(new.y + BORDER_MARGIN)][(int)new.x] == '1')
-			return ;
-	}
-	else if (dir == BACKWARD)
-	{
-		if (game->map.data[(int)(new.y - BORDER_MARGIN)][(int)new.x] == '1')
-			return ;
-	}
-	if (move_is_possible)
+	res = check_collision(game, (t_vec2){.x = new.x, .y = game->pos.y});
+	if (!res)
+		game->pos.x = new.x;
+	res = check_collision(game, (t_vec2){.x = game->pos.x, .y = new.y});
+	if (!res)
 		game->pos.y = new.y;
 }
