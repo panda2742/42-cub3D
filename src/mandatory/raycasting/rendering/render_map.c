@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 16:23:12 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:44:42 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	render_map(t_render *render)
 	}
 	mlx_hook(render->mlx_win, 2, 1L << 0, keydown_hook, render);
 	mlx_hook(render->mlx_win, 3, 1L << 1, keyup_hook, render);
+	mlx_hook(render->mlx_win, 10, 1L << 21, focusout_hook, render);
 	mlx_hook(render->mlx_win, 17, 1L << 0, destroy_hook, render);
 	mlx_loop_hook(render->mlx, loop_hook, render);
 	mlx_loop(render->mlx);
