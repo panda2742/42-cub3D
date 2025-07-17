@@ -39,8 +39,13 @@ override MLX	:=	mlx/
 # 4. SOURCE CODE FOR BONUS                                                     #
 # **************************************************************************** #
 
-override HEADER_FILES_B	:=	
-override SOURCE_FILES_B	:=	
+override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
+override SOURCE_RENDERING_B	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
+override HEADER_FILES_B		:=	colors cub3D raycasting
+override SOURCE_FILES_B		:=	$(addprefix raycasting/, $(SOURCE_HOOKS_B) $(SOURCE_RENDERING_B) quit) \
+								$(addprefix errors/, puterr) \
+								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
+								main
 
 # **************************************************************************** #
 # 5. OTHER COMPILATION VARIABLES FOR BONUS                                     #
@@ -57,19 +62,21 @@ override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
 # 6. FLAGS AND VARIABLES                                                       #
 # **************************************************************************** #
 
-TURBO_FLAGS		:=	-O3 -flto -march=native -mtune=native -funroll-loops -ffast-math -falign-functions=32 -falign-loops=16
-DEBUG_FLAGS		:=	-g3
-CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) #$(TURBO_FLAGS)
-MAKEFLAGS		:=	--no-print-directory
-RMFLAGS			:=	-rf
-VG				:=	valgrind
-VGFLAGS			:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
-override CC		:=	gcc
-override RM		:=	rm
-override CLEAR	:=	clear
-CALLGRIND_PRFL	:=	exec-profile.cub3D
-override VGCALL	:=	--tool=callgrind --callgrind-out-file=$(CALLGRIND_PRFL)
-override KCACHE	:=	kcachegrind
+TURBO_FLAGS			:=	-O3 -flto -march=native -mtune=native -funroll-loops -ffast-math -falign-functions=32 -falign-loops=16
+DEBUG_FLAGS			:=	-g3
+CFLAGS				:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) #$(TURBO_FLAGS)
+MAKEFLAGS			:=	--no-print-directory
+RMFLAGS				:=	-rf
+VG					:=	valgrind
+VGFLAGS				:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
+override CC			:=	gcc
+override RM			:=	rm
+override CLEAR		:=	clear
+CALLGRIND_PRFL		:=	exec-profile.cub3D
+CALLGRIND_PRFL_B	:=	exec-profile.cub3D_bonus
+override VGCALL		:=	--tool=callgrind --callgrind-out-file=$(CALLGRIND_PRFL)
+override VGCALL_B	:=	--tool=callgrind --callgrind-out-file=$(CALLGRIND_PRFL_B)
+override KCACHE		:=	kcachegrind
 
 
 # **************************************************************************** #
@@ -139,7 +146,7 @@ clean:
 	$(RM) $(RMFLAGS) $(BUILD_DIR)
 	$(RM) $(RMFLAGS) $(BUILD_DIR_B)
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
-
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
 
 .PHONY: fclean
 fclean: clean
@@ -175,7 +182,7 @@ cg:
 	$(MAKE)
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
 	$(CLEAR)
-	$(VG) $(VGCALL) ./$(NAME) 
+	$(VG) $(VGCALL) ./$(NAME)
 	$(KCACHE) $(CALLGRIND_PRFL)
 
 $(DIRS):
@@ -183,6 +190,37 @@ $(DIRS):
 
 $(DIRS_B):
 	@mkdir -p $@
+
+# **************************************************************************** #
+# 8. BONUS RULES                                                               #
+# **************************************************************************** #
+
+.PHONY: bre
+bre: fclean
+	$(MAKE) bonus
+
+.PHONY: brun
+brun:
+	$(CLEAR)
+	$(MAKE) bonus
+	$(CLEAR)
+	./$(NAME_B)
+
+.PHONY: bvg
+bvg:
+	$(CLEAR)
+	$(MAKE) bonus
+	$(CLEAR)
+	$(VG) $(VGFLAGS) ./$(NAME_B)
+
+.PHONY: bcg
+bcg:
+	$(CLEAR)
+	$(MAKE) bonus
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
+	$(CLEAR)
+	$(VG) $(VGCALL_B) ./$(NAME_B) 
+	$(KCACHE) $(CALLGRIND_PRFL_B)
 
 -include $(DEPS)
 -include $(DEPS_B)
