@@ -45,6 +45,8 @@ typedef struct s_data
 //avirer
 int free_array(char **array);
 
+//is_valid_map_format.c
+int is_valid_map_format(char **map);
 
 //parse_cub_file.c
 int parse_cub_file(char *map, t_data *data);

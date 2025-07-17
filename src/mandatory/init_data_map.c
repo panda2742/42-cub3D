@@ -82,7 +82,7 @@ int get_map(t_data *data, char **file_content, int i)
 
 /* if a '0' or the player is 
  *  - adjacent to a space, or
-/*  - on the edge of the ma :
+ *  - on the edge of the ma :
  * the map can't be surrounded by wall : invalid configuration */
 int check_wall(char **map, int i, int size)
 {
