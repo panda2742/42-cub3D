@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 15:18:53 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:20:12 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,27 +128,26 @@ static void	_init_player(t_render *render)
 
 static void	_debug_data(t_render *render)
 {
-	render->game.map.height = 11;
+	render->game.map.height = 10;
 	render->game.map.data = ft_split(
 			"111111111111111111111\n"
 			"100000000000100000001\n"
 			"100000000000100000001\n"
 			"100000000000100111111\n"
-			"100000000000000000001\n"
 			"100000010000000000001\n"
 			"100000010000000000001\n"
 			"100000011111100000001\n"
 			"100000010000000000001\n"
 			"100000010000000000001\n"
 			"111111111111111111111", '\n');
-	// BROWN
-	render->textures[FACE_NORTH].filename = ft_strdup("assets/textures/wall_N.xpm");
-	// YELLOW
-	render->textures[FACE_SOUTH].filename = ft_strdup("assets/textures/wall_S.xpm");
-	// GREY
-	render->textures[FACE_EAST].filename = ft_strdup("assets/textures/wall_E.xpm");
-	// RED
-	render->textures[FACE_WEST].filename = ft_strdup("assets/textures/wall_W.xpm");
+	render->textures[FACE_NORTH].filename
+		= ft_strdup("assets/textures/wall_N.xpm");
+	render->textures[FACE_SOUTH].filename
+		= ft_strdup("assets/textures/wall_S.xpm");
+	render->textures[FACE_EAST].filename
+		= ft_strdup("assets/textures/wall_E.xpm");
+	render->textures[FACE_WEST].filename
+		= ft_strdup("assets/textures/wall_W.xpm");
 	render->game.map.c_color = 5482233;
 	render->game.map.f_color = 16361043;
 	render->game.pos.x = 1.5;
