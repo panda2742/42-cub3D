@@ -66,7 +66,7 @@ override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
 
 TURBO_FLAGS			:=	-O3 -flto -march=native -mtune=native -funroll-loops -ffast-math -falign-functions=32 -falign-loops=16
 DEBUG_FLAGS			:=	-g3
-CFLAGS				:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) #$(TURBO_FLAGS)
+CFLAGS				:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) $(TURBO_FLAGS)
 MAKEFLAGS			:=	--no-print-directory
 RMFLAGS				:=	-rf
 VG					:=	valgrind
