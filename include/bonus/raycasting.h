@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 19:12:54 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/18 12:46:03 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,20 +207,20 @@ typedef struct s_keys
 /**
  * Represent a sprite displayed on the screen, with its animation.
  */
-typedef struct	s_sprite
+typedef struct s_sprite
 {
 	/**
 	 * The amout of frames the sprite has.
 	 */
 	size_t	frames;
 	/**
-	 * The filenames of each frame of the sprite.
-	 */
-	char	*frame_names;
-	/**
 	 * The data image of each frame of the sprite.
 	 */
 	t_img	*data;
+	/**
+	 * The data frame of each frame of the sprite.
+	 */
+	t_frame	*fdata;
 	/**
 	 * The amount of time between each frame.
 	 */
@@ -269,13 +269,9 @@ typedef struct s_render
 	 */
 	t_keys		keys;
 	/**
-	 * The amount of sprites of the scene.
+	 * The sprite (samurai) of the scene.
 	 */
-	size_t		nb_sprites;
-	/**
-	 * The list of sprites of the scene.
-	 */
-	t_sprite	sprites;
+	t_sprite	sprite;
 }	t_render;
 
 /**
@@ -329,5 +325,7 @@ char			dda_algorithm(t_render *render, t_rayctx *ctx, int x);
 int				keydown_hook(int keycode, t_render *render);
 int				keyup_hook(int keycode, t_render *render);
 int				focusout_hook(t_render *render);
+void			load_sprite(t_render *render);
+void			draw_sprite(t_render *render);
 
 #endif

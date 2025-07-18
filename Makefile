@@ -44,6 +44,7 @@ override SOURCE_RENDERING_B	:=	$(addprefix rendering/, dda_utils draw_frame rend
 override HEADER_FILES_B		:=	colors cub3D raycasting
 override SOURCE_FILES_B		:=	$(addprefix raycasting/, $(SOURCE_HOOKS_B) $(SOURCE_RENDERING_B) quit) \
 								$(addprefix errors/, puterr) \
+								$(addprefix sprite/, draw_sprite load_sprite) \
 								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 								main
 

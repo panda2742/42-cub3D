@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:34:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 12:36:23 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/18 12:35:23 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	_free_textures(t_render *render);
 static void	_free_map(t_map *map);
+static void	_free_sprite(t_render *render);
 
 void	quit(t_render *render)
 {
@@ -56,6 +57,7 @@ static void	_free_textures(t_render *render)
 		}
 		i++;
 	}
+	_free_sprite(render);
 }
 
 static void	_free_map(t_map *map)
@@ -69,5 +71,24 @@ static void	_free_map(t_map *map)
 	{
 		free(map->lengths);
 		map->lengths = NULL;
+	}
+}
+
+static void	_free_sprite(t_render *render)
+{
+	size_t	i;
+
+	if (render->sprite.data)
+	{
+		i = -1;
+		while (render->sprite.data[++i].ptr && i < render->sprite.frames)
+			mlx_destroy_image(render->mlx, render->sprite.data[i].ptr);
+		free(render->sprite.data);
+		render->sprite.data = NULL;
+	}
+	if (render->sprite.fdata)
+	{
+		free(render->sprite.fdata);
+		render->sprite.fdata = NULL;
 	}
 }
