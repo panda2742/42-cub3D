@@ -95,6 +95,11 @@ int get_file_size(char *config_file);
 int get_file_content(char ***file_content, int fd, int size);
 int is_valid_map_path(char *map, char ***file_content);
 
-
+//interpret_line.c
+int load_texture(char **slot, char **key_value);
+int interpret_texture(t_data *data, char **key_value);
+int load_color(int **slot, char **color_code, char **key_value);
+int interpret_color(t_data *data, char **key_value, char **color_code);
+int interpret_line(t_data *data, char *line);
 
 #endif
