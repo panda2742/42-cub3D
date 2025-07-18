@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 12:46:03 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/18 14:32:52 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # define HITBOX_HALFSIZE 0.2
 # define MOVE_TICK 10000
 # define ROTATE_TICK 100
+
+# define MINIMAP_WIDTH 200
+# define MINIMAP_HEIGHT 200
 
 # define FACE_NORTH 0
 # define FACE_SOUTH 1
@@ -272,6 +275,14 @@ typedef struct s_render
 	 * The sprite (samurai) of the scene.
 	 */
 	t_sprite	sprite;
+	/**
+	 * Represent the minimap of the game.
+	 */
+	t_frame		mini_frame;
+	/**
+	 * Represent the minimap of the game, but its image data.
+	 */
+	t_img		mini_img;
 }	t_render;
 
 /**
@@ -314,18 +325,20 @@ typedef enum e_direction
 	LEFT
 }	t_direction;
 
-void			move_player(t_gdata *game, char pressed[6]);
-void			render_map(t_render *render);
-void			draw_frame(t_render *render);
-char			check_collision(t_gdata *game, t_vec2 new);
-int				destroy_hook(t_render *render);
-void			quit(t_render *render);
-int				loop_hook(t_render *render);
-char			dda_algorithm(t_render *render, t_rayctx *ctx, int x);
-int				keydown_hook(int keycode, t_render *render);
-int				keyup_hook(int keycode, t_render *render);
-int				focusout_hook(t_render *render);
-void			load_sprite(t_render *render);
-void			draw_sprite(t_render *render);
+void	move_player(t_gdata *game, char pressed[6]);
+void	render_map(t_render *render);
+void	draw_frame(t_render *render);
+char	check_collision(t_gdata *game, t_vec2 new);
+int		destroy_hook(t_render *render);
+void	quit(t_render *render);
+int		loop_hook(t_render *render);
+char	dda_algorithm(t_render *render, t_rayctx *ctx, int x);
+int		keydown_hook(int keycode, t_render *render);
+int		keyup_hook(int keycode, t_render *render);
+int		focusout_hook(t_render *render);
+void	load_sprite(t_render *render);
+void	draw_sprite(t_render *render);
+void	init_minimap(t_render *render);
+void	draw_minimap(t_render *render);
 
 #endif

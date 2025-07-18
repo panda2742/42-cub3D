@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:34:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 12:35:23 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/18 13:55:34 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,10 @@ static void	_free_sprite(t_render *render)
 	{
 		free(render->sprite.fdata);
 		render->sprite.fdata = NULL;
+	}
+	if (render->mini_frame.img)
+	{
+		mlx_destroy_image(render->mlx, render->mini_frame.img);
+		render->mini_frame.img = NULL;
 	}
 }

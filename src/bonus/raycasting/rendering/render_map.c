@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 12:57:48 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/18 14:29:48 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	_debug_data(t_render *render);
 void	render_map(t_render *render)
 {
 	_init_render_ctx(render);
+	init_minimap(render);
 	load_sprite(render);
 	_init_textures(render);
 	mlx_hook(render->mlx_win, 2, 1L << 0, keydown_hook, render);
@@ -58,6 +59,7 @@ static void	_init_render_ctx(t_render *render)
 	_debug_data(render);
 	_init_player(render);
 	_init_mlx(render);
+	render->mini_frame.img = NULL;
 	render->frame.img = mlx_new_image(render->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (render->frame.img == NULL)
 	{
