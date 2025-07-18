@@ -86,4 +86,9 @@ int get_map(t_data *data, char **file_content, int i);
 int parse_cub_file(char *map, t_data *data);
 int print_cub_data(t_data *data);
 
+//parse_cub_file_utils.c
+int check_data(t_data *data);
+int is_only_digits(char *str);
+
+
 #endif

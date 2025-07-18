@@ -12,47 +12,6 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-int free_array(char **array)
-{
-  int i;
-
-  i = 0;
-  while (array[i])
-  {
-    free(array[i]);
-    i++;
-  }
-  free(array);
-  return (0);
-}
-
-int free_data(t_data *data)
-{
-  if (data->textures.north)
-    free(data->textures.north);
-  if (data->textures.south)
-    free(data->textures.south);
-  if (data->textures.west)
-    free(data->textures.west);
-  if (data->textures.east)
-    free(data->textures.east);
-  if (data->colors.ceil)
-    free(data->colors.ceil);
-  if (data->colors.floor)
-    free(data->colors.floor);
-  if (data->map)
-    free_array(data->map);
-  return (0);
-}
-
-int parsing_error_handler(t_data *data, int exit_code)
-{
-  (void)data;
-  printf("Error\n");
-  free_data(data);
-  return (exit_code);
-}
-
 int load_texture(char **slot, char **key_value)
 {
   *slot = ft_strdup(key_value[1]);
@@ -63,20 +22,6 @@ int load_texture(char **slot, char **key_value)
   }
   free_array(key_value);
   return (0);
-}
-
-int is_only_digits(char *str)
-{
-  int i;
-
-  i = 0;
-  while (str[i])
-  {
-    if (str[i] < '0' || str[i] > '9')
-      return (0);
-    i++;
-  }
-  return (1);
 }
 
 int interpret_texture(t_data *data, char **key_value)
@@ -158,47 +103,6 @@ int interpret_line(t_data *data, char *line)
   return (INVALID_CONFIG);
 }
 
-int check_data(t_data *data)
-{
-  if (!data->colors.ceil ||
-        !data->colors.floor ||
-        !data->textures.north ||
-        !data->textures.south ||
-        !data->textures.east ||
-        !data->textures.west)
-    return (1);
-  return (0);
-}
-
-/* int print_load(t_data *data) */
-/* { */
-/*   if (data->textures.north) */
-/*     printf("data->textures.north = %s\n", data->textures.north); */
-/*   if (data->textures.south) */
-/*     printf("data->textures.south = %s\n", data->textures.south); */
-/*   if (data->textures.west) */
-/*     printf("data->textures.west = %s\n", data->textures.west); */
-/*   if (data->textures.east) */
-/*     printf("data->textures.east = %s\n", data->textures.east); */
-/*   if (data->colors.ceil) */
-/*     printf("data->colors.ceil = %d %d %d\n", data->colors.ceil[0], data->colors.ceil[1], data->colors.ceil[2]); */
-/*   if (data->colors.floor) */
-/*     printf("data->colors.floor = %d %d %d\n", data->colors.floor[0], data->colors.floor[1], data->colors.floor[2]); */
-/*   return (0); */
-/* } */
-
-/* for each line of the config file AND as long as data fields are not fill : 
- * - skip \n
- * - check if the line is a valid declaration
- *   - load matching field if valid config line
- *   - return error if invalid config line
- * 
- * When we reached EOF or when all data fields are fill :
- * - skip \n
- * - we can assme we are either on the first line of the map, or it's an invalid config
- *   - load map in a buffer
- * - final check if the map is valid as return value
-*/
 int init_data(t_data *data, char **file_content)
 {
   int i;
