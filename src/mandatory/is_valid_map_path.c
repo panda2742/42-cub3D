@@ -4,7 +4,7 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-int get_file_size(char *config_file)
+static int get_file_size(char *config_file)
 {
   int fd;
   char *line;
@@ -25,7 +25,7 @@ int get_file_size(char *config_file)
   return (i);
 }
 
-int	free_file_content(char **content, int i)
+static int	free_file_content(char **content, int i)
 {
 	while (--i >= 0)
 		free(content[i]);
@@ -33,7 +33,7 @@ int	free_file_content(char **content, int i)
 	return (MALLOC_ERROR);
 }
 
-int	read_and_store_lines(char **content, int fd, int size)
+static int	read_and_store_lines(char **content, int fd, int size)
 {
 	char	*line;
 	int		i;
@@ -55,7 +55,7 @@ int	read_and_store_lines(char **content, int fd, int size)
 	return (0);
 }
 
-int	get_file_content(char ***file_content, int fd, int size)
+static int	get_file_content(char ***file_content, int fd, int size)
 {
 	*file_content = malloc(sizeof(char *) * (size + 1));
 	if (!*file_content)

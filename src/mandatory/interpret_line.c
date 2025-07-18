@@ -5,7 +5,7 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-int load_texture(char **slot, char **key_value)
+static int load_texture(char **slot, char **key_value)
 {
   *slot = ft_strdup(key_value[1]);
   if (!*slot)
@@ -17,7 +17,7 @@ int load_texture(char **slot, char **key_value)
   return (0);
 }
 
-int interpret_texture(t_data *data, char **key_value)
+static int interpret_texture(t_data *data, char **key_value)
 {
   if (!ft_strncmp(key_value[0], "NO", 3) && !data->textures.north)
     return (load_texture(&data->textures.north, key_value));
@@ -30,7 +30,7 @@ int interpret_texture(t_data *data, char **key_value)
   return (INVALID_CONFIG);
 }
 
-int load_color(int **slot, char **color_code, char **key_value)
+static int load_color(int **slot, char **color_code, char **key_value)
 {
   *slot = malloc(sizeof(int) * 3);
   if (!*slot)
@@ -51,7 +51,7 @@ int load_color(int **slot, char **color_code, char **key_value)
   return (0);
 }
 
-int interpret_color(t_data *data, char **key_value, char **color_code)
+static int interpret_color(t_data *data, char **key_value, char **color_code)
 {
   if (color_code[0] && color_code[1] && color_code[2] && !color_code[3] &&
   is_only_digits(color_code[0]) &&

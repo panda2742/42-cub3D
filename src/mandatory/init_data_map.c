@@ -4,7 +4,7 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-int get_map_size(char **file_content, int i)
+static int get_map_size(char **file_content, int i)
 {
   int j;
 
@@ -14,38 +14,11 @@ int get_map_size(char **file_content, int i)
   return (j - i);
 }
 
-int get_map(t_data *data, char **file_content, int i)
-{
-  int j;
-
-  j = 0;
-  data->map = malloc(sizeof(char *) * (get_map_size(file_content, i) + 1));
-  if (!data->map)
-    return (MALLOC_ERROR);
-  while (file_content[i])
-  {
-    data->map[j] = ft_strdup(file_content[i]);
-    if (!data->map[j])
-    {
-      while (j - 1 >= 0)
-      {
-        free(data->map[j - 1]);
-        j--;
-      }
-      return (MALLOC_ERROR);
-    }
-    j++;
-    i++;
-  }
-  data->map[j] = NULL; 
-  return (0);
-}
-
 /* if a '0' or the player is 
  *  - adjacent to a space, or
  *  - on the edge of the ma :
  * the map can't be surrounded by wall : invalid configuration */
-int check_wall(char **map, int i, int size)
+static int check_wall(char **map, int i, int size)
 {
   int j;
 
@@ -73,7 +46,7 @@ int check_wall(char **map, int i, int size)
 }
 
 /* for each line of the map ... */
-int are_wall_closed(char **map, int size)
+static int are_wall_closed(char **map, int size)
 {
   int i;
 
@@ -84,6 +57,33 @@ int are_wall_closed(char **map, int size)
       return (INVALID_CONFIG);
     i++;
   }
+  return (0);
+}
+
+int get_map(t_data *data, char **file_content, int i)
+{
+  int j;
+
+  j = 0;
+  data->map = malloc(sizeof(char *) * (get_map_size(file_content, i) + 1));
+  if (!data->map)
+    return (MALLOC_ERROR);
+  while (file_content[i])
+  {
+    data->map[j] = ft_strdup(file_content[i]);
+    if (!data->map[j])
+    {
+      while (j - 1 >= 0)
+      {
+        free(data->map[j - 1]);
+        j--;
+      }
+      return (MALLOC_ERROR);
+    }
+    j++;
+    i++;
+  }
+  data->map[j] = NULL; 
   return (0);
 }
 

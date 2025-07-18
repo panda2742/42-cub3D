@@ -17,9 +17,7 @@
 # define FILE_EMPTY -3
 # define OPEN_ERROR -3
 
-
 #include "cub3D.h"
-
 
 typedef struct s_textures
 {
@@ -42,45 +40,19 @@ typedef struct s_data
 	char **map;
 } t_data;
 
-//avirer
-int free_array(char **array);
-
-//is_valid_map_format.c
-int is_valid_map_format(char **map);
 
 //parse_cub_file.c
 int parse_cub_file(char *map, t_data *data);
-int free_data(t_data *data);
 
 //is_valid_map_path.c
-int parsing_error_handler(t_data *data, int exit_code);
-int get_file_content(char ***file_content, int fd, int size);
-int is_valid_file(char *map);
-int get_file_size(char *map);
 int is_valid_map_path(char *map, char ***file_content);
-
-//get_map_textures.c // a virer ?
-int get_map_textures(t_data *data, char ***file_content);
-bool get_textures_from_file(char ***file_content);
-bool are_textures_valid(t_data *data, char ***file_content, int i);
-int fill_textures_data(t_data *data, char ***file_content, int i);
-int add_texture(t_data *data, char *line);
-int dup_texture_path(char *dest, char *line);
-int get_texture_path(char *line);
-bool is_a_texture_declaration(char *line);
-
-//init_data_textures.c
-// int interpet_texture(t_data *data, char *line);
-int init_textures(t_data *data, char **file_content, int i);
-int is_texture_declaration(char *line);
-
-//init_color.c
-int init_colors(t_data *data, char **file_content, int i);
-int is_color_declaration(char *line);
 
 //init_data_map.c
 int is_valid_map(char **map);
 int get_map(t_data *data, char **file_content, int i);
+
+//init_data_map_utils.c
+int is_valid_map_format(char **map);
 
 //parse_cub_file.c
 int parse_cub_file(char *map, t_data *data);
@@ -89,20 +61,15 @@ int print_cub_data(t_data *data);
 //parse_cub_file_utils.c
 int check_data(t_data *data);
 int is_only_digits(char *str);
+int free_array(char **array);
+int free_data(t_data *data);
+int parsing_error_handler(t_data *data, int exit_code);
 
 //is_valid_map_path.c
-int get_file_size(char *config_file);
-int get_file_content(char ***file_content, int fd, int size);
 int is_valid_map_path(char *map, char ***file_content);
 
 //interpret_line.c
-int load_texture(char **slot, char **key_value);
-int interpret_texture(t_data *data, char **key_value);
-int load_color(int **slot, char **color_code, char **key_value);
-int interpret_color(t_data *data, char **key_value, char **color_code);
 int interpret_line(t_data *data, char *line);
 
-//init_data_map_utils.c
-int is_valid_map_format(char **map);
 
 #endif
