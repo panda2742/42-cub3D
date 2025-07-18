@@ -1,4 +1,7 @@
 
+//header
+//to format
+
 #include "../../include/mandatory/parse_cub_file.h"
 
 int get_map_size(char **file_content, int i)

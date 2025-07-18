@@ -1,4 +1,7 @@
 
+//header
+//format
+
 #include "../../include/mandatory/parse_cub_file.h"
 
 static int is_a_valid_char(char c, bool *player)

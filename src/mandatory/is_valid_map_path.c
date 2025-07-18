@@ -1,4 +1,7 @@
 
+//header
+//format
+
 #include "../../include/mandatory/parse_cub_file.h"
 
 int get_file_size(char *config_file)
@@ -9,67 +12,55 @@ int get_file_size(char *config_file)
 
   fd = open(config_file, O_RDONLY);
   if (fd < 0)
-  {
-    //a virer 
-    perror("open");
     return (OPEN_ERROR);
-  }
+  i = 0;
   line = get_next_line(fd);
-  if (!line)
-  {
-    close(fd);
-    return (0);
-  }
-  i = 1;
   while (line)
   {
     free(line);
-    line = get_next_line(fd);
-    if (!line)
-      break ;
     i++;
+    line = get_next_line(fd);
   }
   close(fd);
   return (i);
 }
 
-int get_file_content(char ***file_content, int fd, int size)
+int	free_file_content(char **content, int i)
 {
-  char *line;
-  int i;
+	while (--i >= 0)
+		free(content[i]);
+	free(content);
+	return (MALLOC_ERROR);
+}
 
-  i = 0;
-  *file_content = malloc(sizeof(char *) * (size + 1));
-  if (!*file_content)
-    return (MALLOC_ERROR);
-  line = get_next_line(fd);
-  if (!line && i != size)
-    return (MALLOC_ERROR);
-  while (line)
-  {
-    (*file_content)[i] = ft_strdup(line);
-    if (!(*file_content)[i])
-    {
-      while (--i >= 0)
-        free((*file_content)[i]);
-      free(*file_content);
-    }
-    free(line);
-    line = get_next_line(fd);
-    i++;
-    if (!line && i != size)
-    {
-      while (i >= 0) 
-      {
-        free(file_content[i]);
-        i--;
-      }
-      free(*file_content);
-      return (MALLOC_ERROR);
-    }
-  }
-  (*file_content)[i] = NULL;
-  return (0);
+int	read_and_store_lines(char **content, int fd, int size)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		content[i] = ft_strdup(line);
+		free(line);
+		if (!content[i])
+			return (free_file_content(content, i));
+		i++;
+		line = get_next_line(fd);
+	}
+	if (i != size)
+		return (free_file_content(content, i));
+	content[i] = NULL;
+	return (0);
+}
+
+int	get_file_content(char ***file_content, int fd, int size)
+{
+	*file_content = malloc(sizeof(char *) * (size + 1));
+	if (!*file_content)
+		return (MALLOC_ERROR);
+	return (read_and_store_lines(*file_content, fd, size));
 }
 
 int is_valid_map_path(char *map, char ***file_content)
