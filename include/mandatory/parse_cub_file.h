@@ -90,5 +90,11 @@ int print_cub_data(t_data *data);
 int check_data(t_data *data);
 int is_only_digits(char *str);
 
+//is_valid_map_path.c
+int get_file_size(char *config_file);
+int get_file_content(char ***file_content, int fd, int size);
+int is_valid_map_path(char *map, char ***file_content);
+
+
 
 #endif
