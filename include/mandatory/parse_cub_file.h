@@ -102,4 +102,7 @@ int load_color(int **slot, char **color_code, char **key_value);
 int interpret_color(t_data *data, char **key_value, char **color_code);
 int interpret_line(t_data *data, char *line);
 
+//init_data_map_utils.c
+int is_valid_map_format(char **map);
+
 #endif

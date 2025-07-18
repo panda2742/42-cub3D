@@ -1,4 +1,8 @@
 
+//header missing
+//doc ?
+//to format
+
 #include "../../include/mandatory/parse_cub_file.h"
 
 int load_texture(char **slot, char **key_value)
@@ -67,8 +71,6 @@ int interpret_line(t_data *data, char *line)
   char **key_value;
   char **color_code;
 
-  /* printf("line = %s\n", line); */
-  line[ft_strlen(line) - 1] = '\0';
   key_value = ft_split(line, ' ');
   if (!key_value)
     return (MALLOC_ERROR);
@@ -88,6 +90,5 @@ int interpret_line(t_data *data, char *line)
       return (interpret_color(data, key_value, color_code));
     }
   }
-  /* printf("key = %s | value = %s\n", key_value[0], key_value[1]); */
   return (INVALID_CONFIG);
 }

@@ -1,7 +1,7 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-static int is_valid_char(char c)
+static int is_a_valid_char(char c, bool *player)
 {
   if (c != ' ' && c != '0' && c != '1' &&
     c != 'N' &&
@@ -9,11 +9,6 @@ static int is_valid_char(char c)
     c != 'W' &&
     c != 'S')
     return  (INVALID_CONFIG);
-  return (0);
-}
-
-static int is_player_char(char c, bool *player)
-{
   if (c == 'N' || 
     c == 'S' ||
     c == 'E' ||
@@ -46,15 +41,13 @@ int is_valid_map_format(char **map)
     {
       if (map[i][j] == '\n')
         break ;
-      if (is_valid_char(map[i][j]) < 0)
+      if (is_a_valid_char(map[i][j], &player) < 0)
         return (INVALID_CONFIG);
-      if (is_player_char(map[i][j], &player) < 0)
       j++;
     }
     i++;
   }
   return (0);
 }
-
 
 

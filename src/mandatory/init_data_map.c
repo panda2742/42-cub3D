@@ -1,48 +1,6 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
- /* for each char of each line : 
-  * if it's not ' ' 0 1 NSEW : INVALID_CONFIG 
-  * if we find two players : INVALID_CONFIG
-  * */
-int is_valid_map_format(char **map)
-{
-  int i;
-  int j;
-  bool player;
-
-  player = false;
-  i = 0;
-  j = 0;
-  while (map[i])
-  {
-    j = 0;
-    while (map[i][j])
-    {
-      if (map[i][j] == '\n')
-        break ;
-      if (map[i][j] != ' ' && map[i][j] != '0' && map[i][j] != '1' &&
-        map[i][j] != 'N' &&
-        map[i][j] != 'E' &&
-        map[i][j] != 'W' &&
-        map[i][j] != 'S')
-        return  (INVALID_CONFIG);
-      if (map[i][j] == 'N' || 
-        map[i][j] == 'S' ||
-        map[i][j] == 'E' ||
-        map[i][j] == 'W')
-      {
-        if (player == true)
-          return ( INVALID_CONFIG);
-        player = true;
-      }
-      j++;
-    }
-    i++;
-  }
-  return (0);
-}
-
 int get_map_size(char **file_content, int i)
 {
   int j;

@@ -27,6 +27,7 @@ int init_data(t_data *data, char **file_content)
   {
     while (!ft_strncmp(file_content[i], "\n", 2))
       i++;
+    file_content[i][ft_strlen(file_content[i]) - 1] = '\0';
     exit_code = interpret_line(data, file_content[i]);
     if (exit_code < 0)
     {
