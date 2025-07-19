@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret_line.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:24:08 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 15:24:09 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 16:15:15 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	interpret_line(t_data *data, char *line)
 	if (key_value[0] && key_value[1] && !key_value[2])
 	{
 		if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) >= 4
-			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xmp",
+			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xpm",
 				5))
 			return (interpret_texture(data, key_value));
 		else if (ft_strlen(key_value[0]) == 1)
