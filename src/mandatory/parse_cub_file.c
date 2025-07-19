@@ -6,13 +6,11 @@
 /*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 02:18:59 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/06 07:54:09 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 15:23:33 by oelleaum         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../include/mandatory/parse_cub_file.h"
-//format 
 
 int	skip_newlines(char **file_content, int i)
 {
@@ -62,17 +60,17 @@ int	init_data(t_data *data, char **file_content)
 	return (is_valid_map(data->map));
 }
 
-int parse_cub_file(char *map, t_data *data)
+int	parse_cub_file(char *map, t_data *data)
 {
-  char **file_content;
-  int exit_code;
+	char	**file_content;
+	int		exit_code;
 
-  exit_code = is_valid_map_path(map, &file_content);
-  if (exit_code != 0)
-    return (parsing_error_handler(data, exit_code));
-  exit_code = init_data(data, file_content);
-  free_array(file_content);
-  if (exit_code != 0)
-    return (parsing_error_handler(data, exit_code));
-  return (0);
+	exit_code = is_valid_map_path(map, &file_content);
+	if (exit_code != 0)
+		return (parsing_error_handler(data, exit_code));
+	exit_code = init_data(data, file_content);
+	free_array(file_content);
+	if (exit_code != 0)
+		return (parsing_error_handler(data, exit_code));
+	return (0);
 }
