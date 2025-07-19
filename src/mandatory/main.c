@@ -30,9 +30,9 @@ int	print_cub_data(t_data *data)
 	printf("floor : %d %d %d\n", data->colors.floor[0], data->colors.floor[1],
 		data->colors.floor[2]);
 	printf("-- MAP --\n");
-	while (data->map[i])
+	while (data->map.grid[i])
 	{
-		printf("%s", data->map[i]);
+		printf("%s", data->map.grid[i]);
 		i++;
 	}
 	return (0);

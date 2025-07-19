@@ -6,7 +6,7 @@
 /*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:24:23 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 15:24:24 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 17:21:01 by oelleaum         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ int	get_map(t_data *data, char **file_content, int i)
 	int	j;
 
 	j = 0;
-	data->map = malloc(sizeof(char *) * (get_map_size(file_content, i) + 1));
-	if (!data->map)
+	data->map.grid = malloc(sizeof(char *) * (get_map_size(file_content, i) + 1));
+	if (!data->map.grid)
 		return (MALLOC_ERROR);
 	while (file_content[i])
 	{
-		data->map[j] = ft_strdup(file_content[i]);
-		if (!data->map[j])
+		data->map.grid[j] = ft_strdup(file_content[i]);
+		if (!data->map.grid[j])
 		{
 			while (j - 1 >= 0)
 			{
-				free(data->map[j - 1]);
+				free(data->map.grid[j - 1]);
 				j--;
 			}
 			return (MALLOC_ERROR);
@@ -86,7 +86,7 @@ int	get_map(t_data *data, char **file_content, int i)
 		j++;
 		i++;
 	}
-	data->map[j] = NULL;
+	data->map.grid[j] = NULL;
 	return (0);
 }
 
@@ -98,14 +98,14 @@ int	get_map(t_data *data, char **file_content, int i)
 //
 // un check en plus pour savoir si le joueur est bien enferme dans des murs ?
 //
-int	is_valid_map(char **map)
+int	is_valid_map(t_data *data)
 {
 	int	size;
 
 	size = 0;
-	while (map[size])
+	while (data->map.grid[size])
 		size++;
-	if (is_valid_map_format(map))
+	if (is_valid_map_format(data))
 		return (INVALID_CONFIG);
-	return (are_wall_closed(map, size));
+	return (are_wall_closed(data->map.grid, size));
 }

@@ -57,7 +57,7 @@ int	init_data(t_data *data, char **file_content)
 		free_data(data);
 		return (exit_code);
 	}
-	return (is_valid_map(data->map));
+	return (is_valid_map(data));
 }
 
 int	parse_cub_file(char *map, t_data *data)

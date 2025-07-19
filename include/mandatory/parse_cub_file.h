@@ -33,11 +33,19 @@ typedef struct s_colors
 	int			*floor;
 }				t_colors;
 
+typedef struct s_map_infos
+{
+	char		**grid;
+	int			height;
+	double		spawn_position[2];
+	char		spawn_orientation;
+}				t_map_infos;
+
 typedef struct s_data
 {
 	t_textures	textures;
 	t_colors	colors;
-	char		**map;
+	t_map_infos	map;
 }				t_data;
 
 // parse_cub_file.c
@@ -47,11 +55,11 @@ int				parse_cub_file(char *map, t_data *data);
 int				is_valid_map_path(char *map, char ***file_content);
 
 // init_data_map.c
-int				is_valid_map(char **map);
+int				is_valid_map(t_data *data);
 int				get_map(t_data *data, char **file_content, int i);
 
 // init_data_map_utils.c
-int				is_valid_map_format(char **map);
+int				is_valid_map_format(t_data *data);
 
 // parse_cub_file.c
 int				parse_cub_file(char *map, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:23:27 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 15:23:29 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 17:21:33 by oelleaum         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	free_data(t_data *data)
 		free(data->colors.ceil);
 	if (data->colors.floor)
 		free(data->colors.floor);
-	if (data->map)
-		free_array(data->map);
+	if (data->map.grid)
+		free_array(data->map.grid);
 	return (0);
 }
 
