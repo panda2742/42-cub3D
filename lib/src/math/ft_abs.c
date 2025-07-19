@@ -6,13 +6,13 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:53:30 by ehosta            #+#    #+#             */
-/*   Updated: 2025/01/24 16:56:58 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/08 16:42:34 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_math.h"
 
-unsigned int	ft_abs(int x)
+double	ft_abs(double x)
 {
-	return ((unsigned int)((-x * (x < 0)) + (x * (x >= 0))));
+	return ((double)((-x * (x < 0)) + (x * (x >= 0))));
 }

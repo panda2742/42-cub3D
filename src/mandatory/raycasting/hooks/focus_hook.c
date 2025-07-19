@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   focus_hook.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:11:03 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/19 15:55:22 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/17 16:36:17 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/17 16:42:54 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "raycasting.h"
 
-# include <ctype.h>
-# include <fcntl.h>
-# include <inttypes.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "colors.h"
-# include "libft.h"
-# include "mlx.h"
+int	focusout_hook(t_render *render)
+{
+	size_t	i;
 
-void			puterr(
-					char *errstr,
-					uint8_t require_puterr,
-					uint8_t heaped_str);
-char			*ft_sprintf(const char *format, ...);
-size_t			int_size(int n);
-
-#endif
+	i = -1;
+	while (++i < 6)
+		render->keys.pressed[i] = 0;
+	return (0);
+}
