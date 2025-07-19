@@ -1,8 +1,6 @@
 {
   "files.associations": {
-    "cub3d.h": "c",
-    "ctype.h": "c",
-    "unistd.h": "c",
-    "stdlib.h": "c"
+    "raycasting.h": "c",
+    "parse_cub_file.h": "c"
   }
 }

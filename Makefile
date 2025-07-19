@@ -13,10 +13,14 @@ SOURCE_DIR_B	:=	src/bonus/
 # 2. SOURCE CODE                                                               #
 # **************************************************************************** #
 
-override HEADER_FILES	:=	cub3D
-override SOURCE_FILES	:=	$(addprefix errors/, puterr) \
-							$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
-							main
+override SOURCE_HOOKS		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
+override SOURCE_RENDERING	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
+override HEADER_FILES		:=	colors cub3D raycasting
+override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit) \
+								$(addprefix errors/, puterr) \
+								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
+								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
+								main
 
 # **************************************************************************** #
 # 3. OTHER COMPILATION VARIABLES                                               #
@@ -36,8 +40,15 @@ override MLX	:=	mlx/
 # 4. SOURCE CODE FOR BONUS                                                     #
 # **************************************************************************** #
 
-override HEADER_FILES_B	:=	
-override SOURCE_FILES_B	:=	
+override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
+override SOURCE_RENDERING_B	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
+override HEADER_FILES_B		:=	colors cub3D raycasting
+override SOURCE_FILES_B		:=	$(addprefix raycasting/, $(SOURCE_HOOKS_B) $(SOURCE_RENDERING_B) quit) \
+								$(addprefix errors/, puterr) \
+								$(addprefix minimap/, draw_minimap init_minimap) \
+								$(addprefix sprite/, draw_sprite load_sprite) \
+								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
+								main
 
 # **************************************************************************** #
 # 5. OTHER COMPILATION VARIABLES FOR BONUS                                     #
@@ -54,14 +65,22 @@ override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
 # 6. FLAGS AND VARIABLES                                                       #
 # **************************************************************************** #
 
-DEBUG_FLAGS		:=	-O3 -g3 -Ofast
-CFLAGS			:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS)
-MAKEFLAGS		:=	--no-print-directory
-RMFLAGS			:=	-rf
-VG			:=	valgrind
-VGFLAGS		:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
-override CC	:=	cc
-override RM		:=	rm
+TURBO_FLAGS			:=	-O3 -flto -march=native -mtune=native -funroll-loops -ffast-math -falign-functions=32 -falign-loops=16
+DEBUG_FLAGS			:=	-g3
+CFLAGS				:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) #$(TURBO_FLAGS)
+MAKEFLAGS			:=	--no-print-directory
+RMFLAGS				:=	-rf
+VG					:=	valgrind
+VGFLAGS				:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
+override CC			:=	clang
+override RM			:=	rm
+override CLEAR		:=	clear
+CALLGRIND_PRFL		:=	exec-profile.cub3D
+CALLGRIND_PRFL_B	:=	exec-profile.cub3D_bonus
+override VGCALL		:=	--tool=callgrind --callgrind-out-file=$(CALLGRIND_PRFL)
+override VGCALL_B	:=	--tool=callgrind --callgrind-out-file=$(CALLGRIND_PRFL_B)
+override KCACHE		:=	kcachegrind
+
 
 # **************************************************************************** #
 # 7. COMPILATION RULES                                                         #
@@ -71,7 +90,7 @@ override RM		:=	rm
 all: display $(NAME)
 
 $(NAME): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lX11 -lm -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -L/opt/X11/lib -lXext -lX11 -lm -o $(NAME)
 	@printf "\n\e[48;2;0;0;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
@@ -129,7 +148,8 @@ clean:
 	$(MAKE) -C $(MLX) clean
 	$(RM) $(RMFLAGS) $(BUILD_DIR)
 	$(RM) $(RMFLAGS) $(BUILD_DIR_B)
-
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
 
 .PHONY: fclean
 fclean: clean
@@ -147,23 +167,63 @@ norm:
 
 .PHONY: run
 run:
-	clear
+	$(CLEAR)
 	$(MAKE)
-	clear
-	./$(NAME)
+	$(CLEAR)
+	./$(NAME) assets/maps/subject.cub
 
 .PHONY: vg
 vg:
-	clear
+	$(CLEAR)
 	$(MAKE)
-	clear
-	$(VG) $(VGFLAGS) ./$(NAME)
+	$(CLEAR)
+	$(VG) $(VGFLAGS) ./$(NAME) assets/maps/subject.cub
+
+.PHONY: cg
+cg:
+	$(CLEAR)
+	$(MAKE)
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
+	$(CLEAR)
+	$(VG) $(VGCALL) ./$(NAME) assets/maps/subject.cub
+	$(KCACHE) $(CALLGRIND_PRFL)
 
 $(DIRS):
 	@mkdir -p $@
 
 $(DIRS_B):
 	@mkdir -p $@
+
+# **************************************************************************** #
+# 8. BONUS RULES                                                               #
+# **************************************************************************** #
+
+.PHONY: bre
+bre: fclean
+	$(MAKE) bonus
+
+.PHONY: brun
+brun:
+	$(CLEAR)
+	$(MAKE) bonus
+	$(CLEAR)
+	./$(NAME_B) assets/maps/subject.cub
+
+.PHONY: bvg
+bvg:
+	$(CLEAR)
+	$(MAKE) bonus
+	$(CLEAR)
+	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/subject.cub
+
+.PHONY: bcg
+bcg:
+	$(CLEAR)
+	$(MAKE) bonus
+	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
+	$(CLEAR)
+	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/subject.cub
+	$(KCACHE) $(CALLGRIND_PRFL_B)
 
 -include $(DEPS)
 -include $(DEPS_B)
