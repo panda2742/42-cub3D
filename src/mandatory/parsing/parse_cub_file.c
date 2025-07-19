@@ -46,7 +46,6 @@ int	init_data(t_data *data, char **file_content)
 	int	exit_code;
 
 	i = 0;
-	ft_bzero(data, sizeof(t_data));
 	exit_code = parse_file_content(data, file_content, &i);
 	if (exit_code < 0)
 		return (exit_code);

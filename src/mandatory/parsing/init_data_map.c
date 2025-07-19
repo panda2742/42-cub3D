@@ -33,8 +33,9 @@ static int	check_wall(char **map, int i, int size)
 	j = 0;
 	while (map[i][j])
 	{
+		//et avec un tab ??
 		if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
-			|| map[i][j] == 'W' || map[i][j] == 'E')
+			|| map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'D')
 		{
 			if (i == 0 || i == size || j == 0 || map[i][j + 1] == '\n')
 				return (INVALID_CONFIG);
