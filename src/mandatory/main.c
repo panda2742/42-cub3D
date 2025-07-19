@@ -29,6 +29,11 @@ int	print_cub_data(t_data *data)
 		data->colors.ceil[2]);
 	printf("floor : %d %d %d\n", data->colors.floor[0], data->colors.floor[1],
 		data->colors.floor[2]);
+	printf("-- Map infos --\n");
+	printf("height : %d\n", data->map.height);
+	printf("spawn_position x : %f\n", data->map.spawn_position[0]);
+	printf("spawn_position y : %f\n", data->map.spawn_position[1]);
+	printf("spawn_orientation : %c\n", data->map.spawn_orientation);
 	printf("-- MAP --\n");
 	while (data->map.grid[i])
 	{

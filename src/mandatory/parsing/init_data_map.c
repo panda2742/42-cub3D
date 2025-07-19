@@ -101,11 +101,20 @@ int	get_map(t_data *data, char **file_content, int i)
 int	is_valid_map(t_data *data)
 {
 	int	size;
+	int exit_code;
 
+	size = 0;
+	while(!ft_strncmp(data->map.grid[size], "\n", 2))
+		size++;
 	size = 0;
 	while (data->map.grid[size])
 		size++;
-	if (is_valid_map_format(data))
+	exit_code = is_valid_map_format(data);
+	if (exit_code < 0)
 		return (INVALID_CONFIG);
-	return (are_wall_closed(data->map.grid, size));
+	exit_code = are_wall_closed(data->map.grid, size);
+	if (exit_code < 0)
+		return (INVALID_CONFIG);
+	data->map.height = size;
+	return (0);
 }

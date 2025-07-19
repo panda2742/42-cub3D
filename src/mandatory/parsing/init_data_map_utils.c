@@ -51,8 +51,8 @@ int	is_valid_map_format(t_data *data)
 				return (INVALID_CONFIG);
 			if (player == true)
 			{
-				data->map.spawn_position[0] = i + 0.5;
-				data->map.spawn_position[1] = j + 0.5;
+				data->map.spawn_position[0] = j + 0.5;
+				data->map.spawn_position[1] = i + 0.5;
 			}
 			j++;
 		}
