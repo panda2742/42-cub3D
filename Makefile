@@ -18,6 +18,7 @@ override SOURCE_RENDERING	:=	$(addprefix rendering/, dda_utils draw_frame render
 override HEADER_FILES		:=	colors cub3D raycasting
 override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit) \
 								$(addprefix errors/, puterr) \
+								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
 								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 								main
 
@@ -66,12 +67,12 @@ override DIRS_B			:=	$(sort $(dir $(OBJ_B) $(DEPS_B)))
 
 TURBO_FLAGS			:=	-O3 -flto -march=native -mtune=native -funroll-loops -ffast-math -falign-functions=32 -falign-loops=16
 DEBUG_FLAGS			:=	-g3
-CFLAGS				:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) $(TURBO_FLAGS)
+CFLAGS				:=	-Wall -Wextra -Werror -MD $(DEBUG_FLAGS) #$(TURBO_FLAGS)
 MAKEFLAGS			:=	--no-print-directory
 RMFLAGS				:=	-rf
 VG					:=	valgrind
 VGFLAGS				:=	--leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes
-override CC			:=	gcc
+override CC			:=	clang
 override RM			:=	rm
 override CLEAR		:=	clear
 CALLGRIND_PRFL		:=	exec-profile.cub3D
@@ -169,14 +170,14 @@ run:
 	$(CLEAR)
 	$(MAKE)
 	$(CLEAR)
-	./$(NAME)
+	./$(NAME) assets/maps/subject.cub
 
 .PHONY: vg
 vg:
 	$(CLEAR)
 	$(MAKE)
 	$(CLEAR)
-	$(VG) $(VGFLAGS) ./$(NAME)
+	$(VG) $(VGFLAGS) ./$(NAME) assets/maps/subject.cub
 
 .PHONY: cg
 cg:
@@ -184,7 +185,7 @@ cg:
 	$(MAKE)
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
 	$(CLEAR)
-	$(VG) $(VGCALL) ./$(NAME)
+	$(VG) $(VGCALL) ./$(NAME) assets/maps/subject.cub
 	$(KCACHE) $(CALLGRIND_PRFL)
 
 $(DIRS):
@@ -206,14 +207,14 @@ brun:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	./$(NAME_B)
+	./$(NAME_B) assets/maps/subject.cub
 
 .PHONY: bvg
 bvg:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	$(VG) $(VGFLAGS) ./$(NAME_B)
+	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/subject.cub
 
 .PHONY: bcg
 bcg:
@@ -221,7 +222,7 @@ bcg:
 	$(MAKE) bonus
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
 	$(CLEAR)
-	$(VG) $(VGCALL_B) ./$(NAME_B) 
+	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/subject.cub
 	$(KCACHE) $(CALLGRIND_PRFL_B)
 
 -include $(DEPS)

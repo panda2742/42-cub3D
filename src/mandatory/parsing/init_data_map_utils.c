@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_data_map_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:24:14 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 15:24:16 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 15:59:25 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-static int	is_a_valid_char(char c, bool *player)
+static int	is_a_valid_char(char c, t_bool *player)
 {
 	if (c != ' ' && c != '0' && c != '1' && c != 'N' && c != 'E' && c != 'W'
 		&& c != 'S')
@@ -34,7 +34,7 @@ int	is_valid_map_format(char **map)
 {
 	int		i;
 	int		j;
-	bool	player;
+	t_bool	player;
 
 	player = false;
 	i = 0;
