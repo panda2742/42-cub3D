@@ -6,7 +6,7 @@
 /*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:24:08 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 15:24:09 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 17:16:50 by oelleaum         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	interpret_line(t_data *data, char *line)
 {
 	char	**key_value;
 	char	**color_code;
+	int exit_code;
 
 	key_value = ft_split(line, ' ');
 	if (!key_value)
@@ -82,7 +83,7 @@ int	interpret_line(t_data *data, char *line)
 	if (key_value[0] && key_value[1] && !key_value[2])
 	{
 		if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) >= 4
-			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xmp",
+			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xpp",
 				5))
 			return (interpret_texture(data, key_value));
 		else if (ft_strlen(key_value[0]) == 1)
@@ -93,8 +94,12 @@ int	interpret_line(t_data *data, char *line)
 				free_array(key_value);
 				return (MALLOC_ERROR);
 			}
-			return (interpret_color(data, key_value, color_code));
+			exit_code = interpret_color(data, key_value, color_code);
+			if (exit_code < 0)
+				free_array(key_value);
+			return (exit_code);
 		}
 	}
+	free_array(key_value);
 	return (INVALID_CONFIG);
 }
