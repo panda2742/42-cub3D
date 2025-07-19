@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "raycasting.h": "c"
+    "raycasting.h": "c",
+    "parse_cub_file.h": "c"
   }
 }
