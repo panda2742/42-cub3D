@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 11:18:02 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 12:56:42 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static void	_static_config(t_render *render);
 static void	_load_data(t_render *render, size_t i);

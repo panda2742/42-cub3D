@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:02:31 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 12:45:03 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static unsigned int	_get_color(t_img *data, t_frame *fdata, int x, int y);
 static void			_draw_scaled_sprite(t_render *render, t_sprite sprite,

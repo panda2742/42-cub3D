@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.h                                       :+:      :+:    :+:   */
+/*   raycasting_bonus.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 22:14:10 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 16:48:56 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAYCASTING_H
-# define RAYCASTING_H
+#ifndef RAYCASTING_BONUS_H
+# define RAYCASTING_BONUS_H
 
 # include "cub3D.h"
 # include <math.h>
@@ -28,10 +28,10 @@
 # define MOVE_TICK 10000
 # define ROTATE_TICK 100
 
-# define MINIMAP_WIDTH 200
-# define MINIMAP_HEIGHT 200
-# define MINIMAP_DOT_DIAMETER 3
-# define MINIMAP_SQUARES 3
+# define MINIMAP_WIDTH 300
+# define MINIMAP_STEP 0.07
+# define MINIMAP_X 960
+# define MINIMAP_Y 20
 
 # define FACE_NORTH 0
 # define FACE_SOUTH 1

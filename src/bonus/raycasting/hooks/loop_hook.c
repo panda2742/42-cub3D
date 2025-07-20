@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:25:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 11:34:34 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static void	_print_fps(t_time *t1);
 static void	_do_move(t_time *t1, t_render *render);

@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:10:33 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 14:37:23 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 16:28:15 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static inline void	_put_pixel_on_frame(int *addr, int x, int y, int rgba)
 					__attribute__((always_inline));
@@ -42,9 +42,9 @@ void	draw_frame(t_render *render)
 		x++;
 	}
 	draw_sprite(render);
-	draw_minimap(render);
 	mlx_put_image_to_window(render->mlx, render->mlx_win, render->frame.img,
 		0, 0);
+	draw_minimap(render);
 }
 
 static __attribute__((always_inline))

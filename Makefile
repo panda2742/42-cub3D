@@ -15,7 +15,7 @@ SOURCE_DIR_B	:=	src/bonus/
 
 override SOURCE_HOOKS		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
 override SOURCE_RENDERING	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
-override HEADER_FILES		:=	colors cub3D raycasting
+override HEADER_FILES		:=	colors cub3D raycasting parse_cub_file
 override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit) \
 								$(addprefix errors/, puterr) \
 								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
@@ -42,9 +42,10 @@ override MLX	:=	mlx/
 
 override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
 override SOURCE_RENDERING_B	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
-override HEADER_FILES_B		:=	colors cub3D raycasting
+override HEADER_FILES_B		:=	colors cub3D raycasting_bonus parse_cub_file
 override SOURCE_FILES_B		:=	$(addprefix raycasting/, $(SOURCE_HOOKS_B) $(SOURCE_RENDERING_B) quit) \
 								$(addprefix errors/, puterr) \
+								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
 								$(addprefix minimap/, draw_minimap init_minimap) \
 								$(addprefix sprite/, draw_sprite load_sprite) \
 								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \

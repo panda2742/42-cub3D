@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:34:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 13:55:34 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static void	_free_textures(t_render *render);
 static void	_free_map(t_map *map);

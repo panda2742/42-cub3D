@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:08:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 16:13:50 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static void			_try_move(t_gdata *game, t_vec2 new);
 static inline void		_normalize_vector(t_gdata *game, t_vec2 new)

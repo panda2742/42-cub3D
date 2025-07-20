@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/19 16:20:26 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 12:15:16 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	main(int ac, char **av)
 
 	render.game.map.data = data.map;
 	render.game.map.height = 14;
-	render.game.map.c_color = data.colors.ceil[0] << 16 | data.colors.ceil[1] << 8 | data.colors.floor[0];
-	render.game.map.f_color = data.colors.floor[0] << 16 | data.colors.floor[1] << 8 | data.colors.floor[0];
+	render.game.map.c_color = data.colors.ceil[0] << 16 | data.colors.ceil[1] << 8 | data.colors.floor[2];
+	render.game.map.f_color = data.colors.floor[0] << 16 | data.colors.floor[1] << 8 | data.colors.floor[2];
 	render.textures[FACE_NORTH].filename
 		= ft_strdup(data.textures.north);
 	render.textures[FACE_SOUTH].filename
