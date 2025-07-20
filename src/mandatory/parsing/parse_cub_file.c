@@ -31,10 +31,7 @@ int	parse_file_content(t_data *data, char **file_content, int *i)
 		file_content[*i][ft_strlen(file_content[*i]) - 1] = '\0';
 		exit_code = interpret_line(data, file_content[*i]);
 		if (exit_code < 0)
-		{
-			free_data(data);
 			return (exit_code);
-		}
 		(*i)++;
 	}
 	return (0);

@@ -95,8 +95,8 @@ int	interpret_line(t_data *data, char *line)
 				return (MALLOC_ERROR);
 			}
 			exit_code = interpret_color(data, key_value, color_code);
-			if (exit_code < 0)
-				free_array(key_value);
+			/* if (exit_code < 0) */
+			/* 	free_array(key_value); */
 			return (exit_code);
 		}
 	}

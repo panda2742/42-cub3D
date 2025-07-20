@@ -42,6 +42,8 @@ int	is_only_digits(char *str)
 
 int	free_data(t_data *data)
 {
+	if (!data)
+		return (0);
 	if (data->textures.north)
 		free(data->textures.north);
 	if (data->textures.south)
