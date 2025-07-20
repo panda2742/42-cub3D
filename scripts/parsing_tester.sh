@@ -1,10 +1,9 @@
 #!/bin/bash
 
-VALIDS_MAPS="../assets/maps/valid_maps/"
-INVALIDS_MAPS="../assets/maps/invalid_maps/"
+VALIDS_MAPS="assets/maps/valid_maps/"
+INVALIDS_MAPS="assets/maps/invalid_maps/"
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-CUB3D_EXEC="$SCRIPT_DIR/../cub3D"
+CUB3D_EXEC="./cub3D"
 
 if [[ ! -f "$CUB3D_EXEC" ]]; then
   echo -e "Error: cub3D binary not found at $CUB3D_EXEC\n"
@@ -59,7 +58,7 @@ run_parsing_test() {
   fi
 }
 
-make -C ../
+make
 
 echo -e "\n--- PARSING TESTS ---\n"
 

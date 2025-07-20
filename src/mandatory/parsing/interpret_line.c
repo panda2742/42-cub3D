@@ -77,7 +77,7 @@ int	interpret_line(t_data *data, char *line)
 		return (MALLOC_ERROR);
 	if (key_value[0] && key_value[1] && !key_value[2])
 	{
-		if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) >= 4
+		if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) > 4
 			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xpm",
 				5))
 			return (interpret_texture(data, key_value));
