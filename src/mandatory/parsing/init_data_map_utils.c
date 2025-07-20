@@ -27,17 +27,27 @@ static int	is_a_valid_char(t_data *data, char c, t_bool *player)
 	return (0);
 }
 
+static int	is_valid_map_line(t_data *data, t_bool *player, int i, int j)
+{
+	if (is_a_valid_char(data, data->map.grid[i][j], player) < 0)
+		return (INVALID_CONFIG);
+	if (*player == true)
+	{
+		data->map.spawn_position[0] = j + 0.5;
+		data->map.spawn_position[1] = i + 0.5;
+	}
+	return (0);
+}
+
 /* for each char of each line :
  * if it's not ' ' 0 1 NSEW : INVALID_CONFIG
  * if we find two players : INVALID_CONFIG
  * */
-int	is_valid_map_format(t_data *data)
+int	is_valid_map_format(t_data *data, t_bool *player)
 {
-	int		i;
-	int		j;
-	t_bool	player;
+	int	i;
+	int	j;
 
-	player = false;
 	i = 0;
 	j = 0;
 	while (data->map.grid[i])
@@ -47,13 +57,8 @@ int	is_valid_map_format(t_data *data)
 		{
 			if (data->map.grid[i][j] == '\n')
 				break ;
-			if (is_a_valid_char(data, data->map.grid[i][j], &player) < 0)
+			if (is_valid_map_line(data, player, i, j) < 0)
 				return (INVALID_CONFIG);
-			if (player == true)
-			{
-				data->map.spawn_position[0] = j + 0.5;
-				data->map.spawn_position[1] = i + 0.5;
-			}
 			j++;
 		}
 		i++;

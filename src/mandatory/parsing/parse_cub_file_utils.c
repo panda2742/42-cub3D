@@ -73,7 +73,7 @@ int	check_data(t_data *data)
 int	parsing_error_handler(t_data *data, int exit_code)
 {
 	(void)data;
-	write(2, "Error\n", 6); //a mettre sur la stderr
+	write(2, "Error\n", 6);
 	free_data(data);
 	return (exit_code);
 }

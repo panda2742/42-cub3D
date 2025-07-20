@@ -59,7 +59,7 @@ int				is_valid_map(t_data *data);
 int				get_map(t_data *data, char **file_content, int i);
 
 // init_data_map_utils.c
-int				is_valid_map_format(t_data *data);
+int				is_valid_map_format(t_data *data, t_bool *player);
 
 // parse_cub_file.c
 int				parse_cub_file(char *map, t_data *data);
@@ -76,6 +76,6 @@ int				parsing_error_handler(t_data *data, int exit_code);
 int				is_valid_map_path(char *map, char ***file_content);
 
 // interpret_line.c
-int				interpret_line(t_data *data, char *line);
+int				interpret_line(t_data *data, char **key_value, char **color_code);
 
 #endif

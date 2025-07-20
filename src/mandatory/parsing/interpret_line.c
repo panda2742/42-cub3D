@@ -66,24 +66,19 @@ static int	interpret_color(t_data *data, char **color_code, char slot)
 	return (INVALID_CONFIG);
 }
 
-int	interpret_line(t_data *data, char *line)
+int	interpret_line(t_data *data, char **key_value, char **color_code)
 {
-	char	**key_value;
-	char	**color_code;
-	int exit_code;
+	int		exit_code;
 
-	key_value = ft_split(line, ' ');
-	if (!key_value)
-		return (MALLOC_ERROR);
 	if (key_value[0] && key_value[1] && !key_value[2])
 	{
 		if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) > 4
 			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xpm",
 				5))
 			return (interpret_texture(data, key_value));
-		else if (ft_strlen(key_value[0]) == 1 &&
-				((key_value[0][0] == 'C' && !data->colors.ceil) ||
-				(key_value[0][0] == 'F' && !data->colors.floor)))
+		else if (ft_strlen(key_value[0]) == 1 && ((key_value[0][0] == 'C'
+				&& !data->colors.ceil) || (key_value[0][0] == 'F'
+			&& !data->colors.floor)))
 		{
 			color_code = ft_split(key_value[1], ',');
 			if (!color_code)

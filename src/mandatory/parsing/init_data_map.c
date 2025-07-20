@@ -33,7 +33,6 @@ static int	check_wall(char **map, int i, int size)
 	j = 0;
 	while (map[i][j])
 	{
-		//et avec un tab ??
 		if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
 			|| map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'D')
 		{
@@ -69,7 +68,8 @@ int	get_map(t_data *data, char **file_content, int i)
 	int	j;
 
 	j = 0;
-	data->map.grid = malloc(sizeof(char *) * (get_map_size(file_content, i) + 1));
+	data->map.grid = malloc(sizeof(char *) * (get_map_size(file_content, i)
+				+ 1));
 	if (!data->map.grid)
 		return (MALLOC_ERROR);
 	while (file_content[i])
@@ -101,16 +101,18 @@ int	get_map(t_data *data, char **file_content, int i)
 //
 int	is_valid_map(t_data *data)
 {
-	int	size;
-	int exit_code;
+	int		size;
+	int		exit_code;
+	t_bool	player;
 
+	player = false;
 	size = 0;
-	while(!ft_strncmp(data->map.grid[size], "\n", 2))
+	while (!ft_strncmp(data->map.grid[size], "\n", 2))
 		size++;
 	size = 0;
 	while (data->map.grid[size])
 		size++;
-	exit_code = is_valid_map_format(data);
+	exit_code = is_valid_map_format(data, &player);
 	if (exit_code < 0)
 		return (INVALID_CONFIG);
 	exit_code = are_wall_closed(data->map.grid, size);

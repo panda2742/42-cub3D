@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
-#include "raycasting.h"
 #include "parse_cub_file.h"
+#include "raycasting.h"
 
 int	print_cub_data(t_data *data)
 {
@@ -45,8 +45,9 @@ int	print_cub_data(t_data *data)
 
 int	main(int ac, char **av)
 {
-	t_data	data;
-	int		exit_code;
+	t_data		data;
+	int			exit_code;
+	t_render	render;
 
 	ft_bzero(&data, sizeof(t_data));
 	(void)ac;
@@ -59,11 +60,8 @@ int	main(int ac, char **av)
 	exit_code = parse_cub_file(av[1], &data);
 	if (exit_code != 0)
 		return (exit_code);
-	/* print_cub_data(&data); */
 	printf("This is what cub3D is all about.\n");
 	free_data(&data);
-	/* t_render	render; */
-	/**/
-	/* render_map(&render); */
+	render_map(&render);
 	return (0);
 }
