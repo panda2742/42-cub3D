@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:10:26 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 17:05:03 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 17:21:44 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,20 +101,17 @@ static void	_put_minimap_on_window(t_render *render)
 	t_ivec2	pos;
 	t_ivec2	iter;
 
-	pos.x = MINIMAP_X;
 	pos.y = MINIMAP_Y;
 	iter.y = -1;
 	while (++iter.y < MINIMAP_WIDTH)
 	{
-		if (iter.y < 0)
-			continue ;
 		iter.x = -1;
 		pos.x = MINIMAP_X;
 		while (++iter.x < MINIMAP_WIDTH)
 		{
-			if (pos.y < 0 || pos.x < 0 || pos.y > SCREEN_HEIGHT || pos.x > SCREEN_WIDTH)
-				continue ;
-			if (iter.y < 0 || iter.x < 0 || iter.y > MINIMAP_WIDTH || iter.x > MINIMAP_WIDTH)
+			if (pos.y < 0 || pos.x < 0 || pos.y > SCREEN_HEIGHT
+				|| pos.x > SCREEN_WIDTH || iter.y < 0 || iter.x < 0
+				|| iter.y > MINIMAP_WIDTH || iter.x > MINIMAP_WIDTH)
 				continue ;
 			*(unsigned int *)(render->frame.addr
 					+ (pos.y * render->frame.line_length)
