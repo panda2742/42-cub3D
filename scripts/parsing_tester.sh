@@ -4,6 +4,7 @@ VALIDS_MAPS="assets/maps/valid_maps/"
 INVALIDS_MAPS="assets/maps/invalid_maps/"
 
 CUB3D_EXEC="./cub3D"
+FAILED_TESTS=""
 
 if [[ ! -f "$CUB3D_EXEC" ]]; then
   echo -e "Error: cub3D binary not found at $CUB3D_EXEC\n"
@@ -55,6 +56,7 @@ run_parsing_test() {
     echo -e "$file : \033[0;32mOK\033[0m"
   else
     echo -e "$file : \033[0;31mKO - $message\033[0m"
+    FAILED_TESTS+="$file : \033[0;31m$message\033[0m\n"
   fi
 }
 
@@ -70,3 +72,5 @@ for file in "$VALIDS_MAPS"*; do
   run_parsing_test "$file" 0
 done
 
+echo -e "--- Failed tests ---\n"
+echo -e $FAILED_TESTS
