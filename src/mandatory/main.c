@@ -59,7 +59,7 @@ int	main(int ac, char **av)
 	exit_code = parse_cub_file(av[1], &data);
 	if (exit_code != 0)
 		return (exit_code);
-	print_cub_data(&data);
+	/* print_cub_data(&data); */
 	printf("This is what cub3D is all about.\n");
 	free_data(&data);
 	/* t_render	render; */
