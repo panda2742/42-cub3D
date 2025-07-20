@@ -77,6 +77,8 @@ int	is_valid_map_path(char *map, char ***file_content)
 	int	fd;
 	int	exit_code;
 
+	if (ft_strncmp(map + ft_strlen(map) - 4, ".cub", 5))
+		return (printf("map + strlen(map - 4) = %s\n", map + ft_strlen(map) - 4), INVALID_CONFIG);
 	size = get_file_size(map);
 	if (size == 0)
 		return (FILE_EMPTY);

@@ -34,6 +34,7 @@ static int	interpret_texture(t_data *data, char **key_value)
 		return (load_texture(&data->textures.west, key_value));
 	if (!ft_strncmp(key_value[0], "EA", 3) && !data->textures.east)
 		return (load_texture(&data->textures.east, key_value));
+	free_array(key_value);
 	return (INVALID_CONFIG);
 }
 
