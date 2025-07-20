@@ -40,13 +40,14 @@ override MLX	:=	mlx/
 # 4. SOURCE CODE FOR BONUS                                                     #
 # **************************************************************************** #
 
-override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
+override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook mouse_hook move)
 override SOURCE_RENDERING_B	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
 override HEADER_FILES_B		:=	colors cub3D raycasting_bonus parse_cub_file
 override SOURCE_FILES_B		:=	$(addprefix raycasting/, $(SOURCE_HOOKS_B) $(SOURCE_RENDERING_B) quit) \
 								$(addprefix errors/, puterr) \
 								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
 								$(addprefix minimap/, draw_minimap init_minimap) \
+								$(addprefix mouse_utils/, mouse_hide mouse_warp) \
 								$(addprefix sprite/, draw_sprite load_sprite) \
 								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 								main
@@ -105,7 +106,7 @@ $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
 bonus: display_b $(NAME_B)
 
 $(NAME_B): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ_B)
-	$(CC) $(CFLAGS) $(OBJ_B) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lX11 -lm -o $(NAME_B)
+	$(CC) $(CFLAGS) $(OBJ_B) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lXfixes -lX11 -lm -o $(NAME_B)
 	@printf "\n\e[48;2;0;180;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR_B)%.o: $(SOURCE_DIR_B)%.c $(HEADER_B) Makefile | $(DIRS_B)

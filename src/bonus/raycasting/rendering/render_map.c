@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 18:53:48 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	render_map(t_render *render)
 	_init_textures(render);
 	mlx_hook(render->mlx_win, 2, 1L << 0, keydown_hook, render);
 	mlx_hook(render->mlx_win, 3, 1L << 1, keyup_hook, render);
+	mlx_hook(render->mlx_win, 6, 1L << 6, mousemove_hook, render);
+	render->last_mouse = -1;
 	mlx_hook(render->mlx_win, 10, 1L << 21, focusout_hook, render);
 	mlx_hook(render->mlx_win, 17, 1L << 0, destroy_hook, render);
 	mlx_loop_hook(render->mlx, loop_hook, render);
@@ -101,6 +103,7 @@ static void	_init_mlx(t_render *render)
 		puterr("Time of day could not be initialized.", false, false);
 		quit(render);
 	}
+	mouse_hide(render);
 }
 
 static void	_init_player(t_render *render)

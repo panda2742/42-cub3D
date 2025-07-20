@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   focus_hook.c                                       :+:      :+:    :+:   */
+/*   mouse_warp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 16:36:17 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 20:15:55 by ehosta           ###   ########.fr       */
+/*   Created: 2025/07/20 18:44:07 by ehosta            #+#    #+#             */
+/*   Updated: 2025/07/20 19:28:36 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting_bonus.h"
+#include "mouse_danger.h"
 
-int	focusout_hook(t_render *render)
+void	mouse_warp(t_render *render)
 {
-	size_t	i;
+	t_xvar		*var;
+	t_win_list	*win;
 
-	i = -1;
-	while (++i < 6)
-		render->keys.pressed[i] = 0;
-	return (0);
+	var = (t_xvar *)render->mlx;
+	win = (t_win_list *)render->mlx_win;
+	XWarpPointer(var->display, None, win->window, 0, 0, 0, 0,
+		SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
