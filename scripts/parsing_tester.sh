@@ -63,10 +63,11 @@ make -C ../
 
 echo -e "\n--- PARSING TESTS ---\n"
 
+for file in "$INVALIDS_MAPS"*; do
+  run_parsing_test "$file" 1
+done
+
 for file in "$VALIDS_MAPS"*; do
   run_parsing_test "$file" 0
 done
 
-for file in "$INVALIDS_MAPS"*; do
-  run_parsing_test "$file" 1
-done
