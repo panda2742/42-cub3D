@@ -67,7 +67,7 @@ int				print_cub_data(t_data *data);
 
 // parse_cub_file_utils.c
 int				check_data(t_data *data);
-int				is_only_digits(char *str);
+int				is_only_digits(char *str, char is_last);
 int				free_array(char **array);
 int				free_data(t_data *data);
 int				parsing_error_handler(t_data *data, int exit_code);

@@ -53,9 +53,9 @@ run_parsing_test() {
   fi
 
   if [[ $success == 1 ]]; then
-    echo -e "$file : \033[0;32mOK\033[0m"
+    echo -e "\033[0;32mOK\033[0m"
   else
-    echo -e "$file : \033[0;31mKO - $message\033[0m"
+    echo -e "\033[0;31mKO - $message\033[0m"
     FAILED_TESTS+="$file : \033[0;31m$message\033[0m\n"
   fi
 }
@@ -65,10 +65,12 @@ make
 echo -e "\n--- PARSING TESTS ---\n"
 
 for file in "$INVALIDS_MAPS"*; do
+  echo -n "$file : "
   run_parsing_test "$file" 1
 done
 
 for file in "$VALIDS_MAPS"*; do
+  echo -n "$file : "
   run_parsing_test "$file" 0
 done
 

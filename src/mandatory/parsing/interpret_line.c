@@ -55,8 +55,8 @@ static int	load_color(int **slot, char **color_code)
 static int	interpret_color(t_data *data, char **color_code, char slot)
 {
 	if (color_code[0] && color_code[1] && color_code[2] && !color_code[3]
-		&& is_only_digits(color_code[0]) && is_only_digits(color_code[1])
-		&& is_only_digits(color_code[2]))
+		&& is_only_digits(color_code[0], 0) && is_only_digits(color_code[1], 0)
+		&& is_only_digits(color_code[2], 1))
 	{
 		if (slot == 'C')
 			return (load_color(&data->colors.ceil, color_code));
@@ -72,8 +72,8 @@ int	interpret_line(t_data *data, char **key_value, char **color_code)
 
 	if (key_value[0] && key_value[1] && !key_value[2])
 	{
-		if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) > 4
-			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 4, ".xpm",
+		if (ft_strlen(key_value[0]) == 2 && ft_strlen(key_value[1]) > 5
+			&& !ft_strncmp(key_value[1] + ft_strlen(key_value[1]) - 5, ".xpm\n",
 				5))
 			return (interpret_texture(data, key_value));
 		else if (ft_strlen(key_value[0]) == 1 && ((key_value[0][0] == 'C'

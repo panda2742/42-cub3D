@@ -63,7 +63,7 @@ int	is_valid_map_format(t_data *data, t_bool *player)
 		}
 		i++;
 	}
-	if (player == false)
+	if (*player == false)
 		return (INVALID_CONFIG);
 	return (0);
 }

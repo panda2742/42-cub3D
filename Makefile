@@ -170,7 +170,7 @@ run:
 	$(CLEAR)
 	$(MAKE)
 	$(CLEAR)
-	./$(NAME) assets/valid_maps/map_subject.cub
+	./$(NAME) assets/maps/valid_maps/map_subject.cub
 
 .PHONY: vg
 vg:

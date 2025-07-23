@@ -47,7 +47,7 @@ int	main(int ac, char **av)
 {
 	t_data		data;
 	int			exit_code;
-	t_render	render;
+	/* t_render	render; */
 
 	ft_bzero(&data, sizeof(t_data));
 	(void)ac;
@@ -62,6 +62,6 @@ int	main(int ac, char **av)
 		return (exit_code);
 	printf("This is what cub3D is all about.\n");
 	free_data(&data);
-	render_map(&render);
+	/* render_map(&render); */
 	return (0);
 }

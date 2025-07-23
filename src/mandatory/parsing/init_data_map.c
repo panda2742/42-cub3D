@@ -29,18 +29,25 @@ static int	get_map_size(char **file_content, int i)
 static int	check_wall(char **map, int i, int size)
 {
 	int	j;
+	int	len;
 
+	if (!map[i])  // Check if current row exists
+		return (INVALID_CONFIG);
+		
+	len = ft_strlen(map[i]);
 	j = 0;
-	while (map[i][j])
+	while (j < len)
 	{
 		if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
-			|| map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'D')
+			|| map[i][j] == 'W' || map[i][j] == 'E')
 		{
-			if (i == 0 || i == size || j == 0 || map[i][j + 1] == '\n')
+			// Check boundaries
+			if (i == 0 || i >= size - 1 || j == 0 || j >= len - 1)
 				return (INVALID_CONFIG);
-			if ((map[i][j - 1] && map[i][j - 1] == ' ') || (map[i][j + 1]
-					&& map[i][j + 1] == ' ') || (map[i - 1][j] && map[i
-					- 1][j] == ' ') || (map[i + 1][j] && map[i + 1][j] == ' '))
+			// Check adjacent cells
+			if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ' || map[i][j + 1] == '\n' ||
+				!map[i - 1] || j >= (int)ft_strlen(map[i - 1]) || map[i - 1][j] == ' ' ||
+				!map[i + 1] || j >= (int)ft_strlen(map[i + 1]) || map[i + 1][j] == ' ')
 				return (INVALID_CONFIG);
 		}
 		j++;
@@ -107,6 +114,8 @@ int	is_valid_map(t_data *data)
 
 	player = false;
 	size = 0;
+	if (!data->map.grid[size])
+		return (INVALID_CONFIG);
 	while (!ft_strncmp(data->map.grid[size], "\n", 2))
 		size++;
 	size = 0;
