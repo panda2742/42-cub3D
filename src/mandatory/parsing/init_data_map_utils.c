@@ -12,7 +12,7 @@
 
 #include "../../include/mandatory/parse_cub_file.h"
 
-static int	is_a_valid_char(char c, t_bool *player)
+static int	is_a_valid_char(t_data *data, char c, t_bool *player)
 {
 	if (c != ' ' && c != '0' && c != '1' && c != 'N' && c != 'E' && c != 'W'
 		&& c != 'S')
@@ -22,6 +22,19 @@ static int	is_a_valid_char(char c, t_bool *player)
 		if (*player == true)
 			return (INVALID_CONFIG);
 		*player = true;
+		data->map.spawn_orientation = c;
+	}
+	return (0);
+}
+
+static int	is_valid_map_line(t_data *data, t_bool *player, int i, int j)
+{
+	if (is_a_valid_char(data, data->map.grid[i][j], player) < 0)
+		return (INVALID_CONFIG);
+	if (*player == true)
+	{
+		data->map.spawn_position[0] = j + 0.5;
+		data->map.spawn_position[1] = i + 0.5;
 	}
 	return (0);
 }
@@ -30,27 +43,27 @@ static int	is_a_valid_char(char c, t_bool *player)
  * if it's not ' ' 0 1 NSEW : INVALID_CONFIG
  * if we find two players : INVALID_CONFIG
  * */
-int	is_valid_map_format(char **map)
+int	is_valid_map_format(t_data *data, t_bool *player)
 {
-	int		i;
-	int		j;
-	t_bool	player;
+	int	i;
+	int	j;
 
-	player = false;
 	i = 0;
 	j = 0;
-	while (map[i])
+	while (data->map.grid[i])
 	{
 		j = 0;
-		while (map[i][j])
+		while (data->map.grid[i][j])
 		{
-			if (map[i][j] == '\n')
+			if (data->map.grid[i][j] == '\n')
 				break ;
-			if (is_a_valid_char(map[i][j], &player) < 0)
+			if (is_valid_map_line(data, player, i, j) < 0)
 				return (INVALID_CONFIG);
 			j++;
 		}
 		i++;
 	}
+	if (player == false)
+		return (INVALID_CONFIG);
 	return (0);
 }

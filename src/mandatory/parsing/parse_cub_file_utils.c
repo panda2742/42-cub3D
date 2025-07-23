@@ -6,7 +6,7 @@
 /*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:23:27 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 15:23:29 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 17:21:33 by oelleaum         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	is_only_digits(char *str)
 
 int	free_data(t_data *data)
 {
+	if (!data)
+		return (0);
 	if (data->textures.north)
 		free(data->textures.north);
 	if (data->textures.south)
@@ -54,8 +56,8 @@ int	free_data(t_data *data)
 		free(data->colors.ceil);
 	if (data->colors.floor)
 		free(data->colors.floor);
-	if (data->map)
-		free_array(data->map);
+	if (data->map.grid)
+		free_array(data->map.grid);
 	return (0);
 }
 
@@ -71,7 +73,7 @@ int	check_data(t_data *data)
 int	parsing_error_handler(t_data *data, int exit_code)
 {
 	(void)data;
-	printf("Error\n");
+	write(2, "Error\n", 6);
 	free_data(data);
 	return (exit_code);
 }

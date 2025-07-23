@@ -6,13 +6,13 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 12:15:16 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:04:26 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-#include "raycasting.h"
 #include "parse_cub_file.h"
+#include "raycasting.h"
 
 int	print_cub_data(t_data *data)
 {
@@ -29,10 +29,15 @@ int	print_cub_data(t_data *data)
 		data->colors.ceil[2]);
 	printf("floor : %d %d %d\n", data->colors.floor[0], data->colors.floor[1],
 		data->colors.floor[2]);
+	printf("-- Map infos --\n");
+	printf("height : %d\n", data->map.height);
+	printf("spawn_position x : %f\n", data->map.spawn_position[0]);
+	printf("spawn_position y : %f\n", data->map.spawn_position[1]);
+	printf("spawn_orientation : %c\n", data->map.spawn_orientation);
 	printf("-- MAP --\n");
-	while (data->map[i])
+	while (data->map.grid[i])
 	{
-		printf("%s", data->map[i]);
+		printf("%s", data->map.grid[i]);
 		i++;
 	}
 	return (0);
@@ -40,9 +45,11 @@ int	print_cub_data(t_data *data)
 
 int	main(int ac, char **av)
 {
-	t_data	data;
-	int		exit_code;
+	t_data		data;
+	int			exit_code;
+	t_render	render;
 
+	ft_bzero(&data, sizeof(t_data));
 	(void)ac;
 	(void)av;
 	if (ac != 2)
@@ -53,12 +60,10 @@ int	main(int ac, char **av)
 	exit_code = parse_cub_file(av[1], &data);
 	if (exit_code != 0)
 		return (exit_code);
-	print_cub_data(&data);
 	printf("This is what cub3D is all about.\n");
-	// free_data(&data);
 	t_render	render;
 
-	render.game.map.data = data.map;
+	render.game.map.data = data.map.grid;
 	render.game.map.height = 14;
 	render.game.map.c_color = data.colors.ceil[0] << 16 | data.colors.ceil[1] << 8 | data.colors.floor[2];
 	render.game.map.f_color = data.colors.floor[0] << 16 | data.colors.floor[1] << 8 | data.colors.floor[2];

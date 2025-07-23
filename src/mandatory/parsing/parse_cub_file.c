@@ -21,20 +21,23 @@ int	skip_newlines(char **file_content, int i)
 
 int	parse_file_content(t_data *data, char **file_content, int *i)
 {
-	int	exit_code;
+	int		exit_code;
+	char	**key_value;
+	char	**color_code;
 
+	color_code = NULL;
+	key_value = ft_split(file_content[*i], ' ');
+	if (!key_value)
+		return (MALLOC_ERROR);
 	while (file_content[*i] && check_data(data))
 	{
 		*i = skip_newlines(file_content, *i);
 		if (!file_content[*i])
 			break ;
 		file_content[*i][ft_strlen(file_content[*i]) - 1] = '\0';
-		exit_code = interpret_line(data, file_content[*i]);
+		exit_code = interpret_line(data, key_value, color_code);
 		if (exit_code < 0)
-		{
-			free_data(data);
 			return (exit_code);
-		}
 		(*i)++;
 	}
 	return (0);
@@ -46,7 +49,6 @@ int	init_data(t_data *data, char **file_content)
 	int	exit_code;
 
 	i = 0;
-	ft_bzero(data, sizeof(t_data));
 	exit_code = parse_file_content(data, file_content, &i);
 	if (exit_code < 0)
 		return (exit_code);
@@ -57,7 +59,7 @@ int	init_data(t_data *data, char **file_content)
 		free_data(data);
 		return (exit_code);
 	}
-	return (is_valid_map(data->map));
+	return (is_valid_map(data));
 }
 
 int	parse_cub_file(char *map, t_data *data)
