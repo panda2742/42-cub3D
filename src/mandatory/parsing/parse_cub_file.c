@@ -26,11 +26,13 @@ int	parse_file_content(t_data *data, char **file_content, int *i)
 	char	**color_code;
 
 	color_code = NULL;
-	key_value = ft_split(file_content[*i], ' ');
-	if (!key_value)
-		return (MALLOC_ERROR);
 	while (file_content[*i] && check_data(data))
 	{
+		while (!ft_strncmp(file_content[*i], "\n", 2))
+			(*i)++;
+		key_value = ft_split(file_content[*i], ' ');
+		if (!key_value)
+			return (MALLOC_ERROR);
 		*i = skip_newlines(file_content, *i);
 		if (!file_content[*i])
 			break ;

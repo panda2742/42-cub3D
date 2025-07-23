@@ -26,13 +26,15 @@ int	free_array(char **array)
 	return (0);
 }
 
-int	is_only_digits(char *str)
+int	is_only_digits(char *str, char is_last)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
+		if (is_last == 1 && str[i] == '\n' && !str[i + 1])
+			return (1);
 		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
