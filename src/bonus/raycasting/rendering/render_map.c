@@ -6,17 +6,16 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 14:29:48 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:56:20 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static void	_init_textures(t_render *render);
 static void	_init_render_ctx(t_render *render);
 static void	_init_player(t_render *render);
 static void	_init_mlx(t_render *render);
-static void	_debug_data(t_render *render);
 
 void	render_map(t_render *render)
 {
@@ -26,6 +25,8 @@ void	render_map(t_render *render)
 	_init_textures(render);
 	mlx_hook(render->mlx_win, 2, 1L << 0, keydown_hook, render);
 	mlx_hook(render->mlx_win, 3, 1L << 1, keyup_hook, render);
+	mlx_hook(render->mlx_win, 6, 1L << 6, mousemove_hook, render);
+	render->last_mouse = -1;
 	mlx_hook(render->mlx_win, 10, 1L << 21, focusout_hook, render);
 	mlx_hook(render->mlx_win, 17, 1L << 0, destroy_hook, render);
 	mlx_loop_hook(render->mlx, loop_hook, render);
@@ -38,12 +39,18 @@ static void	_init_textures(t_render *render)
 	t_img		*txtr;
 
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 		render->textures[i++].ptr = NULL;
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
 		txtr = &render->textures[i++];
+		if (!txtr->filename)
+		{
+			puterr("Texture creation failed (MLX error).", false, false);
+			quit(render);
+		}
+		txtr->filename[ft_strlen(txtr->filename) - 1] = 0;
 		txtr->ptr = mlx_xpm_file_to_image(
 				render->mlx, txtr->filename, &txtr->width, &txtr->height);
 		if (txtr->ptr == NULL)
@@ -56,7 +63,6 @@ static void	_init_textures(t_render *render)
 
 static void	_init_render_ctx(t_render *render)
 {
-	_debug_data(render);
 	_init_player(render);
 	_init_mlx(render);
 	render->mini_frame.img = NULL;
@@ -101,6 +107,7 @@ static void	_init_mlx(t_render *render)
 		puterr("Time of day could not be initialized.", false, false);
 		quit(render);
 	}
+	mouse_hide(render);
 }
 
 static void	_init_player(t_render *render)
@@ -130,33 +137,4 @@ static void	_init_player(t_render *render)
 	i = -1;
 	while (++i < 6)
 		render->keys.pressed[i] = 0;
-}
-
-static void	_debug_data(t_render *render)
-{
-	render->game.map.height = 10;
-	render->game.map.data = ft_split(
-			"111111111111111111111\n"
-			"100000000000100000001\n"
-			"100000000000100000001\n"
-			"100000000000100111111\n"
-			"100000010000000000001\n"
-			"100000010000000000001\n"
-			"100000011111100000001\n"
-			"100000010000000000001\n"
-			"100000010000000000001\n"
-			"111111111111111111111", '\n');
-	render->textures[FACE_NORTH].filename
-		= ft_strdup("assets/textures/wall_N.xpm");
-	render->textures[FACE_SOUTH].filename
-		= ft_strdup("assets/textures/wall_S.xpm");
-	render->textures[FACE_EAST].filename
-		= ft_strdup("assets/textures/wall_E.xpm");
-	render->textures[FACE_WEST].filename
-		= ft_strdup("assets/textures/wall_W.xpm");
-	render->game.map.c_color = 5482233;
-	render->game.map.f_color = 16361043;
-	render->game.pos.x = 1.5;
-	render->game.pos.y = 1.5;
-	render->game.orientation = 'N';
 }

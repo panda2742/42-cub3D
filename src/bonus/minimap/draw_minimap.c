@@ -6,52 +6,124 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:10:26 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/19 16:11:29 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:50:03 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
-static void			_draw_scaled_minimap(t_render *render);
-static void			_put_pixel(t_render *render, t_ivec2 draw_start,
-						unsigned int color);
+static void	_draw_sky_view(t_render *render);
+static void	_draw_dot(t_render *render);
+static void	_put_pixel(t_render *render, t_vec2 cur_map_coord, t_ivec2 iter);
+static void	_put_minimap_on_window(t_render *render);
 
 void	draw_minimap(t_render *render)
 {
-	_draw_scaled_minimap(render);
+	_draw_sky_view(render);
+	_draw_dot(render);
+	_put_minimap_on_window(render);
 }
 
-static void	_draw_scaled_minimap(t_render *render)
+static void	_draw_sky_view(t_render *render)
 {
-	t_ivec2			iter;
-	t_ivec2			draw_start;
+	t_vec2	min_map_coord;
+	t_vec2	cur_map_coord;
+	t_ivec2	iter;
 
+	min_map_coord.x = render->game.pos.x - (MINIMAP_STEP * MINIMAP_WIDTH / 2);
+	min_map_coord.y = render->game.pos.y - (MINIMAP_STEP * MINIMAP_WIDTH / 2);
 	iter.y = -1;
-	while (++iter.y < MINIMAP_HEIGHT)
+	while (++iter.y < MINIMAP_WIDTH)
 	{
+		if (iter.y < 0)
+			continue ;
 		iter.x = -1;
 		while (++iter.x < MINIMAP_WIDTH)
 		{
-			draw_start.x = iter.x - 20 + SCREEN_WIDTH - MINIMAP_WIDTH;
-			draw_start.y = iter.y + 20;
-			_put_pixel(render, draw_start, render->game.map.f_color);
+			if (iter.x < 0 || iter.x >= MINIMAP_WIDTH
+				|| iter.y >= MINIMAP_WIDTH)
+				continue ;
+			cur_map_coord.x = min_map_coord.x + (iter.x * MINIMAP_STEP);
+			cur_map_coord.y = min_map_coord.y + (iter.y * MINIMAP_STEP);
+			_put_pixel(render, cur_map_coord, iter);
 		}
 	}
 }
 
-static void	_put_pixel(t_render *render, t_ivec2 draw_start,
-				unsigned int color)
+static void	_put_pixel(t_render *render, t_vec2 cur_map_coord, t_ivec2 iter)
 {
-	t_ivec2	dest_pixel;
+	unsigned int	color;
+	char			tile;
 
-	dest_pixel.x = draw_start.x;
-	dest_pixel.y = draw_start.y;
-	if (dest_pixel.x >= 0 && dest_pixel.x < SCREEN_WIDTH
-		&& dest_pixel.y >= 0 && dest_pixel.y < SCREEN_HEIGHT)
+	color = render->game.map.c_color;
+	if (cur_map_coord.x >= 0 && cur_map_coord.y >= 0
+		&& cur_map_coord.y < render->game.map.height
+		&& cur_map_coord.x
+		< render->game.map.lengths[(int)cur_map_coord.y])
 	{
-		*(unsigned int *)(render->frame.addr
-				+ (dest_pixel.y * render->frame.line_length)
-				+ (dest_pixel.x * (render->frame.bits_per_pixel / 8)))
-			= color;
+		tile = render->game.map.data[(int)cur_map_coord.y]
+		[(int)cur_map_coord.x];
+		if (tile == '1')
+			color = 0x00444444;
+		else if (tile == '0' || tile == 'T' || tile == 'E' || tile == 'W'
+			|| tile == 'N' || tile == 'S')
+			color = render->game.map.f_color;
+		else if (tile == 'D')
+			color = 0x0000FF00;
+	}
+	*(unsigned int *)(render->mini_frame.addr
+			+ ((int)iter.y * render->mini_frame.line_length)
+			+ ((int)iter.x * render->mini_frame.bits_per_pixel / 8))
+		= color;
+}
+
+static void	_draw_dot(t_render *render)
+{
+	int		i;
+	int		j;
+	t_ivec2	pos;
+
+	j = -1;
+	while (++j < 5)
+	{
+		i = -1;
+		while (++i < 5)
+		{
+			pos.x = MINIMAP_WIDTH / 2 + (i - 2);
+			pos.y = MINIMAP_WIDTH / 2 + (j - 2);
+			*(unsigned int *)(render->mini_frame.addr
+					+ (pos.y * render->mini_frame.line_length)
+					+ (pos.x * render->mini_frame.bits_per_pixel / 8))
+				= 0x000000FF;
+		}
+	}
+}
+
+static void	_put_minimap_on_window(t_render *render)
+{
+	t_ivec2	pos;
+	t_ivec2	iter;
+
+	pos.y = MINIMAP_Y;
+	iter.y = -1;
+	while (++iter.y < MINIMAP_WIDTH)
+	{
+		iter.x = -1;
+		pos.x = MINIMAP_X;
+		while (++iter.x < MINIMAP_WIDTH)
+		{
+			if (pos.y < 0 || pos.x < 0 || pos.y > SCREEN_HEIGHT
+				|| pos.x > SCREEN_WIDTH || iter.y < 0 || iter.x < 0
+				|| iter.y > MINIMAP_WIDTH || iter.x > MINIMAP_WIDTH)
+				continue ;
+			*(unsigned int *)(render->frame.addr
+					+ (pos.y * render->frame.line_length)
+					+ (pos.x * render->frame.bits_per_pixel / 8))
+				= *(unsigned int *)(render->mini_frame.addr
+					+ (iter.y * render->mini_frame.line_length)
+					+ (iter.x * render->mini_frame.bits_per_pixel / 8));
+			pos.x++;
+		}
+		pos.y++;
 	}
 }

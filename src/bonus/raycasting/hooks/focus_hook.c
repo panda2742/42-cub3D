@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:36:17 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 16:42:54 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 20:15:55 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 int	focusout_hook(t_render *render)
 {

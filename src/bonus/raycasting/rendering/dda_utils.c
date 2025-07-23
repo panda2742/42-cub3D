@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:32:36 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 12:35:52 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:12:01 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static inline void	_dda_calc_step(t_rayctx *ctx)
 					__attribute__((always_inline));
@@ -30,6 +30,7 @@ char	dda_algorithm(t_render *render, t_rayctx *ctx, int x)
 	ctx->map.y = ctx->map_def.y;
 	ctx->delta_dist.x = 1e30;
 	ctx->delta_dist.y = 1e30;
+	ctx->is_door = 0;
 	if (ctx->ray_dir.x != 0)
 		ctx->delta_dist.x = fabs(1 / ctx->ray_dir.x);
 	if (ctx->ray_dir.y != 0)
@@ -88,6 +89,11 @@ inline void	_dda_progress(t_render *render, t_rayctx *ctx)
 			break ;
 		if (render->game.map.data[ctx->map.y][ctx->map.x] == '1')
 			break ;
+		if (render->game.map.data[ctx->map.y][ctx->map.x] == 'D')
+		{
+			ctx->is_door = 1;
+			break ;
+		}
 	}
 }
 
@@ -121,7 +127,7 @@ inline void	_dda_get_wall_x(t_rayctx *ctx)
 		else
 			ctx->texture_index = FACE_WEST;
 	}
-	else
+	else if (ctx->face == FACE_HORIZONTAL)
 	{
 		ctx->wall_x = ctx->pos.x + ctx->perp_dist * ctx->ray_dir.x;
 		if (ctx->ray_dir.y > 0)
@@ -129,5 +135,7 @@ inline void	_dda_get_wall_x(t_rayctx *ctx)
 		else
 			ctx->texture_index = FACE_SOUTH;
 	}
+	if (ctx->is_door)
+		ctx->texture_index = FACE_DOOR;
 	ctx->wall_x -= floor(ctx->wall_x);
 }

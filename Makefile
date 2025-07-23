@@ -15,7 +15,7 @@ SOURCE_DIR_B	:=	src/bonus/
 
 override SOURCE_HOOKS		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
 override SOURCE_RENDERING	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
-override HEADER_FILES		:=	colors cub3D raycasting
+override HEADER_FILES		:=	colors cub3D raycasting parse_cub_file
 override SOURCE_FILES		:=	$(addprefix raycasting/, $(SOURCE_HOOKS) $(SOURCE_RENDERING) quit) \
 								$(addprefix errors/, puterr) \
 								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
@@ -40,12 +40,15 @@ override MLX	:=	mlx/
 # 4. SOURCE CODE FOR BONUS                                                     #
 # **************************************************************************** #
 
-override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook move)
+override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hook key_hook loop_hook mouse_hook move)
 override SOURCE_RENDERING_B	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
-override HEADER_FILES_B		:=	colors cub3D raycasting
+override HEADER_FILES_B		:=	colors cub3D raycasting_bonus parse_cub_file
 override SOURCE_FILES_B		:=	$(addprefix raycasting/, $(SOURCE_HOOKS_B) $(SOURCE_RENDERING_B) quit) \
+								$(addprefix door/, door_interact) \
 								$(addprefix errors/, puterr) \
+								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
 								$(addprefix minimap/, draw_minimap init_minimap) \
+								$(addprefix mouse_utils/, mouse_hide mouse_warp) \
 								$(addprefix sprite/, draw_sprite load_sprite) \
 								$(addprefix tools/, ft_sprintf ft_sprintf_utils) \
 								main
@@ -90,7 +93,7 @@ override KCACHE		:=	kcachegrind
 all: display $(NAME)
 
 $(NAME): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -L/opt/X11/lib -lXext -lX11 -lm -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -L/opt/X11/lib -lXext -lXfixes -lX11 -lm -o $(NAME)
 	@printf "\n\e[48;2;0;0;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
@@ -104,7 +107,7 @@ $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
 bonus: display_b $(NAME_B)
 
 $(NAME_B): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ_B)
-	$(CC) $(CFLAGS) $(OBJ_B) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lX11 -lm -o $(NAME_B)
+	$(CC) $(CFLAGS) $(OBJ_B) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -lXext -lXfixes -lX11 -lm -o $(NAME_B)
 	@printf "\n\e[48;2;0;180;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR_B)%.o: $(SOURCE_DIR_B)%.c $(HEADER_B) Makefile | $(DIRS_B)
@@ -170,14 +173,14 @@ run:
 	$(CLEAR)
 	$(MAKE)
 	$(CLEAR)
-	./$(NAME) assets/maps/subject.cub
+	./$(NAME) assets/maps/valid_maps/map_subject.cub
 
 .PHONY: vg
 vg:
 	$(CLEAR)
 	$(MAKE)
 	$(CLEAR)
-	$(VG) $(VGFLAGS) ./$(NAME) assets/maps/subject.cub
+	$(VG) $(VGFLAGS) ./$(NAME) assets/maps/valid_maps/map_subject.cub
 
 .PHONY: cg
 cg:
@@ -185,8 +188,13 @@ cg:
 	$(MAKE)
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
 	$(CLEAR)
-	$(VG) $(VGCALL) ./$(NAME) assets/maps/subject.cub
+	$(VG) $(VGCALL) ./$(NAME) assets/maps/valid_maps/map_subject.cub
 	$(KCACHE) $(CALLGRIND_PRFL)
+
+test:
+	$(CLEAR)
+	$(MAKE)
+	./scripts/parsing_tester.sh
 
 $(DIRS):
 	@mkdir -p $@
@@ -207,14 +215,14 @@ brun:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	./$(NAME_B) assets/maps/subject.cub
+	./$(NAME_B) assets/maps/valid_maps/map_subject_door.cub
 
 .PHONY: bvg
 bvg:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/subject.cub
+	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/valid_maps/map_subject_door.cub
 
 .PHONY: bcg
 bcg:
@@ -222,7 +230,7 @@ bcg:
 	$(MAKE) bonus
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
 	$(CLEAR)
-	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/subject.cub
+	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/valid_maps/map_subject_door.cub
 	$(KCACHE) $(CALLGRIND_PRFL_B)
 
 -include $(DEPS)

@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 11:18:02 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 12:56:42 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:38:28 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static void	_static_config(t_render *render);
 static void	_load_data(t_render *render, size_t i);
@@ -48,6 +48,8 @@ static void	_static_config(t_render *render)
 	render->sprite.pos.x = -50;
 	render->sprite.pos.y = -80;
 	render->sprite.interval = 200;
+	render->sprite.data = NULL;
+	render->sprite.fdata = NULL;
 	render->sprite.data = malloc(sizeof(t_img) * render->sprite.frames);
 	if (render->sprite.data == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 02:08:28 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 16:16:14 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:50:45 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,19 @@ typedef struct s_colors
 	int			*floor;
 }				t_colors;
 
+typedef struct s_map_infos
+{
+	char		**grid;
+	int			height;
+	double		spawn_position[2];
+	char		spawn_orientation;
+}				t_map_infos;
+
 typedef struct s_data
 {
 	t_textures	textures;
 	t_colors	colors;
-	char		**map;
+	t_map_infos	map;
 }				t_data;
 
 // parse_cub_file.c
@@ -47,11 +55,11 @@ int				parse_cub_file(char *map, t_data *data);
 int				is_valid_map_path(char *map, char ***file_content);
 
 // init_data_map.c
-int				is_valid_map(char **map);
+int				is_valid_map(t_data *data);
 int				get_map(t_data *data, char **file_content, int i);
 
 // init_data_map_utils.c
-int				is_valid_map_format(char **map);
+int				is_valid_map_format(t_data *data, t_bool *player);
 
 // parse_cub_file.c
 int				parse_cub_file(char *map, t_data *data);
@@ -59,7 +67,7 @@ int				print_cub_data(t_data *data);
 
 // parse_cub_file_utils.c
 int				check_data(t_data *data);
-int				is_only_digits(char *str);
+int				is_only_digits(char *str, char is_last);
 int				free_array(char **array);
 int				free_data(t_data *data);
 int				parsing_error_handler(t_data *data, int exit_code);
@@ -68,6 +76,7 @@ int				parsing_error_handler(t_data *data, int exit_code);
 int				is_valid_map_path(char *map, char ***file_content);
 
 // interpret_line.c
-int				interpret_line(t_data *data, char *line);
+int				interpret_line(t_data *data, char **key_value,
+					char **color_code);
 
 #endif

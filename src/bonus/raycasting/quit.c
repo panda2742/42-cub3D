@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:34:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 13:55:34 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:55:15 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 static void	_free_textures(t_render *render);
 static void	_free_map(t_map *map);
@@ -43,7 +43,7 @@ static void	_free_textures(t_render *render)
 	size_t	i;
 
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
 		if (render->textures[i].filename)
 		{
@@ -81,7 +81,7 @@ static void	_free_sprite(t_render *render)
 	if (render->sprite.data)
 	{
 		i = -1;
-		while (render->sprite.data[++i].ptr && i < render->sprite.frames)
+		while (++i < render->sprite.frames && render->sprite.data[i].ptr)
 			mlx_destroy_image(render->mlx, render->sprite.data[i].ptr);
 		free(render->sprite.data);
 		render->sprite.data = NULL;
