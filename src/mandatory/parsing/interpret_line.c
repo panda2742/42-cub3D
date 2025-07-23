@@ -6,11 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:24:08 by oelleaum          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/19 16:15:15 by ehosta           ###   ########.fr       */
-=======
-/*   Updated: 2025/07/19 17:16:50 by oelleaum         ###   ########lyon.fr   */
->>>>>>> origin/doors_implementation
+/*   Updated: 2025/07/23 16:05:17 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

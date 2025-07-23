@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:18:11 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/23 16:04:26 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:08:59 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,9 @@ int	main(int ac, char **av)
 	if (exit_code != 0)
 		return (exit_code);
 	printf("This is what cub3D is all about.\n");
-	t_render	render;
 
 	render.game.map.data = data.map.grid;
-	render.game.map.height = 14;
+	render.game.map.height = data.map.height;
 	render.game.map.c_color = data.colors.ceil[0] << 16 | data.colors.ceil[1] << 8 | data.colors.floor[2];
 	render.game.map.f_color = data.colors.floor[0] << 16 | data.colors.floor[1] << 8 | data.colors.floor[2];
 	render.textures[FACE_NORTH].filename
@@ -75,6 +74,9 @@ int	main(int ac, char **av)
 		= ft_strdup(data.textures.east);
 	render.textures[FACE_WEST].filename
 		= ft_strdup(data.textures.west);
-	render_map(&render);
+	render.game.pos.x = data.map.spawn_position[0];
+	render.game.pos.y = data.map.spawn_position[1];
+	render.game.orientation = data.map.spawn_orientation;
+	// render_map(&render);
 	return (0);
 }

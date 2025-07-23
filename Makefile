@@ -173,14 +173,14 @@ run:
 	$(CLEAR)
 	$(MAKE)
 	$(CLEAR)
-	./$(NAME) assets/valid_maps/map_subject.cub
+	./$(NAME) assets/maps/valid_maps/map_subject.cub
 
 .PHONY: vg
 vg:
 	$(CLEAR)
 	$(MAKE)
 	$(CLEAR)
-	$(VG) $(VGFLAGS) ./$(NAME) assets/valid_maps/map_subject.cub
+	$(VG) $(VGFLAGS) ./$(NAME) assets/maps/valid_maps/map_subject.cub
 
 .PHONY: cg
 cg:
@@ -188,7 +188,7 @@ cg:
 	$(MAKE)
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL)
 	$(CLEAR)
-	$(VG) $(VGCALL) ./$(NAME) assets/valid_maps/map_subject.cub
+	$(VG) $(VGCALL) ./$(NAME) assets/maps/valid_maps/map_subject.cub
 	$(KCACHE) $(CALLGRIND_PRFL)
 
 test:
