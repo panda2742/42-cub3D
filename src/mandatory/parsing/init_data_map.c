@@ -31,9 +31,8 @@ static int	check_wall(char **map, int i, int size)
 	int	j;
 	int	len;
 
-	if (!map[i])  // Check if current row exists
+	if (!map[i])
 		return (INVALID_CONFIG);
-		
 	len = ft_strlen(map[i]);
 	j = 0;
 	while (j < len)
@@ -41,13 +40,13 @@ static int	check_wall(char **map, int i, int size)
 		if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
 			|| map[i][j] == 'W' || map[i][j] == 'E')
 		{
-			// Check boundaries
 			if (i == 0 || i >= size - 1 || j == 0 || j >= len - 1)
 				return (INVALID_CONFIG);
-			// Check adjacent cells
-			if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ' || map[i][j + 1] == '\n' ||
-				!map[i - 1] || j >= (int)ft_strlen(map[i - 1]) || map[i - 1][j] == ' ' ||
-				!map[i + 1] || j >= (int)ft_strlen(map[i + 1]) || map[i + 1][j] == ' ')
+			if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ' ||
+				map[i][j + 1] == '\n' || !map[i - 1] ||
+				j >= (int)ft_strlen(map[i - 1]) || map[i - 1][j] == ' ' ||
+				!map[i + 1] || j >= (int)ft_strlen(map[i + 1]) ||
+				map[i + 1][j] == ' ')
 				return (INVALID_CONFIG);
 		}
 		j++;
