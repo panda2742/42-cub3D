@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/23 13:34:04 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:56:20 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	_init_textures(t_render *render);
 static void	_init_render_ctx(t_render *render);
 static void	_init_player(t_render *render);
 static void	_init_mlx(t_render *render);
-static void	_debug_data(t_render *render);
 
 void	render_map(t_render *render)
 {
@@ -46,13 +45,14 @@ static void	_init_textures(t_render *render)
 	while (i < 5)
 	{
 		txtr = &render->textures[i++];
-		if (i == 5)
-			txtr->ptr = mlx_xpm_file_to_image(
-					render->mlx, "assets/textures/door.xpm", &txtr->width,
-					&txtr->height);
-		else
-			txtr->ptr = mlx_xpm_file_to_image(
-					render->mlx, txtr->filename, &txtr->width, &txtr->height);
+		if (!txtr->filename)
+		{
+			puterr("Texture creation failed (MLX error).", false, false);
+			quit(render);
+		}
+		txtr->filename[ft_strlen(txtr->filename) - 1] = 0;
+		txtr->ptr = mlx_xpm_file_to_image(
+				render->mlx, txtr->filename, &txtr->width, &txtr->height);
 		if (txtr->ptr == NULL)
 		{
 			puterr("Texture creation failed (MLX error).", false, false);
@@ -63,7 +63,6 @@ static void	_init_textures(t_render *render)
 
 static void	_init_render_ctx(t_render *render)
 {
-	_debug_data(render);
 	_init_player(render);
 	_init_mlx(render);
 	render->mini_frame.img = NULL;
@@ -138,11 +137,4 @@ static void	_init_player(t_render *render)
 	i = -1;
 	while (++i < 6)
 		render->keys.pressed[i] = 0;
-}
-
-static void	_debug_data(t_render *render)
-{
-	render->game.pos.x = 9.5;
-	render->game.pos.y = 1.5;
-	render->game.orientation = 'N';
 }

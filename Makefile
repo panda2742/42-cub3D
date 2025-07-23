@@ -215,14 +215,14 @@ brun:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	./$(NAME_B) assets/maps/subject\ bonus.cub
+	./$(NAME_B) assets/maps/valid_maps/map_subject_door.cub
 
 .PHONY: bvg
 bvg:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/subject\ bonus.cub
+	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/valid_maps/map_subject_door.cub
 
 .PHONY: bcg
 bcg:
@@ -230,7 +230,7 @@ bcg:
 	$(MAKE) bonus
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
 	$(CLEAR)
-	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/subject\ bonus.cub
+	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/valid_maps/map_subject_door.cub
 	$(KCACHE) $(CALLGRIND_PRFL_B)
 
 -include $(DEPS)

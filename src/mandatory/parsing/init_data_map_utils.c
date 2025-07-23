@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:24:14 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/23 13:06:15 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:50:30 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	is_valid_map_line(t_data *data, t_bool *player, int i, int j)
 {
 	if (is_a_valid_char(data, data->map.grid[i][j], player) < 0)
 		return (INVALID_CONFIG);
-	if (*player == true)
+	if (*player == true && data->map.spawn_position[0] == -1)
 	{
 		data->map.spawn_position[0] = j + 0.5;
 		data->map.spawn_position[1] = i + 0.5;
@@ -50,6 +50,7 @@ int	is_valid_map_format(t_data *data, t_bool *player)
 
 	i = 0;
 	j = 0;
+	data->map.spawn_position[0] = -1;
 	while (data->map.grid[i])
 	{
 		j = 0;

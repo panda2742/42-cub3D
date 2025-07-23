@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub_file_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelleaum <oelleaum@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:23:27 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 17:21:33 by oelleaum         ###   ########lyon.fr   */
+/*   Updated: 2025/07/23 16:30:09 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ int	free_data(t_data *data)
 		free(data->colors.ceil);
 	if (data->colors.floor)
 		free(data->colors.floor);
-	if (data->map.grid)
-		free_array(data->map.grid);
 	return (0);
 }
 

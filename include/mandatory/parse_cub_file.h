@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 02:08:28 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 16:16:14 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:50:45 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int				parsing_error_handler(t_data *data, int exit_code);
 int				is_valid_map_path(char *map, char ***file_content);
 
 // interpret_line.c
-int				interpret_line(t_data *data, char **key_value, char **color_code);
+int				interpret_line(t_data *data, char **key_value,
+					char **color_code);
 
 #endif

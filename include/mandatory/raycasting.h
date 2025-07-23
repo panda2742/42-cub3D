@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 16:44:38 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:27:51 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define VELOCITY 0.1
 # define SENSITIVITY 0.01
 # define PI 3.14159265359f
-# define FOV_FACTOR 1.0471975512f
+# define FOV_FACTOR 0.8
 # define HITBOX_HALFSIZE 0.2
 # define MOVE_TICK 10000
 # define ROTATE_TICK 100

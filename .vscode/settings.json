@@ -6,6 +6,7 @@
     "xshm.h": "c",
     "mouse_danger.h": "c",
     "cub3d.h": "c",
-    "math.h": "c"
+    "math.h": "c",
+    "ft_str.h": "c"
   }
 }
