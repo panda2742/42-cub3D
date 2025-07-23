@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 11:33:30 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:33:30 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ static char	_is_wall(t_gdata *game, double x, double y)
 		|| map.y >= game->map.height
 		|| map.x >= (int)game->map.lengths[map.y])
 		return (1);
-	return (game->map.data[map.y][map.x] == '1');
+	return (game->map.data[map.y][map.x] == '1'
+			|| game->map.data[map.y][map.x] == 'D');
 }

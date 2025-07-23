@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:10:26 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 17:21:44 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:16:13 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ static void	_put_pixel(t_render *render, t_vec2 cur_map_coord, t_ivec2 iter)
 		[(int)cur_map_coord.x];
 		if (tile == '1')
 			color = 0x00444444;
-		else if (tile == '0')
+		else if (tile == '0' || tile == 'T')
 			color = render->game.map.f_color;
+		else if (tile == 'D')
+			color = 0x0000FF00;
 	}
 	*(unsigned int *)(render->mini_frame.addr
 			+ ((int)iter.y * render->mini_frame.line_length)

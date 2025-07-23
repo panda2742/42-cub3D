@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:38:28 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 18:53:48 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:34:04 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,19 @@ static void	_init_textures(t_render *render)
 	t_img		*txtr;
 
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 		render->textures[i++].ptr = NULL;
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
 		txtr = &render->textures[i++];
-		txtr->ptr = mlx_xpm_file_to_image(
-				render->mlx, txtr->filename, &txtr->width, &txtr->height);
+		if (i == 5)
+			txtr->ptr = mlx_xpm_file_to_image(
+					render->mlx, "assets/textures/door.xpm", &txtr->width,
+					&txtr->height);
+		else
+			txtr->ptr = mlx_xpm_file_to_image(
+					render->mlx, txtr->filename, &txtr->width, &txtr->height);
 		if (txtr->ptr == NULL)
 		{
 			puterr("Texture creation failed (MLX error).", false, false);

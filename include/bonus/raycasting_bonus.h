@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 20:16:02 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:11:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define VELOCITY 0.1
 # define SENSITIVITY 0.01
 # define PI 3.14159265359f
-# define FOV_FACTOR 1.0471975512f
+# define FOV_FACTOR 0.8
 # define HITBOX_HALFSIZE 0.2
 # define MOVE_TICK 10000
 # define ROTATE_TICK 100
@@ -39,6 +39,7 @@
 # define FACE_SOUTH 1
 # define FACE_EAST 2
 # define FACE_WEST 3
+# define FACE_DOOR 4
 # define FACE_VERTICAL 0
 # define FACE_HORIZONTAL 1
 
@@ -60,6 +61,7 @@
 # define KEY_CAMERA_RIGHT 65363
 # define INDEX_CAMERA_RIGHT 5
 
+# define KEY_DOOR 't'
 # define KEY_ESCAPE 65307
 
 typedef struct timeval	t_time;
@@ -274,7 +276,7 @@ typedef struct s_render
 	/**
 	 * The textures of each wall face.
 	 */
-	t_img		textures[4];
+	t_img		textures[5];
 	/**
 	 * The keys state for the gameplay.
 	 */
@@ -327,6 +329,7 @@ typedef struct s_rayctx
 	char	texture_index;
 	int		texture_x;
 	int		texture_y;
+	char	is_door;
 }			t_rayctx;
 
 typedef enum e_direction
@@ -355,5 +358,6 @@ void	draw_minimap(t_render *render);
 int		mousemove_hook(int x, int y, t_render *render);
 void	mouse_hide(t_render *render);
 void	mouse_warp(t_render *render);
+void	door_interact(t_render *render);
 
 #endif

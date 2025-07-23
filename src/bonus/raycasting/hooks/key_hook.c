@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:19:40 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 11:45:48 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	keydown_hook(int keycode, t_render *render)
 {
 	if (keycode == KEY_ESCAPE)
 		quit(render);
-	if (keycode == KEY_FORWARD)
+	if (keycode == KEY_DOOR)
+		door_interact(render);
+	else if (keycode == KEY_FORWARD)
 		render->keys.pressed[INDEX_FORWARD] = 1;
 	else if (keycode == KEY_LEFT)
 		render->keys.pressed[INDEX_LEFT] = 1;

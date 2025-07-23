@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:24:14 by oelleaum          #+#    #+#             */
-/*   Updated: 2025/07/19 15:59:25 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:06:23 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	is_a_valid_char(char c, t_bool *player)
 {
 	if (c != ' ' && c != '0' && c != '1' && c != 'N' && c != 'E' && c != 'W'
-		&& c != 'S')
+		&& c != 'S' && c != 'D')
 		return (INVALID_CONFIG);
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{

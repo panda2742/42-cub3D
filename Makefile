@@ -44,6 +44,7 @@ override SOURCE_HOOKS_B		:=	$(addprefix hooks/, collision destroy_hook focus_hoo
 override SOURCE_RENDERING_B	:=	$(addprefix rendering/, dda_utils draw_frame render_map)
 override HEADER_FILES_B		:=	colors cub3D raycasting_bonus parse_cub_file
 override SOURCE_FILES_B		:=	$(addprefix raycasting/, $(SOURCE_HOOKS_B) $(SOURCE_RENDERING_B) quit) \
+								$(addprefix door/, door_interact) \
 								$(addprefix errors/, puterr) \
 								$(addprefix parsing/, init_data_map_utils init_data_map interpret_line is_valid_map_path parse_cub_file_utils parse_cub_file) \
 								$(addprefix minimap/, draw_minimap init_minimap) \
@@ -92,7 +93,7 @@ override KCACHE		:=	kcachegrind
 all: display $(NAME)
 
 $(NAME): $(LIB) $(LIB)libft.a $(MLX) $(MLX)libmlx.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -L/opt/X11/lib -lXext -lX11 -lm -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB)libft.a $(MLX)libmlx.a -L$(MLX) -L/opt/X11/lib -lXext -lXfixes -lX11 -lm -o $(NAME)
 	@printf "\n\e[48;2;0;0;180m==============================================\e[0m\n\n"
 
 $(BUILD_DIR)%.o: $(SOURCE_DIR)%.c $(HEADER) Makefile | $(DIRS)
@@ -209,14 +210,14 @@ brun:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	./$(NAME_B) assets/maps/subject.cub
+	./$(NAME_B) assets/maps/subject\ bonus.cub
 
 .PHONY: bvg
 bvg:
 	$(CLEAR)
 	$(MAKE) bonus
 	$(CLEAR)
-	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/subject.cub
+	$(VG) $(VGFLAGS) ./$(NAME_B) assets/maps/subject\ bonus.cub
 
 .PHONY: bcg
 bcg:
@@ -224,7 +225,7 @@ bcg:
 	$(MAKE) bonus
 	$(RM) $(RMFLAGS) $(CALLGRIND_PRFL_B)
 	$(CLEAR)
-	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/subject.cub
+	$(VG) $(VGCALL_B) ./$(NAME_B) assets/maps/subject\ bonus.cub
 	$(KCACHE) $(CALLGRIND_PRFL_B)
 
 -include $(DEPS)

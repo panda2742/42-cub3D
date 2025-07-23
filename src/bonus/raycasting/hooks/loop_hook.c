@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:25:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 20:16:28 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:33:46 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static void	_print_fps(t_time *t1)
 	if (gettimeofday(&t2, NULL))
 		return ;
 	t = (t2.tv_sec - t1->tv_sec) * 1000000L + (t2.tv_usec - t1->tv_usec);
-	fprintf(stderr, "\033[2J\033[H%sframe gen. time: %lldμs\t~%lld fps%s\n",
-		C_CRIMSON, t, 1000000L / t, RESET);
 }
+// fprintf(stderr, "\033[2J\033[H%sframe gen. time: %lldμs\t~%lld fps%s\n",
+// 	C_CRIMSON, t, 1000000L / t, RESET);
 
 static void	_do_move(t_time *t1, t_render *render)
 {

@@ -6,7 +6,7 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:34:48 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:33:00 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static void	_free_textures(t_render *render)
 	size_t	i;
 
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
-		if (render->textures[i].filename)
+		if (i < 4 && render->textures[i].filename)
 		{
 			free(render->textures[i].filename);
 			render->textures[i].filename = NULL;
