@@ -6,11 +6,11 @@
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 11:43:37 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/17 11:56:21 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/20 13:18:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "raycasting_bonus.h"
 
 int	destroy_hook(t_render *render)
 {

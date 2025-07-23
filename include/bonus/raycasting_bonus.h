@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.h                                       :+:      :+:    :+:   */
+/*   raycasting_bonus.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehosta <ehosta@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:29:35 by ehosta            #+#    #+#             */
-/*   Updated: 2025/07/18 22:14:10 by ehosta           ###   ########.fr       */
+/*   Updated: 2025/07/23 13:11:07 by ehosta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAYCASTING_H
-# define RAYCASTING_H
+#ifndef RAYCASTING_BONUS_H
+# define RAYCASTING_BONUS_H
 
 # include "cub3D.h"
 # include <math.h>
 # include <sys/time.h>
+# include <X11/extensions/Xfixes.h>
+# include <X11/Xlib.h>
 
 # define SCREEN_WIDTH 1280
 # define SCREEN_HEIGHT 800
@@ -23,20 +25,21 @@
 # define VELOCITY 0.1
 # define SENSITIVITY 0.01
 # define PI 3.14159265359f
-# define FOV_FACTOR 1.0471975512f
+# define FOV_FACTOR 0.8
 # define HITBOX_HALFSIZE 0.2
 # define MOVE_TICK 10000
 # define ROTATE_TICK 100
 
-# define MINIMAP_WIDTH 200
-# define MINIMAP_HEIGHT 200
-# define MINIMAP_DOT_DIAMETER 3
-# define MINIMAP_SQUARES 3
+# define MINIMAP_WIDTH 300
+# define MINIMAP_STEP 0.07
+# define MINIMAP_X 960
+# define MINIMAP_Y 20
 
 # define FACE_NORTH 0
 # define FACE_SOUTH 1
 # define FACE_EAST 2
 # define FACE_WEST 3
+# define FACE_DOOR 4
 # define FACE_VERTICAL 0
 # define FACE_HORIZONTAL 1
 
@@ -58,6 +61,7 @@
 # define KEY_CAMERA_RIGHT 65363
 # define INDEX_CAMERA_RIGHT 5
 
+# define KEY_DOOR 't'
 # define KEY_ESCAPE 65307
 
 typedef struct timeval	t_time;
@@ -258,6 +262,10 @@ typedef struct s_render
 	 */
 	void		*mlx_win;
 	/**
+	 * The display of the MLX.
+	 */
+	void		*display;
+	/**
 	 * The data of the current calculated frame.
 	 */
 	t_frame		frame;
@@ -268,7 +276,7 @@ typedef struct s_render
 	/**
 	 * The textures of each wall face.
 	 */
-	t_img		textures[4];
+	t_img		textures[5];
 	/**
 	 * The keys state for the gameplay.
 	 */
@@ -285,6 +293,10 @@ typedef struct s_render
 	 * Represent the minimap of the game, but its image data.
 	 */
 	t_img		mini_img;
+	/**
+	 * The last position of the mouse.
+	 */
+	int			last_mouse;
 }	t_render;
 
 /**
@@ -317,6 +329,7 @@ typedef struct s_rayctx
 	char	texture_index;
 	int		texture_x;
 	int		texture_y;
+	char	is_door;
 }			t_rayctx;
 
 typedef enum e_direction
@@ -342,5 +355,9 @@ void	load_sprite(t_render *render);
 void	draw_sprite(t_render *render);
 void	init_minimap(t_render *render);
 void	draw_minimap(t_render *render);
+int		mousemove_hook(int x, int y, t_render *render);
+void	mouse_hide(t_render *render);
+void	mouse_warp(t_render *render);
+void	door_interact(t_render *render);
 
 #endif
