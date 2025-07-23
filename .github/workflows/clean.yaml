@@ -21,6 +21,9 @@ jobs:
       
       - name: Installing dependencies
         run: sudo apt-get install -y make
-      
+
+      - name: Giving permissions
+        run: chmod +x ./scripts/clear_repo_develop.sh
+
       - name: Running script
         run: ./scripts/clear_repo_main.sh
