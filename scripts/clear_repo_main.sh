@@ -7,8 +7,6 @@ rm -rf .dist
 rm -rf .dist_bonus
 rm -rf cub3D
 rm -rf cub3D_bonus
-rm -f README.md
-rm -f .gitignore
 make fclean
 ls -la
 
