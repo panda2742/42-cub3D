@@ -40,7 +40,7 @@ void	door_interact(t_render *render)
 	while (++i < 4)
 	{
 		tiles[i] = _get_tile(tile_pos[i], &render->game);
-		if (tiles[i] == 'P' || tiles[i] == 'T')
+		if (tiles[i] == 'D' || tiles[i] == 'T')
 			dists[i] = sqrt(pow(tile_pos[i].x - render->game.pos.x, 2)
 					+ pow(tile_pos[i].y - render->game.pos.y, 2));
 	}
