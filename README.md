@@ -46,4 +46,4 @@ This introduction has been generated with AI.
 # Group / students on the project
 
 - [@ehosta](https://profile.intra.42.fr/users/ehosta) ([GitHub Profile](https://github.com/panda2742))
-- [@oelleaum](https://profile.intra.42.fr/users/oelleaum) ([GitHub Profile](https://github.com/dArchMuffin))
+- [@oelleaum](https://profile.intra.42.fr/users/oelleaum) ([GitHub Profile](https://github.com/LeMuffinMan))
